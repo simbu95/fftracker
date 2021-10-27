@@ -1,11 +1,11 @@
-var version = '200';
+var version = '205';
 
 function load_cookie() {
 	var c = document.cookie;
 	var cs = c.split(';');
 	
 	for (var co in cs) {
-		if (cs[co].indexOf('200') > -1 && cs[co].indexOf('settings') > -1) {
+		if (cs[co].indexOf('205') > -1 && cs[co].indexOf('settings') > -1) {
 			document.getElementById("remembersettings").checked = true;
 			document.getElementById("itemswitch").checked = false;
 			document.getElementById("locswitch").checked = false;
@@ -85,7 +85,7 @@ function launch() {
 	}	
 	
 	//Chrome defaults
-	var h = 450;
+	var h = 560;
 	var w = 930;
 	
 	if (verticallayout === '1') {
@@ -117,6 +117,11 @@ function launch() {
 		h = 430;
 	}
 	
+		//Chrome defaults
+	var h = 660;
+	var w = 930;
+	
+
 	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&o=' + objectivetracking + '&b=' + browser,
 		'',
 		'width=' + w + ',height=' + h + ',titlebar=0,menubar=0,toolbar=0,scrollbars=0,resizable=0');

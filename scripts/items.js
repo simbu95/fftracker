@@ -30,6 +30,14 @@ function CanItemAppearInShop(itemId, modeflags, isGated) {
         }
     }
 
+    if (modeflags.snolife)
+    {
+        if (Item[itemId].NAME === "Life")
+        {
+            return false;
+        }
+    }
+
     return Item[itemId].TIER <= maxTier;
 }
 

@@ -41,6 +41,9 @@ var menutoggle = false;
 var dmcount = 0;
 var objectivechange = 0;
 
+var timerStarted = false;
+var timerStartTime;
+
 //NEW NEW FLAGS
 var modeflags = {
 	omain: true,
@@ -52,6 +55,8 @@ var modeflags = {
 	oboss: false,
 	ochar: false,
 	oreq: '',
+	orandomcount: 0,
+	owin: 'crystal',
 	kmain: false,
 	ksummon: false,
 	kmoon: false,
@@ -64,7 +69,9 @@ var modeflags = {
 	cstandard: false,
 	crelaxed: false,
 	cmaybe: false,
+	chero: false,
 	cdistinct: 0,
+	climit: 5,
 	ccecil: true,
 	ckain: true,
 	crydia: true,
@@ -96,6 +103,7 @@ var modeflags = {
 	snoj: false,
 	snoapples: false,
 	snosirens: false,
+	snolife: false,
 	bvanilla: false,
 	bstandard: false,
 	bunsafe: false,
@@ -147,6 +155,14 @@ var disableobjectivetracker = '0';
 var partyswap = 0;
 var ignoreswap = false;
 
+var flags = getParameterByName('f');
+
+var flagsets = flags.split('|');
+var excludedCharacters = '';
+var includedCharacters = '';
+
+var isMystery = false;
+
 function getParameterByName(name, url) {
 	if (!url) url = window.location.href;
 	name = name.replace(/[\[\]]/g, "\\$&");
@@ -163,6 +179,7 @@ function SetModes() {
 	$('#bossModal').hide();
 	$('#townModal').hide();
 	$('#objectiveModal').hide();
+	$('#mysteryModal').hide();
 	
 	disableitemtracker = getParameterByName('d');
 	
@@ -205,846 +222,899 @@ function SetModes() {
 		document.getElementById('objectivediv').style.display = "none";
 	}
 	
-	var flags = getParameterByName('f');
+	flags = getParameterByName('f');
 	
-	var flagsets = flags.split('|');
-	var excludedCharacters = '';
-	var includedCharacters = '';
+	flagsets = flags.split('|');
+	excludedCharacters = '';
+	includedCharacters = '';
 	
-	for (var fs in flagsets) {
+	if (flags === 'MYSTERY') {
+		isMystery = true;
+		modeflags.orandomcount = 1;
+		document.getElementById('changemysteryflagsdiv').style.display = "";
+		modeflags.oreq = "?";
 		
-		//Objectives
-		if (flagsets[fs].startsWith('O')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
+		for (var j = 0; j < modeflags.orandomcount; j++) {
+			objectives[90 + j] = 0;
+		}
+	} else {
+		document.getElementById('changemysteryflagsdiv').style.display = "none";
+	
+		for (var fs in flagsets) {
 			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'NONE':
-						modeflags.kmain = true;
-						break;
-					default:
-						
-						if (keys[k].startsWith('MODE')) {
-							var mode = keys[k].substring(5).split(',');
-							for (var j in mode) {
-								switch (mode[j]) {
-									case 'CLASSICFORGE':
-										modeflags.oforge = true;
-										objectives[0] = 0;
+			//Objectives
+			if (flagsets[fs].startsWith('O')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'NONE':
+							modeflags.kmain = true;
+							break;
+						default:
+							if (keys[k].startsWith('MODE')) {
+								var mode = keys[k].substring(5).split(',');
+								for (var j in mode) {
+									switch (mode[j]) {
+										case 'CLASSICFORGE':
+											modeflags.oforge = true;
+											objectives[0] = 0;
+											break;
+										case 'CLASSICGIANT':
+											modeflags.ogiant = true;
+											objectives[1] = 0;
+											break;
+										case 'FIENDS':
+											modeflags.ofiends = true;
+											objectives[23] = 0;
+											objectives[24] = 0;
+											objectives[29] = 0;
+											objectives[32] = 0;
+											objectives[38] = 0;
+											objectives[44] = 0;
+											break;
+										case 'DKMATTER':
+											modeflags.odarkmatter = true;
+											objectives[3] = 0;
+											//document.getElementById('dkmatterspan').style.display = 'inherit';
+											break;
+									}
+								}
+							} else if (keys[k].startsWith('RANDOM')) {
+								var randomquests = keys[k].split(',');
+								for (var l in randomquests) {
+									switch (randomquests[l]) {
+										case 'QUEST':
+										case 'GATED_QUEST':
+											modeflags.oquests = true;
+											break;
+										case 'BOSS':
+											modeflags.oboss = true;
+											break;
+										case 'CHAR':
+											modeflags.ochar = true;
+											break;
+										default:
+											if (randomquests[l].startsWith('RANDOM')) {
+												modeflags.orandomcount = randomquests[l].substring(7);
+												for (var j = 0; j < modeflags.orandomcount; j++) {
+													objectives[90 + j] = 0;
+												}
+											}
+											break;
+									}
+								}
+							} else if (keys[k].startsWith('WIN')) {
+								var wincondition = keys[k].substring(4);
+								if (wincondition === 'GAME') {
+									modeflags.owin = 'game';
+									objectives[98] = 0;
+									objectives[99] = 2;
+								} else {
+									modeflags.owin = 'crystal';
+									objectives[98] = 2;
+									objectives[99] = 0;
+								}
+							} else if (keys[k].startsWith('REQ')) {
+								var questreq = keys[k].substring(4);
+								modeflags.oreq = questreq;
+							} else {
+								var currentkey = keys[k].substr(2).toLowerCase();
+								switch (currentkey) {
+									case 'char_cecil':
+										objectives[4] = 0;
 										break;
-									case 'CLASSICGIANT':
-										modeflags.ogiant = true;
-										objectives[1] = 0;
+									case 'char_kain':
+										objectives[5] = 0;
 										break;
-									case 'FIENDS':
-										modeflags.ofiends = true;
+									case 'char_rydia':
+										objectives[6] = 0;
+										break;
+									case 'char_tellah':
+										objectives[7] = 0;
+										break;
+									case 'char_edward':
+										objectives[8] = 0;
+										break;
+									case 'char_rosa':
+										objectives[9] = 0;
+										break;
+									case 'char_yang':
+										objectives[10] = 0;
+										break;
+									case 'char_palom':
+										objectives[11] = 0;
+										break;
+									case 'char_porom':
+										objectives[12] = 0;
+										break;
+									case 'char_cid':
+										objectives[13] = 0;
+										break;
+									case 'char_edge':
+										objectives[14] = 0;
+										break;
+									case 'char_fusoya':
+										objectives[15] = 0;
+										break;
+									case 'boss_dmist':
+										objectives[16] = 0;
+										break;
+									case 'boss_officer':
+										objectives[17] = 0;
+										break;
+									case 'boss_octomamm':
+										objectives[18] = 0;
+										break;
+									case 'boss_antlion':
+										objectives[19] = 0;
+										break;
+									case 'boss_waterhag':
+										objectives[20] = 0;
+										break;
+									case 'boss_mombomb':
+										objectives[21] = 0;
+										break;
+									case 'boss_fabulgauntlet':
+										objectives[22] = 0;
+										break;
+									case 'boss_milon':
 										objectives[23] = 0;
+										break;
+									case 'boss_milonz':
 										objectives[24] = 0;
+										break;
+									case 'boss_mirrorcecil':
+										objectives[25] = 0;
+										break;
+									case 'boss_guard':
+										objectives[26] = 0;
+										break;
+									case 'boss_karate':
+										objectives[27] = 0;
+										break;
+									case 'boss_baigan':
+										objectives[28] = 0;
+										break;
+									case 'boss_kainazzo':
 										objectives[29] = 0;
+										break;
+									case 'boss_darkelf':
+										objectives[30] = 0;
+										break;
+									case 'boss_magus':
+										objectives[31] = 0;
+										break;
+									case 'boss_valvalis':
 										objectives[32] = 0;
+										break;
+									case 'boss_calbrena':
+										objectives[33] = 0;
+										break;
+									case 'boss_golbez':
+										objectives[34] = 0;
+										break;
+									case 'boss_lugae':
+										objectives[35] = 0;
+										break;
+									case 'boss_darkimp':
+										objectives[36] = 0;
+										break;
+									case 'boss_kingqueen':
+										objectives[37] = 0;
+										break;
+									case 'boss_rubicant':
 										objectives[38] = 0;
+										break;
+									case 'boss_evilwall':
+										objectives[39] = 0;
+										break;
+									case 'boss_asura':
+										objectives[40] = 0;
+										break;
+									case 'boss_leviatan':
+										objectives[41] = 0;
+										break;
+									case 'boss_odin':
+										objectives[42] = 0;
+										break;
+									case 'boss_bahamut':
+										objectives[43] = 0;
+										break;
+									case 'boss_elements':
 										objectives[44] = 0;
 										break;
-									case 'DKMATTER':
-										modeflags.odarkmatter = true;
-										objectives[3] = 0;
-										//document.getElementById('dkmatterspan').style.display = 'inherit';
+									case 'boss_cpu':
+										objectives[45] = 0;
+										break;
+									case 'boss_paledim':
+										objectives[46] = 0;
+										break;
+									case 'boss_wyvern':
+										objectives[47] = 0;
+										break;
+									case 'boss_plague':
+										objectives[48] = 0;
+										break;
+									case 'boss_dlunar':
+										objectives[49] = 0;
+										break;
+									case 'boss_ogopogo':
+										objectives[50] = 0;
+										break;
+									case 'quest_mistcave':
+										objectives[51] = 0;
+										break;
+									case 'quest_waterfall':
+										objectives[52] = 0;
+										break;
+									case 'quest_antlionnest':
+										objectives[53] = 0;
+										break;
+									case 'quest_hobs':
+										objectives[54] = 0;
+										break;
+									case 'quest_fabul':
+										objectives[55] = 0;
+										break;
+									case 'quest_ordeals':
+										objectives[56] = 0;
+										break;
+									case 'quest_baroninn':
+										objectives[57] = 0;
+										break;
+									case 'quest_baroncastle':
+										objectives[58] = 0;
+										break;
+									case 'quest_magnes':
+										objectives[59] = 0;
+										break;
+									case 'quest_zot':
+										objectives[60] = 0;
+										break;
+									case 'quest_dwarfcastle':
+										objectives[61] = 0;
+										break;
+									case 'quest_lowerbabil':
+										objectives[62] = 0;
+										break;
+									case 'quest_falcon':
+										objectives[63] = 0;
+										break;
+									case 'quest_sealedcave':
+										objectives[64] = 0;
+										break;
+									case 'quest_monsterqueen':
+										objectives[65] = 0;
+										break;
+									case 'quest_monsterking':
+										objectives[66] = 0;
+										break;
+									case 'quest_baronbasement':
+										objectives[67] = 0;
+										break;
+									case 'quest_giant':
+										objectives[68] = 0;
+										break;
+									case 'quest_cavebahamut':
+										objectives[69] = 0;
+										break;
+									case 'quest_murasamealtar':
+										objectives[70] = 0;
+										break;
+									case 'quest_crystalaltar':
+										objectives[71] = 0;
+										break;
+									case 'quest_whitealtar':
+										objectives[72] = 0;
+										break;
+									case 'quest_ribbonaltar':
+										objectives[73] = 0;
+										break;
+									case 'quest_masamunealtar':
+										objectives[74] = 0;
+										break;
+									case 'quest_burnmist':
+										objectives[75] = 0;
+										break;
+									case 'quest_curefever':
+										objectives[76] = 0;
+										break;
+									case 'quest_unlocksewer':
+										objectives[77] = 0;
+										break;
+									case 'quest_music':
+										objectives[78] = 0;
+										break;
+									case 'quest_toroiatreasury':
+										objectives[79] = 0;
+										break;
+									case 'quest_magma':
+										objectives[80] = 0;
+										break;
+									case 'quest_supercannon':
+										objectives[81] = 0;
+										break;
+									case 'quest_unlocksealedcave':
+										objectives[82] = 0;
+										break;
+									case 'quest_bigwhale':
+										objectives[83] = 0;
+										break;
+									case 'quest_traderat':
+										objectives[84] = 0;
+										break;
+									case 'quest_forge':
+										objectives[85] = 0;
+										break;
+									case 'quest_wakeyang':
+										objectives[86] = 0;
+										break;
+									case 'quest_tradepan':
+										objectives[87] = 0;
+										break;
+									case 'quest_tradepink':
+										objectives[88] = 0;
+										break;
+									case 'quest_pass':
+										objectives[89] = 0;
 										break;
 								}
 							}
-						} else if (keys[k].startsWith('RANDOM')) {
-							var randomquests = keys[k].split(',');
-							for (var l in randomquests) {
-								switch (randomquests[l]) {
-									case 'QUEST':
-										modeflags.oquests = true;
-										break;
-									case 'BOSS':
-										modeflags.oboss = true;
-										break;
-									case 'CHAR':
-										modeflags.ochar = true;
-										break;
-									default:
-										if (randomquests[l].startsWith('RANDOM')) {
-											var randomcount = randomquests[l].substring(7);
-											for (var j = 0; j < randomcount; j++) {
-												objectives[90 + j] = 0;
-											}
-										}
-										break;
-								}
-							}
-						} else if (keys[k].startsWith('WIN')) {
-							var wincondition = keys[k].substring(4);
-							if (wincondition === 'GAME') {
-								objectives[98] = 0;
-								objectives[99] = 2;
-							} else {
-								objectives[98] = 2;
-								objectives[99] = 0;
-							}
-						} else if (keys[k].startsWith('REQ')) {
-							var questreq = keys[k].substring(4);
-							modeflags.oreq = questreq;
-						} else {
-							var currentkey = keys[k].substr(2).toLowerCase();
-							switch (currentkey) {
-								case 'char_cecil':
-									objectives[4] = 0;
-									break;
-								case 'char_kain':
-									objectives[5] = 0;
-									break;
-								case 'char_rydia':
-									objectives[6] = 0;
-									break;
-								case 'char_tellah':
-									objectives[7] = 0;
-									break;
-								case 'char_edward':
-									objectives[8] = 0;
-									break;
-								case 'char_rosa':
-									objectives[9] = 0;
-									break;
-								case 'char_yang':
-									objectives[10] = 0;
-									break;
-								case 'char_palom':
-									objectives[11] = 0;
-									break;
-								case 'char_porom':
-									objectives[12] = 0;
-									break;
-								case 'char_cid':
-									objectives[13] = 0;
-									break;
-								case 'char_edge':
-									objectives[14] = 0;
-									break;
-								case 'char_fusoya':
-									objectives[15] = 0;
-									break;
-								case 'boss_dmist':
-									objectives[16] = 0;
-									break;
-								case 'boss_officer':
-									objectives[17] = 0;
-									break;
-								case 'boss_octomamm':
-									objectives[18] = 0;
-									break;
-								case 'boss_antlion':
-									objectives[19] = 0;
-									break;
-								case 'boss_waterhag':
-									objectives[20] = 0;
-									break;
-								case 'boss_mombomb':
-									objectives[21] = 0;
-									break;
-								case 'boss_fabulgauntlet':
-									objectives[22] = 0;
-									break;
-								case 'boss_milon':
-									objectives[23] = 0;
-									break;
-								case 'boss_milonz':
-									objectives[24] = 0;
-									break;
-								case 'boss_mirrorcecil':
-									objectives[25] = 0;
-									break;
-								case 'boss_guard':
-									objectives[26] = 0;
-									break;
-								case 'boss_karate':
-									objectives[27] = 0;
-									break;
-								case 'boss_baigan':
-									objectives[28] = 0;
-									break;
-								case 'boss_kainazzo':
-									objectives[29] = 0;
-									break;
-								case 'boss_darkelf':
-									objectives[30] = 0;
-									break;
-								case 'boss_magus':
-									objectives[31] = 0;
-									break;
-								case 'boss_valvalis':
-									objectives[32] = 0;
-									break;
-								case 'boss_calbrena':
-									objectives[33] = 0;
-									break;
-								case 'boss_golbez':
-									objectives[34] = 0;
-									break;
-								case 'boss_lugae':
-									objectives[35] = 0;
-									break;
-								case 'boss_darkimp':
-									objectives[36] = 0;
-									break;
-								case 'boss_kingqueen':
-									objectives[37] = 0;
-									break;
-								case 'boss_rubicant':
-									objectives[38] = 0;
-									break;
-								case 'boss_evilwall':
-									objectives[39] = 0;
-									break;
-								case 'boss_asura':
-									objectives[40] = 0;
-									break;
-								case 'boss_leviatan':
-									objectives[41] = 0;
-									break;
-								case 'boss_odin':
-									objectives[42] = 0;
-									break;
-								case 'boss_bahamut':
-									objectives[43] = 0;
-									break;
-								case 'boss_elements':
-									objectives[44] = 0;
-									break;
-								case 'boss_cpu':
-									objectives[45] = 0;
-									break;
-								case 'boss_paledim':
-									objectives[46] = 0;
-									break;
-								case 'boss_wyvern':
-									objectives[47] = 0;
-									break;
-								case 'boss_plague':
-									objectives[48] = 0;
-									break;
-								case 'boss_dlunar':
-									objectives[49] = 0;
-									break;
-								case 'boss_ogopogo':
-									objectives[50] = 0;
-									break;
-								case 'quest_mistcave':
-									objectives[51] = 0;
-									break;
-								case 'quest_waterfall':
-									objectives[52] = 0;
-									break;
-								case 'quest_antlionnest':
-									objectives[53] = 0;
-									break;
-								case 'quest_hobs':
-									objectives[54] = 0;
-									break;
-								case 'quest_fabul':
-									objectives[55] = 0;
-									break;
-								case 'quest_ordeals':
-									objectives[56] = 0;
-									break;
-								case 'quest_baroninn':
-									objectives[57] = 0;
-									break;
-								case 'quest_baroncastle':
-									objectives[58] = 0;
-									break;
-								case 'quest_magnes':
-									objectives[59] = 0;
-									break;
-								case 'quest_zot':
-									objectives[60] = 0;
-									break;
-								case 'quest_dwarfcastle':
-									objectives[61] = 0;
-									break;
-								case 'quest_lowerbabil':
-									objectives[62] = 0;
-									break;
-								case 'quest_falcon':
-									objectives[63] = 0;
-									break;
-								case 'quest_sealedcave':
-									objectives[64] = 0;
-									break;
-								case 'quest_monsterqueen':
-									objectives[65] = 0;
-									break;
-								case 'quest_monsterking':
-									objectives[66] = 0;
-									break;
-								case 'quest_baronbasement':
-									objectives[67] = 0;
-									break;
-								case 'quest_giant':
-									objectives[68] = 0;
-									break;
-								case 'quest_cavebahamut':
-									objectives[69] = 0;
-									break;
-								case 'quest_murasamealtar':
-									objectives[70] = 0;
-									break;
-								case 'quest_crystalaltar':
-									objectives[71] = 0;
-									break;
-								case 'quest_whitealtar':
-									objectives[72] = 0;
-									break;
-								case 'quest_ribbonaltar':
-									objectives[73] = 0;
-									break;
-								case 'quest_masamunealtar':
-									objectives[74] = 0;
-									break;
-								case 'quest_burnmist':
-									objectives[75] = 0;
-									break;
-								case 'quest_curefever':
-									objectives[76] = 0;
-									break;
-								case 'quest_unlocksewer':
-									objectives[77] = 0;
-									break;
-								case 'quest_music':
-									objectives[78] = 0;
-									break;
-								case 'quest_toroiatreasury':
-									objectives[79] = 0;
-									break;
-								case 'quest_magma':
-									objectives[80] = 0;
-									break;
-								case 'quest_supercannon':
-									objectives[81] = 0;
-									break;
-								case 'quest_unlocksealedcave':
-									objectives[82] = 0;
-									break;
-								case 'quest_bigwhale':
-									objectives[83] = 0;
-									break;
-								case 'quest_traderat':
-									objectives[84] = 0;
-									break;
-								case 'quest_forge':
-									objectives[85] = 0;
-									break;
-								case 'quest_wakeyang':
-									objectives[86] = 0;
-									break;
-								case 'quest_tradepan':
-									objectives[87] = 0;
-									break;
-								case 'quest_tradepink':
-									objectives[88] = 0;
-									break;
-								case 'quest_pass':
-									objectives[89] = 0;
-									break;
-							}
-						}
+					}
 				}
 			}
-		}
-		
-		//Key Items
-		if (flagsets[fs].startsWith('K')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
 			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'MAIN':
-						modeflags.kmain = true;
-						break;
-					case 'SUMMON':
-						modeflags.ksummon = true;
-						break;
-					case 'MOON':
-						modeflags.kmoon = true;
-						break;
-					case 'TRAP':
-						modeflags.ktrap = true;
-						break;
-					case 'UNSAFE':
-						modeflags.kunsafe = true;
-						break;
+			//Key Items
+			if (flagsets[fs].startsWith('K')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'MAIN':
+							modeflags.kmain = true;
+							break;
+						case 'SUMMON':
+							modeflags.ksummon = true;
+							break;
+						case 'MOON':
+							modeflags.kmoon = true;
+							break;
+						case 'TRAP':
+							modeflags.ktrap = true;
+							break;
+						case 'UNSAFE':
+							modeflags.kunsafe = true;
+							break;
+					}
 				}
 			}
-		}
 
-		//Pass
-		if (flagsets[fs].startsWith('P')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'SHOP':
-						modeflags.pshop = true;
-						document.getElementById("passtd").style.display = "block";
-						break;
-					case 'KEY':
-						modeflags.pkey = true;
-						break;
-					case 'CHESTS':
-						modeflags.pchests = true;
-						break;
+			//Pass
+			if (flagsets[fs].startsWith('P')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'SHOP':
+							modeflags.pshop = true;
+							document.getElementById("passtd").style.display = "block";
+							break;
+						case 'KEY':
+							modeflags.pkey = true;
+							break;
+						case 'CHESTS':
+							modeflags.pchests = true;
+							break;
+					}
 				}
 			}
-		}
-		
-		//Characters
-		if (flagsets[fs].startsWith('C')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
 			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.cvanilla = true;
+			//Characters
+			if (flagsets[fs].startsWith('C')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				var anystart = false;
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'VANILLA':
+							modeflags.cvanilla = true;
+							break;
+						case 'STANDARD':
+							modeflags.cstandard = true;
+							break;
+						case 'RELAXED':
+							modeflags.crelaxed = true;
+							break;
+						case 'HERO':
+							modeflags.chero = true;
+							break;
+						case 'MAYBE':
+							modeflags.cmaybe = true;
+							break;
+						case 'J:SPELLS':
+							modeflags.cjspells = true;
+							break;
+						case 'ABILITIES':
+							modeflags.cjabilities = true;
+							break;
+						case 'NODUPES':
+							modeflags.cnodupes = true;
+							break;
+						case 'BYE':
+							modeflags.cbye = true;
+							break;
+						case 'PERMAJOIN':
+							modeflags.cpermajoin = true;
+							break;
+						case 'PERMADEATH':
+							modeflags.cpermadeath = true;
+							break;
+						case 'PERMADEADER':
+							modeflags.cpermadeader = true;
+							break;
+						default:
+							if (keys[k].startsWith('DISTINCT')) {
+								modeflags.cdistinct = keys[k].substring(9);
+							}
+							if (keys[k].startsWith('START')) {
+								if (keys[k].substring(6) === 'ANY') {
+									anystart = true;
+								}
+								//modeflags.cstart = keys[k].substring(6);
+							}
+							if (keys[k].startsWith('PARTY')) {
+								modeflags.climit = keys[k].substring(6);
+							}
+							if (keys[k].startsWith('NO')) {
+								var cha = keys[k].substring(3).split(',');
+								for (var j in cha) {
+									switch (cha[j]) {
+										case 'CECIL':
+											modeflags.ccecil = (anystart === true ? true : false);
+											break;
+										case 'KAIN':
+											modeflags.ckain = (anystart === true ? true : false);
+											break;
+										case 'RYDIA':
+											modeflags.crydia = (anystart === true ? true : false);
+											break;
+										case 'TELLAH':
+											modeflags.ctellah = (anystart === true ? true : false);
+											break;
+										case 'EDWARD':
+											modeflags.cedward = (anystart === true ? true : false);
+											break;
+										case 'ROSA':
+											modeflags.crosa = (anystart === true ? true : false);
+											break;
+										case 'YANG':
+											modeflags.cyang = (anystart === true ? true : false);
+											break;
+										case 'PALOM':
+											modeflags.cpalom = (anystart === true ? true : false);
+											break;
+										case 'POROM':
+											modeflags.cporom = (anystart === true ? true : false);
+											break;
+										case 'CID':
+											modeflags.ccid = (anystart === true ? true : false);
+											break;
+										case 'EDGE':
+											modeflags.cedge = (anystart === true ? true : false);
+											break;
+										case 'FUSOYA':
+											modeflags.cfusoya = (anystart === true ? true : false);
+											break;
+									}
+								}
+							}
+							
+							if (keys[k].startsWith('ONLY')) {
+								modeflags.ccecil = false;
+								modeflags.ckain = false;
+								modeflags.crydia = false;
+								modeflags.ctellah = false;
+								modeflags.cedward = false;
+								modeflags.crosa = false;
+								modeflags.cyang = false;
+								modeflags.cpalom = false;
+								modeflags.cporom = false;
+								modeflags.ccid = false;
+								modeflags.cedge = false;
+								modeflags.cfusoya = false;
+								
+								var cha = keys[k].substring(5).split(',');
+								for (var j in cha) {
+									switch (cha[j]) {
+										case 'CECIL':
+											modeflags.ccecil = true;
+											break;
+										case 'KAIN':
+											modeflags.ckain = true;
+											break;
+										case 'RYDIA':
+											modeflags.crydia = true;
+											break;
+										case 'TELLAH':
+											modeflags.ctellah = true;
+											break;
+										case 'EDWARD':
+											modeflags.cedward = true;
+											break;
+										case 'ROSA':
+											modeflags.crosa = true;
+											break;
+										case 'YANG':
+											modeflags.cyang = true;
+											break;
+										case 'PALOM':
+											modeflags.cpalom = true;
+											break;
+										case 'POROM':
+											modeflags.cporom = true;
+											break;
+										case 'CID':
+											modeflags.ccid = true;
+											break;
+										case 'EDGE':
+											modeflags.cedge = true;
+											break;
+										case 'FUSOYA':
+											modeflags.cfusoya = true;
+											break;
+									}
+								}
+							}
+					}
+				}
+			}		
+			
+			//Treasures
+			if (flagsets[fs].startsWith('T')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'VANILLA':
+							modeflags.tchests = 'vanilla';
+							break;
+						case 'SHUFFLE':
+							modeflags.tchests = 'shuffle';
+							break;
+						case 'STANDARD':
+							modeflags.tchests = 'standard';
+							break;
+						case 'PRO':
+							modeflags.tchests = 'pro';
+							break;
+						case 'WILD':
+							modeflags.tchests = 'wild';
+							break;
+						case 'WILDISH':
+							modeflags.tchests = 'wildish';
+							break;
+						case 'EMPTY':
+							modeflags.tchests = 'empty';
+							break;
+						case 'NO:J':
+							modeflags.tnoj = true;
+							break;
+						case 'JUNK':
+							modeflags.tjunk = true;
+							break;
+						default:
+							if (keys[k].startsWith('SPARSE')) {
+								modeflags.tsparse = keys[k].substr(7);
+							}
+					}
+				}
+			}
+			
+			//Shops
+			if (flagsets[fs].startsWith('S')) {
+				var flagstring = flagsets[fs].substr(1).replace(',','/');
+				while (flagstring.indexOf(',') > -1) {
+					flagstring = flagstring.replace(',','/');
+				}
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'VANILLA':
+							modeflags.sshops = 'vanilla';
+							break;
+						case 'SHUFFLE':
+							modeflags.sshops = 'shuffle';
+							break;
+						case 'STANDARD':
+							modeflags.sshops = 'standard';
+							break;
+						case 'PRO':
+							modeflags.sshops = 'pro';
+							break;
+						case 'WILD':
+							modeflags.sshops = 'wild';
+							break;
+						case 'CABINS':
+							modeflags.sshops = 'cabins';
+							break;
+						case 'EMPTY':
+							modeflags.sshops = 'empty';
+							break;
+						case 'FREE':
+							modeflags.sfree = true;
+							break;
+						case 'QUARTER':
+							modeflags.squarter = true;
+							break;
+						case 'NO:J':
+							modeflags.snoj = true;
+							break;
+						case 'NO:APPLES':
+						case 'APPLES':
+							modeflags.snoapples = true;
+							break;
+						case 'NO:SIRENS':
+						case 'SIRENS':
+							modeflags.snosirens = true;
+							break;
+						case 'NO:LIFE':
+						case 'LIFE':
+							modeflags.snolife = true;
+							break;
+						case 'UNSAFE':
+							modeflags.sunsafe = true;
+							break;
+					}
+				}
+			}
+			
+			//Bosses
+			if (flagsets[fs].startsWith('B')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'VANILLA':
+							modeflags.bvanilla = true;
+							break;
+						case 'STANDARD':
+							modeflags.bstandard = true;
+							break;
+						case 'UNSAFE':
+							modeflags.bunsafe = true;
+							break;
+						case 'ALT:GAUNTLET':
+							modeflags.baltgauntlet = true;
+							break;
+						case 'WHYBURN':
+							modeflags.bwhyburn = true;
+							break;
+						case 'WHICHBURN':
+							modeflags.bwhichburn = true;
+							break;
+					}
+				}
+			}
+			
+			//Challenges
+			if (flagsets[fs].startsWith('N')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'CHARS':
+							modeflags.nchars = true;
+							break;
+						case 'KEY':
+							modeflags.nkey = true;
+							break;
+						case 'BOSSES':
+							modeflags.nbosses = true;
+							break;
+					}
+				}
+			}
+			
+			//Encounters
+			if (flagsets[fs].startsWith('E')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'VANILLA':
+							modeflags.eencounters = 'evanilla';
+							break;
+						case 'TOGGLE':
+							modeflags.eencounters = 'etoggle';
+							break;
+						case 'REDUCE':
+							modeflags.eencounters = 'ereduce';
+							break;
+						case 'NOENCOUNTERS':
+							modeflags.eencounters = 'enoencounters';
+							break;
+						case 'KEEP:DOORS':
+							modeflags.ekeepdoors = true;
+							break;
+						case 'KEEP:BEHEMOTHS':
+						case 'BEHEMOTHS':
+							modeflags.ekeepbehemoths = true;
+							break;
+						case 'DANGER':
+							modeflags.edanger = true;
+							break;
+						case 'NO:SIRENS':
+							modeflags.enosirens = true;
+							break;
+						case 'NO:JDROPS':
+							modeflags.enojdrops = true;
+							break;
+						case 'CANTRUN':
+							modeflags.ecantrun = true;
+							break;
+						case 'NOEXP':
+							modeflags.enoexp = true;
+							break;
+					}
+				}
+			}
+			
+			//Glitches
+			if (flagsets[fs].startsWith('G')) {
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					switch (keys[k]) {
+						case 'DUPE':
+							modeflags.gdupe = true;
+							break;
+						case 'MP':
+							modeflags.gmp = true;
+							break;
+						case 'WARP':
+							modeflags.gwarp = true;
+							break;
+						case 'LIFE':
+							modeflags.glife = true;
+							break;
+						case '64':
+							modeflags.g64 = true;
+							break;
+					}
+				}
+			}
+			
+			//Other
+			if (flagsets[fs].startsWith('-')) {
+				switch (flagsets[fs]) {
+					case '-KIT:MINIMAL':
+						modeflags.ostarterkit = 'minimal';
 						break;
-					case 'STANDARD':
-						modeflags.cstandard = true;
+					case '-KIT:BASIC':
+						modeflags.ostarterkit = 'basic';
 						break;
-					case 'RELAXED':
-						modeflags.crelaxed = true;
+					case '-KIT:BETTER':
+						modeflags.ostarterkit = 'better';
 						break;
-					case 'MAYBE':
-						modeflags.cmaybe = true;
+					case '-KIT:LOADED':
+						modeflags.ostarterkit = 'loaded';
 						break;
-					case 'J:SPELLS':
-						modeflags.cjspells = true;
+					case '-KIT:SPITBALL':
+						modeflags.ostarterkit = 'spitball';
 						break;
-					case 'ABILITIES':
-						modeflags.cjabilities = true;
+					case '-NOADAMANTS':
+						modeflags.onoadamants = true;
 						break;
-					case 'NODUPES':
-						modeflags.cnodupes = true;
+					case '-VINTAGE':
+						modeflags.ovintage = true;
 						break;
-					case 'BYE':
-						modeflags.cbye = true;
+					case '-SPOON':
+						modeflags.ospoon = true;
 						break;
-					case 'PERMAJOIN':
-						modeflags.cpermajoin = true;
-						break;
-					case 'PERMADEATH':
-						modeflags.cpermadeath = true;
-						break;
-					case 'PERMADEADER':
-						modeflags.cpermadeader = true;
+					case '-PUSHBTOJUMP':
+						modeflags.opushbtojump = true;
 						break;
 					default:
-						if (keys[k].startsWith('DISTINCT')) {
-							modeflags.cdistinct = keys[k].substring(9);
-						}
-						if (keys[k].startsWith('START')) {
-							modeflags.cstart = keys[k].substring(6);
-						}
-						if (keys[k].startsWith('NO')) {
-							var cha = keys[k].substring(3).split(',');
-							for (var j in cha) {
-								switch (cha[j]) {
-									case 'CECIL':
-										modeflags.ccecil = false;
-										break;
-									case 'KAIN':
-										modeflags.ckain = false;
-										break;
-									case 'RYDIA':
-										modeflags.crydia = false;
-										break;
-									case 'TELLAH':
-										modeflags.ctellah = false;
-										break;
-									case 'EDWARD':
-										modeflags.cedward = false;
-										break;
-									case 'ROSA':
-										modeflags.crosa = false;
-										break;
-									case 'YANG':
-										modeflags.cyang = false;
-										break;
-									case 'PALOM':
-										modeflags.cpalom = false;
-										break;
-									case 'POROM':
-										modeflags.cporom = false;
-										break;
-									case 'CID':
-										modeflags.ccid = false;
-										break;
-									case 'EDGE':
-										modeflags.cedge = false;
-										break;
+						if (flagsets[fs].startsWith('-VANILLA:')) {
+							var flagstring = flagsets[fs].substr(9).replace('/', ',');
+							var keys = flagstring.split(',');
+							for (var k in keys) {
+								switch (keys[k]) {
 									case 'FUSOYA':
-										modeflags.cfusoya = false;
+										modeflags.ovanillafusoya = true;
+										break;
+									case 'AGILITY':
+										modeflags.ovanillaagility = true;
+										break;
+									case 'HOBS':
+										modeflags.ovanillahobs = true;
+										break;
+									case 'FASHION':
+										modeflags.ovanillafashion = true;
+										break;
+									case 'TRAPS':
+										modeflags.ovanillatraps = true;
+										break;
+									case 'Z':
+										modeflags.ovanillaz = true;
 										break;
 								}
 							}
 						}
 						
-						if (keys[k].startsWith('ONLY')) {
-							modeflags.ccecil = false;
-							modeflags.ckain = false;
-							modeflags.crydia = false;
-							modeflags.ctellah = false;
-							modeflags.cedward = false;
-							modeflags.crosa = false;
-							modeflags.cyang = false;
-							modeflags.cpalom = false;
-							modeflags.cporom = false;
-							modeflags.ccid = false;
-							modeflags.cedge = false;
-							modeflags.cfusoya = false;
-							
-							var cha = keys[k].substring(5).split(',');
-							for (var j in cha) {
-								switch (cha[j]) {
-									case 'CECIL':
-										modeflags.ccecil = true;
+						if (flagsets[fs].startsWith('-EXP:')) {
+							var flagstring = flagsets[fs].substr(5).replace('/', ',');
+							var keys = flagstring.split(',');
+							for (var k in keys) {
+								switch (keys[k]) {
+									case 'SPLIT':
+										modeflags.oexpsplit = true;
 										break;
-									case 'KAIN':
-										modeflags.ckain = true;
+									case 'NOBOOST':
+										modeflags.oexpnoboost = true;
 										break;
-									case 'RYDIA':
-										modeflags.crydia = true;
-										break;
-									case 'TELLAH':
-										modeflags.ctellah = true;
-										break;
-									case 'EDWARD':
-										modeflags.cedward = true;
-										break;
-									case 'ROSA':
-										modeflags.crosa = true;
-										break;
-									case 'YANG':
-										modeflags.cyang = true;
-										break;
-									case 'PALOM':
-										modeflags.cpalom = true;
-										break;
-									case 'POROM':
-										modeflags.cporom = true;
-										break;
-									case 'CID':
-										modeflags.ccid = true;
-										break;
-									case 'EDGE':
-										modeflags.cedge = true;
-										break;
-									case 'FUSOYA':
-										modeflags.cfusoya = true;
+									case 'NOKEYBONUS':
+										modeflags.oexpnokeybonus = true;
 										break;
 								}
 							}
-						}
-				}
-			}
-		}		
-		
-		//Treasures
-		if (flagsets[fs].startsWith('T')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.tchests = 'vanilla';
-						break;
-					case 'SHUFFLE':
-						modeflags.tchests = 'shuffle';
-						break;
-					case 'STANDARD':
-						modeflags.tchests = 'standard';
-						break;
-					case 'PRO':
-						modeflags.tchests = 'pro';
-						break;
-					case 'WILD':
-						modeflags.tchests = 'wild';
-						break;
-					case 'WILDISH':
-						modeflags.tchests = 'wildish';
-						break;
-					case 'EMPTY':
-						modeflags.tchests = 'empty';
-						break;
-					case 'NO:J':
-						modeflags.tnoj = true;
-						break;
-					case 'JUNK':
-						modeflags.tjunk = true;
-						break;
-					default:
-						if (keys[k].startsWith('SPARSE')) {
-							modeflags.tsparse = keys[k].substr(7);
-						}
-				}
-			}
-		}
-		
-		//Shops
-		if (flagsets[fs].startsWith('S')) {
-			var flagstring = flagsets[fs].substr(1).replace(',','/');
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.sshops = 'vanilla';
-						break;
-					case 'SHUFFLE':
-						modeflags.sshops = 'shuffle';
-						break;
-					case 'STANDARD':
-						modeflags.sshops = 'standard';
-						break;
-					case 'PRO':
-						modeflags.sshops = 'pro';
-						break;
-					case 'WILD':
-						modeflags.sshops = 'wild';
-						break;
-					case 'CABINS':
-						modeflags.sshops = 'cabins';
-						break;
-					case 'EMPTY':
-						modeflags.sshops = 'empty';
-						break;
-					case 'FREE':
-						modeflags.sfree = true;
-						break;
-					case 'QUARTER':
-						modeflags.squarter = true;
-						break;
-					case 'NO:J':
-						modeflags.snoj = true;
-						break;
-					case 'NO:APPLES':
-					case 'APPLES':
-						modeflags.snoapples = true;
-						break;
-					case 'NO:SIRENS':
-					case 'SIRENS':
-						modeflags.snosirens = true;
-						break;
-					case 'UNSAFE':
-						modeflags.sunsafe = true;
+						}					
 						break;
 				}
 			}
 		}
-		
-		//Bosses
-		if (flagsets[fs].startsWith('B')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.bvanilla = true;
-						break;
-					case 'STANDARD':
-						modeflags.bstandard = true;
-						break;
-					case 'UNSAFE':
-						modeflags.bunsafe = true;
-						break;
-					case 'ALT:GAUNTLET':
-						modeflags.baltgauntlet = true;
-						break;
-					case 'WHYBURN':
-						modeflags.bwhyburn = true;
-						break;
-					case 'WHICHBURN':
-						modeflags.bwhichburn = true;
-						break;
-				}
-			}
-		}
-		
-		//Challenges
-		if (flagsets[fs].startsWith('N')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'CHARS':
-						modeflags.nchars = true;
-						break;
-					case 'KEY':
-						modeflags.nkey = true;
-						break;
-					case 'BOSSES':
-						modeflags.nbosses = true;
-						break;
-				}
-			}
-		}
-		
-		//Encounters
-		if (flagsets[fs].startsWith('E')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.eencounters = 'evanilla';
-						break;
-					case 'TOGGLE':
-						modeflags.eencounters = 'etoggle';
-						break;
-					case 'REDUCE':
-						modeflags.eencounters = 'ereduce';
-						break;
-					case 'NOENCOUNTERS':
-						modeflags.eencounters = 'enoencounters';
-						break;
-					case 'KEEP:DOORS':
-						modeflags.ekeepdoors = true;
-						break;
-					case 'KEEP:BEHEMOTHS':
-					case 'BEHEMOTHS':
-						modeflags.ekeepbehemoths = true;
-						break;
-					case 'DANGER':
-						modeflags.edanger = true;
-						break;
-					case 'NO:SIRENS':
-						modeflags.enosirens = true;
-						break;
-					case 'NO:JDROPS':
-						modeflags.enojdrops = true;
-						break;
-					case 'CANTRUN':
-						modeflags.ecantrun = true;
-						break;
-					case 'NOEXP':
-						modeflags.enoexp = true;
-						break;
-				}
-			}
-		}
-		
-		//Glitches
-		if (flagsets[fs].startsWith('G')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'DUPE':
-						modeflags.gdupe = true;
-						break;
-					case 'MP':
-						modeflags.gmp = true;
-						break;
-					case 'WARP':
-						modeflags.gwarp = true;
-						break;
-					case 'LIFE':
-						modeflags.glife = true;
-						break;
-					case '64':
-						modeflags.g64 = true;
-						break;
-				}
-			}
-		}
-		
-		//Other
-		if (flagsets[fs].startsWith('-')) {
-			switch (flagsets[fs]) {
-				case '-KIT:MINIMAL':
-					modeflags.ostarterkit = 'minimal';
-					break;
-				case '-KIT:BASIC':
-					modeflags.ostarterkit = 'basic';
-					break;
-				case '-KIT:BETTER':
-					modeflags.ostarterkit = 'better';
-					break;
-				case '-KIT:LOADED':
-					modeflags.ostarterkit = 'loaded';
-					break;
-				case '-KIT:SPITBALL':
-					modeflags.ostarterkit = 'spitball';
-					break;
-				case '-NOADAMANTS':
-					modeflags.onoadamants = true;
-					break;
-				case '-VINTAGE':
-					modeflags.ovintage = true;
-					break;
-				case '-SPOON':
-					modeflags.ospoon = true;
-					break;
-				case '-PUSHBTOJUMP':
-					modeflags.opushbtojump = true;
-					break;
-				default:
-					if (flagsets[fs].startsWith('-VANILLA:')) {
-						var flagstring = flagsets[fs].substr(9).replace('/', ',');
-						var keys = flagstring.split(',');
-						for (var k in keys) {
-							switch (keys[k]) {
-								case 'FUSOYA':
-									modeflags.ovanillafusoya = true;
-									break;
-								case 'AGILITY':
-									modeflags.ovanillaagility = true;
-									break;
-								case 'HOBS':
-									modeflags.ovanillahobs = true;
-									break;
-								case 'FASHION':
-									modeflags.ovanillafashion = true;
-									break;
-								case 'TRAPS':
-									modeflags.ovanillatraps = true;
-									break;
-								case 'Z':
-									modeflags.ovanillaz = true;
-									break;
-							}
-						}
-					}
-					
-					if (flagsets[fs].startsWith('-EXP:')) {
-						var flagstring = flagsets[fs].substr(5).replace('/', ',');
-						var keys = flagstring.split(',');
-						for (var k in keys) {
-							switch (keys[k]) {
-								case 'SPLIT':
-									modeflags.oexpsplit = true;
-									break;
-								case 'NOBOOST':
-									modeflags.oexpnoboost = true;
-									break;
-								case 'NOKEYBONUS':
-									modeflags.oexpnokeybonus = true;
-									break;
-							}
-						}
-					}					
-					break;
-			}
-		}
+	
+	}
+	SetFlagOptions();
+	
+	SetObjectives();
+}
+
+function SetFlagOptions() {
+
+	//Limit Party
+	if (modeflags.climit < 5) {
+		document.getElementById('party4').style.visibility = 'hidden';
+	}
+	if (modeflags.climit < 4) {
+		document.getElementById('party3').style.visibility = 'hidden';
+	}
+	if (modeflags.climit < 3) {
+		document.getElementById('party2').style.visibility = 'hidden';
+	}
+	if (modeflags.climit < 2) {
+		document.getElementById('party1').style.visibility = 'hidden';
 	}
 	
 	//Exclude characters
@@ -1109,71 +1179,13 @@ function SetModes() {
 		excludedCharacters += 'FuSoYa ';
 	}
 	
-	//Starting character
-	if (modeflags.cstart != '') {
-		switch (modeflags.cstart) {
-			case 'CECIL':
-				SwapCharacter(0);
-				overridestarting = 'CECIL';
-				//document.getElementById('characterStart').innerHTML = 'Cecil';
-				break;
-			case 'KAIN':
-				SwapCharacter(1);
-				overridestarting = 'KAIN';
-				//document.getElementById('characterStart').innerHTML = 'Kain';
-				break;
-			case 'RYDIA':
-				SwapCharacter(2);
-				overridestarting = 'RYDIA';
-				//document.getElementById('characterStart').innerHTML = 'Rydia';
-				break;
-			case 'TELLAH':
-				SwapCharacter(3);
-				overridestarting = 'TELLAH';
-				//document.getElementById('characterStart').innerHTML = 'Tellah';
-				break;
-			case 'EDWARD':
-				SwapCharacter(4);
-				overridestarting = 'EDWARD';
-				//document.getElementById('characterStart').innerHTML = 'Edward';
-				break;
-			case 'ROSA':
-				SwapCharacter(5);
-				overridestarting = 'ROSA';
-				//document.getElementById('characterStart').innerHTML = 'Rosa';
-				break;
-			case 'YANG':
-				SwapCharacter(6);
-				overridestarting = 'YANG';
-				//document.getElementById('characterStart').innerHTML = 'Yang';
-				break;
-			case 'PALOM':
-				SwapCharacter(7);
-				overridestarting = 'PALOM';
-				//document.getElementById('characterStart').innerHTML = 'Palom';
-				break;
-			case 'POROM':
-				SwapCharacter(8);
-				overridestarting = 'POROM';
-				//document.getElementById('characterStart').innerHTML = 'Porom';
-				break;
-			case 'CID':
-				SwapCharacter(9);
-				overridestarting = 'CID';
-				//document.getElementById('characterStart').innerHTML = 'Cid';
-				break;
-			case 'EDGE':
-				SwapCharacter(10);
-				overridestarting = 'EDGE';
-				//document.getElementById('characterStart').innerHTML = 'Edge';
-				break;
-			case 'FUSOYA':
-				SwapCharacter(11);
-				overridestarting = 'FUSOYA';
-				//document.getElementById('characterStart').innerHTML = 'FuSoYa';
-				break;
-		}
-	}
+	if (!modeflags.chero) {
+		document.getElementById('heroHeaderDiv').style.display = 'none';
+		document.getElementById('party0').classList.remove('hero');
+	} else {
+		document.getElementById('heroHeaderDiv').style.display = '';
+		document.getElementById('party0').classList.add('hero');
+	}	
 	
 	switch (overridestarting) {
 		case 'CECIL':
@@ -1267,16 +1279,25 @@ function SetModes() {
 		if (modeflags.oquests === false) {
 			document.getElementById('objectivecategoryquestsspan').style.textDecoration = "line-through";
 			document.getElementById('objectivecategoryquestsspan').style.cursor = "no-drop";
+		} else {
+			document.getElementById('objectivecategoryquestsspan').style.textDecoration = "none";
+			document.getElementById('objectivecategoryquestsspan').style.cursor = "pointer";
 		}
 		
 		if (modeflags.oboss === false) {
 			document.getElementById('objectivecategorybossspan').style.textDecoration = "line-through";
 			document.getElementById('objectivecategorybossspan').style.cursor = "no-drop";
+		} else {
+			document.getElementById('objectivecategorybossspan').style.textDecoration = "none";
+			document.getElementById('objectivecategorybossspan').style.cursor = "pointer";
 		}
 		
 		if (modeflags.ochar === false) {
 			document.getElementById('objectivecategorycharacterspan').style.textDecoration = "line-through";
 			document.getElementById('objectivecategorycharacterspan').style.cursor = "no-drop";
+		} else {
+			document.getElementById('objectivecategorycharacterspan').style.textDecoration = "none";
+			document.getElementById('objectivecategorycharacterspan').style.cursor = "pointer";
 		}
 	} else {
 		modeflags.oquests = true;
@@ -1316,6 +1337,29 @@ function SetModes() {
 		disableitemtracker = '1';
 	}
 	
+	/* if (modeflags.snoj) {
+	}
+	
+	if (modeflags.snolife) {
+		document.getElementById('lifetd').style.cursor = "not-allowed";
+		document.getElementById('itemspan1').style.cursor = "not-allowed";
+		document.getElementById('itemspan1').onclick = function() { return false; }
+	}
+	
+	if (modeflags.snoapples) {
+		document.getElementById('appletd').style.cursor = "not-allowed";
+		document.getElementById('itemspan28').style.cursor = "not-allowed";
+		document.getElementById('itemspan29').style.cursor = "not-allowed";
+		document.getElementById('itemspan28').onclick = function() { return false; }
+		document.getElementById('itemspan29').onclick = function() { return false; }
+	}
+	
+	if (modeflags.snosirens) {
+		document.getElementById('sirentd').style.cursor = "not-allowed";
+		document.getElementById('itemspan26').style.cursor = "not-allowed";
+		document.getElementById('itemspan26').onclick = function() { return false; }
+	} */
+	
 	if (modeflags.nchars) {
 		characterlocations[CharacterCheck.DAMCYAN] = 3;
 		characterlocations[CharacterCheck.MT_ORDEALS] = 3;
@@ -1347,6 +1391,8 @@ function SetModes() {
 		document.getElementById('townModalInner').style.left = "34px";
 		document.getElementById('townModalInner').style.top = "460px";
 		document.getElementById('bossModalInner').style.left = "34px";
+		document.getElementById('mysteryModalInner').style.left = "34px";
+		
 	}
 	
 	var totalobj = 0
@@ -1362,17 +1408,6 @@ function SetModes() {
 		// Dark matter hunt takes two rows - dark matter count and objective completion.
 		// Don't need to do similar for fiends, it sets six separate objectives.
 		totalobj++;
-	}
-	
-	if (totalobj > 5) {
-		var adjustedheightcount = (20 * (totalobj - 5));
-		document.getElementById('objectivelistdiv').style.height = (adjustedheightcount + 100) + "px";
-		if (verticallayout === '1' && disablelocationtracker === '0') {
-			window.resizeTo(516, 978 + adjustedheightcount);
-			document.getElementById('trackingtable').style.top =  430 + adjustedheightcount + "px";
-		} else {
-			window.resizeTo(946, 518 + adjustedheightcount);
-		}
 	}
 	
 	if (disableitemtracker === '1') {
@@ -1398,10 +1433,10 @@ function SetModes() {
 			//hrItems[i].style.marginTop = '10px';
 			//hrItems[i].style.marginBottom = '10px';
 		//}
-	}
+	}	
 	
-	SetObjectives();
 }
+
 
 function ApplyChecks(){
 	var hasunderworldaccess = (keyitems[KeyItem.MAGMA_KEY] === true || ((keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) && hookclear === true));
@@ -1780,7 +1815,7 @@ function ApplyChecks(){
 	}
 	
 	//Party Members
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < modeflags.climit; i++) {
 		var l = '';
 		var p = 'party' + i;
 		if (partymembers[i] != -1) {
@@ -1985,6 +2020,76 @@ function ApplyChecks(){
 	}
 }
 
+function convertHMS(value) {
+    const sec = parseInt(value, 10)/1000; // convert value to number if it's string
+    let hours   = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+    let seconds = Math.floor(sec - (hours * 3600) - (minutes * 60)); //  get seconds
+	let ms = Math.floor((value - seconds * 1000)/10);
+    // add 0 if value < 10; Example: 2 => 02
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+	if (ms < 10) {ms = "0"+ms;}
+    return hours+':'+minutes+':'+seconds+':'+'<span style="font-size:2.5rem">'+ms+'</span>'; // Return is HH : MM : SS
+}
+
+var timerObject;
+var timerSecondsElapsed = 0;
+function timerUpdate()
+{
+	var delta = Date.now() - timerStartTime;
+	timerStartTime = Date.now();
+
+	timerSecondsElapsed += delta;
+	document.getElementById('timerDiv').innerHTML=convertHMS(timerSecondsElapsed);
+}
+
+function StartTimer()
+{	
+	timerStartTime = Date.now();
+
+	document.getElementById('startButton').style.display = "none";
+	document.getElementById('pauseButton').style.display = "block";
+	document.getElementById('resetButton').style.display = "block";
+
+	timerObject = setInterval(timerUpdate, 10);
+	timerStarted = true;
+	document.getElementById('timerDiv').classList.add('timerRunning')
+	document.getElementById('timerDiv').classList.remove('timerPaused')
+}
+
+function PauseTimer()
+{
+	clearInterval(timerObject)
+	document.getElementById('timerDiv').classList.add('timerPaused')
+	document.getElementById('timerDiv').classList.remove('timerRunning')
+	
+	document.getElementById('startButton').style.display = "block";
+	document.getElementById('pauseButton').style.display = "none";
+	document.getElementById('resetButton').style.display = "block";
+}
+
+function ResetTimer()
+{
+	document.getElementById('startButton').style.display = "block";
+	document.getElementById('pauseButton').style.display = "none";
+	document.getElementById('resetButton').style.display = "none";
+	
+	timerStarted = false;
+	timerSecondsElapsed = 0;
+	clearInterval(timerObject)
+	document.getElementById('timerDiv').classList.remove('timerPaused')
+	document.getElementById('timerDiv').classList.remove('timerRunning')
+	document.getElementById('timerDiv').innerHTML = convertHMS(0);
+}
+
+function CopyTimerToClipboard()
+{
+	var text = document.getElementById('timerDiv').textContent;
+	navigator.clipboard.writeText(text.substring(0,text.length-3));
+}
+
 function SwapKeyItemLocation(locationId) {
 	if (keyitemlocations[locationId] === 1) {
 		keyitemlocations[locationId] = 2;
@@ -2186,14 +2291,20 @@ function CheckItems(shopId) {
 		if (items[shopId].charAt(itemId) == '1')
 		{
 			itemSpan.style.color = "#0F0";
+			itemSpan.style.cursor = "pointer";
+			itemSpan.style.cursor = "pointer";
 		}
 		else if (CanItemAppearInShop(itemId, modeflags, isGated))
 		{
 			itemSpan.style.color = "#FFF";
+			itemSpan.style.cursor = "pointer";
+			itemSpan.style.cursor = "pointer";
 		}
 		else
 		{
 			itemSpan.style.color = "#888";
+			itemSpan.style.cursor = "not-allowed";
+			itemSpan.style.cursor = "not-allowed";
 		}
 	}
 	
@@ -2242,6 +2353,9 @@ function SetObjectives() {
 			if (objectives[i] === 2) {
 				document.getElementById('objective' + i).style.display = 'none';
 				document.getElementById('objectiveCheck' + i).style.display = 'none';
+			} else {
+				document.getElementById('objective' + i).style.display = '';
+				document.getElementById('objectiveCheck' + i).style.display = '';
 			}
 		}
 		
@@ -2254,6 +2368,8 @@ function SetObjectives() {
 		
 		if (modeflags.odarkmatter === false) {
 			document.getElementById('objectivedm').style.display = 'none';
+		} else {
+			document.getElementById('objectivedm').style.display = '';
 		}
 	}
 }
@@ -2304,6 +2420,184 @@ function SetObjective(i) {
 	var objectivetochange = document.getElementById('randomobjective' + objectivechange).innerHTML = objectivenames[i];
 
 	$('#objectiveModal').hide();
+}
+
+function ViewMystery() {
+	$('#mysteryModal').show();
+	
+	document.getElementById('mystery_owin').value = modeflags.owin;
+	document.getElementById('mystery_oforge').checked = modeflags.oforge;
+	document.getElementById('mystery_ogiant').checked = modeflags.ogiant;
+	document.getElementById('mystery_ofiends').checked = modeflags.ofiends;
+	document.getElementById('mystery_odarkmatter').checked = modeflags.odarkmatter;
+	document.getElementById('mystery_oquests').value = modeflags.orandomcount;
+	document.getElementById('mystery_ksummon').checked = modeflags.ksummon;
+	document.getElementById('mystery_kmoon').checked = modeflags.kmoon;
+	document.getElementById('mystery_ktrap').checked = modeflags.ktrap;
+	document.getElementById('mystery_chero').checked = modeflags.chero;
+	document.getElementById('mystery_climit').value = modeflags.climit;
+	document.getElementById('mystery_nchars').checked = modeflags.nchars;
+	document.getElementById('mystery_nkey').checked = modeflags.nkey;
+	document.getElementById('mystery_gwarp').checked = modeflags.gwarp;
+	document.getElementById('mystery_oexpnokeybonus').checked = modeflags.oexpnokeybonus;
+	document.getElementById('mystery_opushbtojump').checked = modeflags.opushbtojump;
+}
+
+
+function CloseMystery() {
+	if (menutoggle === false) {
+		$('#mysteryModal').hide();
+
+		modeflags.owin = document.getElementById('mystery_owin').value;
+	
+		if (modeflags.owin === 'game') {
+			objectives[98] = 0;
+			objectives[99] = 2;
+		} else {
+			objectives[98] = 2;
+			objectives[99] = 0;
+		}	
+
+		modeflags.oforge = document.getElementById('mystery_oforge').checked;
+		
+		if (modeflags.oforge) {
+			objectives[0] = 0;
+		} else {
+			objectives[0] = 2;
+		}
+		
+		modeflags.ogiant = document.getElementById('mystery_ogiant').checked;
+
+		if (modeflags.ogiant) {
+			objectives[1] = 0;
+		} else {
+			objectives[1] = 2;
+		}
+		
+		modeflags.ofiends = document.getElementById('mystery_ofiends').checked;
+
+		if (modeflags.ofiends) {
+			objectives[23] = 0;
+			objectives[24] = 0;
+			objectives[29] = 0;
+			objectives[32] = 0;
+			objectives[38] = 0;
+			objectives[44] = 0;
+		} else {
+			objectives[23] = 2;
+			objectives[24] = 2;
+			objectives[29] = 2;
+			objectives[32] = 2;
+			objectives[38] = 2;
+			objectives[44] = 2;
+		}
+		
+		modeflags.odarkmatter = document.getElementById('mystery_odarkmatter').checked;
+		
+		if (modeflags.odarkmatter) {
+			objectives[3] = 0;
+		} else {
+			objectives[3] = 2;
+		}
+		
+		modeflags.orandomcount = document.getElementById('mystery_oquests').value;
+		
+		for (var j = 0; j < 8; j++) {
+			if (modeflags.orandomcount > j) {
+				objectives[90 + j] = 0;
+			} else {
+				objectives[90 + j] = 2;
+			}
+		}
+		
+		modeflags.ksummon = document.getElementById('mystery_ksummon').checked;
+		
+		if (modeflags.ksummon) {
+			keyitemlocations[KeyItemCheck.BARON_ODIN] = 0; //Odin
+			keyitemlocations[KeyItemCheck.FEY_ASURA] = 0; //Asura
+			keyitemlocations[KeyItemCheck.FEY_LEVIATHAN] = 0; //Leva
+			keyitemlocations[KeyItemCheck.SYLPH_CAVE] = 0; //Slyph
+			keyitemlocations[KeyItemCheck.BAHAMUT] = 0; //Bahamut
+		} else {
+			keyitemlocations[KeyItemCheck.BARON_ODIN] = 3; //Odin
+			keyitemlocations[KeyItemCheck.FEY_ASURA] = 3; //Asura
+			keyitemlocations[KeyItemCheck.FEY_LEVIATHAN] = 3; //Leva
+			keyitemlocations[KeyItemCheck.SYLPH_CAVE] = 3; //Slyph
+			keyitemlocations[KeyItemCheck.BAHAMUT] = 3; //Bahamut
+		}	
+		
+		modeflags.kmoon = document.getElementById('mystery_kmoon').checked;
+		
+		if (modeflags.kmoon) {
+			keyitemlocations[KeyItemCheck.MOON_CRYSTAL] = 0; //Lunar Crystal
+			keyitemlocations[KeyItemCheck.MOON_MASAMUNE] = 0; //Lunar Masa
+			keyitemlocations[KeyItemCheck.MOON_MURASAME] = 0; //Lunar Mura
+			keyitemlocations[KeyItemCheck.MOON_RIBBON] = 0; //Lunar Ribbon
+			keyitemlocations[KeyItemCheck.MOON_WHITE] = 0; //Lunar White
+		} else {
+			keyitemlocations[KeyItemCheck.MOON_CRYSTAL] = 3; //Lunar Crystal
+			keyitemlocations[KeyItemCheck.MOON_MASAMUNE] = 3; //Lunar Masa
+			keyitemlocations[KeyItemCheck.MOON_MURASAME] = 3; //Lunar Mura
+			keyitemlocations[KeyItemCheck.MOON_RIBBON] = 3; //Lunar Ribbon
+			keyitemlocations[KeyItemCheck.MOON_WHITE] = 3; //Lunar White
+		}
+		
+		modeflags.ktrap = document.getElementById('mystery_ktrap').checked;
+		
+		if (modeflags.ktrap) {
+			document.getElementById('trappedchestsdiv').style.display = "";
+			document.getElementById('keyitemsdiv').style.width = "120px";
+			document.getElementById('charactersdiv').style.width = "120px";
+			document.getElementById('townsdiv').style.width = "120px";
+		} else {
+			document.getElementById('trappedchestsdiv').style.display = "none";
+			document.getElementById('keyitemsdiv').style.width = "160px";
+			document.getElementById('charactersdiv').style.width = "160px";
+			document.getElementById('townsdiv').style.width = "160px";
+		}
+		
+		modeflags.chero = document.getElementById('mystery_chero').checked;
+		modeflags.climit = document.getElementById('mystery_climit').value;
+		modeflags.nchars = document.getElementById('mystery_nchars').checked;
+				
+		if (modeflags.nchars) {
+			characterlocations[CharacterCheck.DAMCYAN] = 3;
+			characterlocations[CharacterCheck.MT_ORDEALS] = 3;
+			characterlocations[CharacterCheck.MYSIDIA] = 3;
+			characterlocations[CharacterCheck.WATERWAY] = 3;
+		} else {
+			characterlocations[CharacterCheck.DAMCYAN] = 0;
+			characterlocations[CharacterCheck.MT_ORDEALS] = 0;
+			characterlocations[CharacterCheck.MYSIDIA] = 0;
+			characterlocations[CharacterCheck.WATERWAY] = 0;			
+		}
+		
+		modeflags.nkey = document.getElementById('mystery_nkey').checked;
+		
+		if (modeflags.nkey) {
+			keyitemlocations[KeyItemCheck.TOROIA] = 3;
+			keyitemlocations[KeyItemCheck.MIST] = 0;
+			if (disablebosstracker === '1') {
+				document.getElementById('misttoggle').style.visibility = "";
+			}
+		} else {
+			keyitemlocations[KeyItemCheck.TOROIA] = 0;
+			keyitemlocations[KeyItemCheck.MIST] = 3;
+			if (disablebosstracker === '1') {
+				document.getElementById('misttoggle').style.visibility = "hidden";
+			}
+		}		
+		
+		modeflags.gwarp = document.getElementById('mystery_gwarp').checked;
+		modeflags.oexpnokeybonus = document.getElementById('mystery_oexpnokeybonus').checked;
+		modeflags.opushbtojump = document.getElementById('mystery_opushbtojump').checked;
+		
+		SetFlagOptions();
+		SetObjectives();
+		ApplyChecks();
+	} else {
+		menutoggle = false;
+	}
 }
 
 function CloseBoss() {
