@@ -153,23 +153,34 @@ input:checked + .slider:before {
 
 .characterchoosediv {
 	float: left;
-  background-color: #000063;
+	width: 360px;
+	padding-bottom: 15px;
+	height: 180px;
+    position: absolute;
+    top: 100px;
+    background-color: #000063;
 	z-index: 10;
-  position:absolute;
 }
 
 .characterdiv {
 	float: left;
-	width: 100%;
+	width: 360px;
+	height: 80px;
+	position: absolute;
 }
 
 .itemdiv {
 	float: left;
-	width: 100%;	
+	width: 360px;
+	position: absolute;
+    top: 100px;
 }
 
-.itemContainer {
-  display: flex;
+.objectivediv {
+	float: left;
+	width: 360px;
+	position: absolute;
+    top: 300px;
 }
 
 .charactercolumn {
@@ -191,77 +202,6 @@ input:checked + .slider:before {
 	padding-bottom: 2px;
 }
 
-#rootDiv
-{
-  display: flex;
-  flex-direction: column;
-  height:100%;
-  max-height:900px;
-  flex: 1 1 auto;
-}
-
-#leftDiv
-{
-  width: 360px; 
-  float: left; 
-  margin: 0px 10px 0px 10px;
-  display:flex;
-  flex-direction: column;
-  height:100%;
-  row-gap: 10px;
-}
-
-.objectivediv {
-	float: left;
-}
-
-button {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  background-color: transparent;
-  border-radius: 4px;
-  border: 0;
-  box-shadow: inset 0 0 0 1px #ffffff;  
-  color:white;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 300;
-  height: 2.75rem;
-  letter-spacing: 0.2rem;
-  line-height: 2.75rem;
-  outline: 0;
-  padding: 0 1.25rem 0 1.35rem;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-button:hover {
-  background-color: rgba(255, 255, 255, 0.075);
-}
-button:active {
-  background-color: rgba(255, 255, 255, 0.175);
-}
-
-button{
-  width:120px;
-}
-
-#copyToClipboardButton
-{
-  width:245px;
-  font-size: 0.6rem;
-}
-
-
 .flagsImage {
     height: 32px;
     margin: auto;
@@ -273,55 +213,6 @@ button{
 	float: left;
 }
 
-#timerContainer
-{
-  height:200px;
-  display:flex;
-  flex-direction:column;
-  margin: 10px 10px;
-  gap:10px;
-  max-width:345px;
-}
-
-#timerContainer::before
-{
-  content:"";
-  height:1px;  
-  background-color: white;
-}
-
-.timerButtons
-{
-  display:flex;
-  gap:5px;
-}
-
-#pauseButton, #resetButton
-{
-  display:none;
-}
-
-#timerDiv
-{
-  font-size:60px;  
-  background-image:linear-gradient(to right,rgba(255, 255, 255, 0.175), black);
-}
-
-#timerDiv.timerRunning
-{
-  color:rgba(100,255,100,1.0);
-}
-
-#timerDiv.timerPaused
-{
-  color:red;
-}
-
-#startButton
-{
-  color:rgba(100,255,100,1.0);
-}
-
 .partyPortrait {
 	width: 60px;
 	height: 60px;
@@ -331,10 +222,6 @@ button{
     border-width: 1px;
 	float: left;
 	border-radius: 15px;
-}
-
-.partyPortrait.hero {
-	border-color: orangered;
 }
 
 .partyClear {
@@ -364,6 +251,7 @@ text-align: right;
     font-size: 18px;
     text-align: center;
     line-height: 20px;
+	position: absolute;
     left: 430px;
 }
 
@@ -395,23 +283,4 @@ text-align: right;
     text-decoration: underline;
 	height: 20px;
 	text-align: center;
-}
-
-.heroHeader {
-    position: absolute;
-    top: 5px;
-    left: 24px;
-	color: orangered;
-}
-
-.mysteryFlags {
-    font-size: 14px;
-    font-weight: bold;
-	height: 20px;
-	text-align: center;
-	cursor: pointer;
-}
-
-.mysteryToggleSpan {
-	width: 100px;
 }
