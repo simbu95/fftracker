@@ -85,7 +85,7 @@ function launch() {
 	}	
 	
 	//Chrome defaults
-	var h = 450;
+	var h = 560;
 	var w = 930;
 	
 	if (verticallayout === '1') {
@@ -117,6 +117,11 @@ function launch() {
 		h = 430;
 	}
 	
+		//Chrome defaults
+	var h = 660;
+	var w = 930;
+	
+
 	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&o=' + objectivetracking + '&b=' + browser,
 		'',
 		'width=' + w + ',height=' + h + ',titlebar=0,menubar=0,toolbar=0,scrollbars=0,resizable=0');

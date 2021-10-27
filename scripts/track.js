@@ -41,6 +41,9 @@ var menutoggle = false;
 var dmcount = 0;
 var objectivechange = 0;
 
+var timerStarted = false;
+var timerStartTime;
+
 //NEW NEW FLAGS
 var modeflags = {
 	omain: true,
@@ -1407,17 +1410,6 @@ function SetFlagOptions() {
 		totalobj++;
 	}
 	
-	if (totalobj > 4) {
-		var adjustedheightcount = (20 * (totalobj - 4));
-		document.getElementById('objectivelistdiv').style.height = (adjustedheightcount + 100) + "px";
-		if (verticallayout === '1' && disablelocationtracker === '0') {
-			window.resizeTo(516, 978 + adjustedheightcount);
-			document.getElementById('trackingtable').style.top =  430 + (isMystery ? 20 : 0) + adjustedheightcount + "px";
-		} else {
-			window.resizeTo(946, 518 + adjustedheightcount);
-		}
-	}
-	
 	if (disableitemtracker === '1') {
 		document.getElementById('townsdiv').style.display = "none";
 		//document.getElementById('trackingtable').style.fontSize = "24px";
@@ -2026,6 +2018,76 @@ function ApplyChecks(){
 			}
 		}	
 	}
+}
+
+function convertHMS(value) {
+    const sec = parseInt(value, 10)/1000; // convert value to number if it's string
+    let hours   = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+    let seconds = Math.floor(sec - (hours * 3600) - (minutes * 60)); //  get seconds
+	let ms = Math.floor((value - seconds * 1000)/10);
+    // add 0 if value < 10; Example: 2 => 02
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+	if (ms < 10) {ms = "0"+ms;}
+    return hours+':'+minutes+':'+seconds+':'+'<span style="font-size:2.5rem">'+ms+'</span>'; // Return is HH : MM : SS
+}
+
+var timerObject;
+var timerSecondsElapsed = 0;
+function timerUpdate()
+{
+	var delta = Date.now() - timerStartTime;
+	timerStartTime = Date.now();
+
+	timerSecondsElapsed += delta;
+	document.getElementById('timerDiv').innerHTML=convertHMS(timerSecondsElapsed);
+}
+
+function StartTimer()
+{	
+	timerStartTime = Date.now();
+
+	document.getElementById('startButton').style.display = "none";
+	document.getElementById('pauseButton').style.display = "block";
+	document.getElementById('resetButton').style.display = "block";
+
+	timerObject = setInterval(timerUpdate, 10);
+	timerStarted = true;
+	document.getElementById('timerDiv').classList.add('timerRunning')
+	document.getElementById('timerDiv').classList.remove('timerPaused')
+}
+
+function PauseTimer()
+{
+	clearInterval(timerObject)
+	document.getElementById('timerDiv').classList.add('timerPaused')
+	document.getElementById('timerDiv').classList.remove('timerRunning')
+	
+	document.getElementById('startButton').style.display = "block";
+	document.getElementById('pauseButton').style.display = "none";
+	document.getElementById('resetButton').style.display = "block";
+}
+
+function ResetTimer()
+{
+	document.getElementById('startButton').style.display = "block";
+	document.getElementById('pauseButton').style.display = "none";
+	document.getElementById('resetButton').style.display = "none";
+	
+	timerStarted = false;
+	timerSecondsElapsed = 0;
+	clearInterval(timerObject)
+	document.getElementById('timerDiv').classList.remove('timerPaused')
+	document.getElementById('timerDiv').classList.remove('timerRunning')
+	document.getElementById('timerDiv').innerHTML = convertHMS(0);
+}
+
+function CopyTimerToClipboard()
+{
+	var text = document.getElementById('timerDiv').textContent;
+	navigator.clipboard.writeText(text.substring(0,text.length-3));
 }
 
 function SwapKeyItemLocation(locationId) {
