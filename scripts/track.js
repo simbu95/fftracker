@@ -2025,7 +2025,7 @@ function convertHMS(value) {
     let hours   = Math.floor(sec / 3600); // get hours
     let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
     let seconds = Math.floor(sec - (hours * 3600) - (minutes * 60)); //  get seconds
-	let ms = Math.floor((value - seconds * 1000)/10);
+	let ms = Math.floor(value%1000/10);
     // add 0 if value < 10; Example: 2 => 02
     if (hours   < 10) {hours   = "0"+hours;}
     if (minutes < 10) {minutes = "0"+minutes;}
