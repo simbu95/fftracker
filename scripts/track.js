@@ -158,6 +158,8 @@ var ignoreswap = false;
 var flags = getParameterByName('f');
 
 var flagsets = flags.split('|');
+var flagsReadable = '';
+var flagsHeaderStyle = 'style="font-size:1.5rem; border-bottom: 1px white solid;margin-top:5px;color:green;"'
 var excludedCharacters = '';
 var includedCharacters = '';
 
@@ -175,9 +177,9 @@ function getParameterByName(name, url) {
 
 function SetModes() {
 	$('#itemModal').hide();
-	//$('#flagsModal').hide();
+	$('#flagsModal').hide();
 	$('#bossModal').hide();
-	$('#townModal').hide();
+	$('#townModal').hide();	
 	$('#objectiveModal').hide();
 	$('#mysteryModal').hide();
 	
@@ -244,10 +246,11 @@ function SetModes() {
 			
 			//Objectives
 			if (flagsets[fs].startsWith('O')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Objectives' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
-				var keys = flagstring.split('/');
-				
+				var keys = flagstring.split('/');				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'NONE':
 							modeflags.kmain = true;
@@ -588,10 +591,11 @@ function SetModes() {
 			
 			//Key Items
 			if (flagsets[fs].startsWith('K')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Key Items' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
-				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'MAIN':
 							modeflags.kmain = true;
@@ -614,10 +618,12 @@ function SetModes() {
 
 			//Pass
 			if (flagsets[fs].startsWith('P')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Pass Item' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'SHOP':
 							modeflags.pshop = true;
@@ -635,11 +641,13 @@ function SetModes() {
 			
 			//Characters
 			if (flagsets[fs].startsWith('C')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Characters' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				var anystart = false;
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.cvanilla = true;
@@ -796,10 +804,12 @@ function SetModes() {
 			
 			//Treasures
 			if (flagsets[fs].startsWith('T')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Treasure Chests' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.tchests = 'vanilla';
@@ -838,6 +848,7 @@ function SetModes() {
 			
 			//Shops
 			if (flagsets[fs].startsWith('S')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Shops' + '</div>';
 				var flagstring = flagsets[fs].substr(1).replace(',','/');
 				while (flagstring.indexOf(',') > -1) {
 					flagstring = flagstring.replace(',','/');
@@ -845,6 +856,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.sshops = 'vanilla';
@@ -897,10 +909,12 @@ function SetModes() {
 			
 			//Bosses
 			if (flagsets[fs].startsWith('B')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Bosses' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.bvanilla = true;
@@ -926,10 +940,12 @@ function SetModes() {
 			
 			//Challenges
 			if (flagsets[fs].startsWith('N')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Challenges' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'CHARS':
 							modeflags.nchars = true;
@@ -950,6 +966,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.eencounters = 'evanilla';
@@ -995,6 +1012,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
 					switch (keys[k]) {
 						case 'DUPE':
 							modeflags.gdupe = true;
@@ -1017,6 +1035,7 @@ function SetModes() {
 			
 			//Other
 			if (flagsets[fs].startsWith('-')) {
+				flagsReadable += flagsets[fs] + (k < keys.length -1 ?  ',' : '');
 				switch (flagsets[fs]) {
 					case '-KIT:MINIMAL':
 						modeflags.ostarterkit = 'minimal';
@@ -1101,7 +1120,14 @@ function SetModes() {
 	SetObjectives();
 }
 
+function SetupFlagProps()
+{
+	document.getElementById('keyString').innerHTML = flagsReadable;
+}
+
 function SetFlagOptions() {
+
+	SetupFlagProps();
 
 	//Limit Party
 	if (modeflags.climit < 5) {
@@ -2595,6 +2621,23 @@ function CloseMystery() {
 		SetFlagOptions();
 		SetObjectives();
 		ApplyChecks();
+	} else {
+		menutoggle = false;
+	}
+}
+
+function ExpandFlags(index)
+{
+	$('#flagdetail'+index).show();
+}
+function OpenFlags()
+{
+	$('#flagsModal').show();
+}
+
+function CloseFlags() {
+	if (menutoggle === false) {
+		$('#flagsModal').hide();
 	} else {
 		menutoggle = false;
 	}

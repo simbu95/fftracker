@@ -415,3 +415,7 @@ text-align: right;
 .mysteryToggleSpan {
 	width: 100px;
 }
+
+#flagsModalInner{
+  overflow-wrap: anywhere;
+}
