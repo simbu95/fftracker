@@ -947,11 +947,12 @@ function SetModes() {
 			//Challenges
 			if (flagsets[fs].startsWith('N')) {
 				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Challenges' + '</div>';
-				var flagstring = 'No Free ' + flagsets[fs].substr(1);
+				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
+					flagsReadable += 'No Free ' + keys[k] + (k < keys.length -1 ?  ', ' : '');
+					console.log(keys);
 					switch (keys[k]) {
 						case 'CHARS':
 							modeflags.nchars = true;
