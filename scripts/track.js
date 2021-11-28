@@ -639,6 +639,7 @@ function SetModes() {
 				}
 			}
 			
+			var cstartstring = '';
 			//Characters
 			if (flagsets[fs].startsWith('C')) {
 				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Characters' + '</div>';
@@ -693,6 +694,10 @@ function SetModes() {
 								if (keys[k].substring(6) === 'ANY') {
 									anystart = true;
 								}
+								else
+								{
+									cstartstring = keys[k].substring(6).toUpperCase();
+								}
 								//modeflags.cstart = keys[k].substring(6);
 							}
 							if (keys[k].startsWith('PARTY')) {
@@ -701,42 +706,43 @@ function SetModes() {
 							if (keys[k].startsWith('NO')) {
 								var cha = keys[k].substring(3).split(',');
 								for (var j in cha) {
+									var characterAvailable = anystart === true || cstartstring == cha[j];
 									switch (cha[j]) {
 										case 'CECIL':
-											modeflags.ccecil = (anystart === true ? true : false);
+											modeflags.ccecil = (characterAvailable ? true : false);
 											break;
 										case 'KAIN':
-											modeflags.ckain = (anystart === true ? true : false);
+											modeflags.ckain = (characterAvailable ? true : false);
 											break;
 										case 'RYDIA':
-											modeflags.crydia = (anystart === true ? true : false);
+											modeflags.crydia = (characterAvailable ? true : false);
 											break;
 										case 'TELLAH':
-											modeflags.ctellah = (anystart === true ? true : false);
+											modeflags.ctellah = (characterAvailable ? true : false);
 											break;
 										case 'EDWARD':
-											modeflags.cedward = (anystart === true ? true : false);
+											modeflags.cedward = (characterAvailable ? true : false);
 											break;
 										case 'ROSA':
-											modeflags.crosa = (anystart === true ? true : false);
+											modeflags.crosa = (characterAvailable ? true : false);
 											break;
 										case 'YANG':
-											modeflags.cyang = (anystart === true ? true : false);
+											modeflags.cyang = (characterAvailable ? true : false);
 											break;
 										case 'PALOM':
-											modeflags.cpalom = (anystart === true ? true : false);
+											modeflags.cpalom = (characterAvailable ? true : false);
 											break;
 										case 'POROM':
-											modeflags.cporom = (anystart === true ? true : false);
+											modeflags.cporom = (characterAvailable ? true : false);
 											break;
 										case 'CID':
-											modeflags.ccid = (anystart === true ? true : false);
+											modeflags.ccid = (characterAvailable ? true : false);
 											break;
 										case 'EDGE':
-											modeflags.cedge = (anystart === true ? true : false);
+											modeflags.cedge = (characterAvailable ? true : false);
 											break;
 										case 'FUSOYA':
-											modeflags.cfusoya = (anystart === true ? true : false);
+											modeflags.cfusoya = (characterAvailable ? true : false);
 											break;
 									}
 								}
@@ -1032,11 +1038,17 @@ function SetModes() {
 					}
 				}
 			}
+
+			//Wacky 			
 			
 			//Other
 			if (flagsets[fs].startsWith('-')) {
 				flagsReadable += flagsets[fs] + (k < keys.length -1 ?  ',' : '');
 				switch (flagsets[fs]) {
+					case '-WACKY:NIGHTMODE':
+						flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Wacky' + '</div>';
+						flagsReadable += 'Overworld shops are closed (except Baron weapon/armor and Toroia cafe item). Outdoor maps in the overworld use a darkened color palette.'
+						break;
 					case '-KIT:MINIMAL':
 						modeflags.ostarterkit = 'minimal';
 						break;
