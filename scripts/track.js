@@ -159,7 +159,7 @@ var flags = getParameterByName('f');
 
 var flagsets = flags.split('|');
 var flagsReadable = '';
-var flagsHeaderStyle = 'style="font-size:1.5rem; border-bottom: 1px white solid;margin-top:5px;color:green;"'
+var flagsHeaderStyle = 'style="font-size:1.5rem; border-bottom: 1px white solid;margin-top:5px;color:#6Cf;"'
 var excludedCharacters = '';
 var includedCharacters = '';
 
@@ -229,7 +229,7 @@ function SetModes() {
 	flagsets = flags.split('|');
 	excludedCharacters = '';
 	includedCharacters = '';
-	
+	var bAddedMiscHeader = false;
 	if (flags === 'MYSTERY') {
 		isMystery = true;
 		modeflags.orandomcount = 1;
@@ -250,7 +250,7 @@ function SetModes() {
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'NONE':
 							modeflags.kmain = true;
@@ -595,7 +595,7 @@ function SetModes() {
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'MAIN':
 							modeflags.kmain = true;
@@ -623,7 +623,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'SHOP':
 							modeflags.pshop = true;
@@ -648,7 +648,7 @@ function SetModes() {
 				var anystart = false;
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.cvanilla = true;
@@ -815,7 +815,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.tchests = 'vanilla';
@@ -862,7 +862,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.sshops = 'vanilla';
@@ -920,7 +920,7 @@ function SetModes() {
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.bvanilla = true;
@@ -947,11 +947,11 @@ function SetModes() {
 			//Challenges
 			if (flagsets[fs].startsWith('N')) {
 				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Challenges' + '</div>';
-				var flagstring = flagsets[fs].substr(1);
+				var flagstring = 'No Free ' + flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'CHARS':
 							modeflags.nchars = true;
@@ -968,11 +968,12 @@ function SetModes() {
 			
 			//Encounters
 			if (flagsets[fs].startsWith('E')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Encounters' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'VANILLA':
 							modeflags.eencounters = 'evanilla';
@@ -1014,11 +1015,12 @@ function SetModes() {
 			
 			//Glitches
 			if (flagsets[fs].startsWith('G')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Glitches' + '</div>';
 				var flagstring = flagsets[fs].substr(1);
 				var keys = flagstring.split('/');
 				
 				for (var k in keys) {
-					flagsReadable += keys[k] + (k < keys.length -1 ?  ',' : '');
+					flagsReadable += keys[k] + (k < keys.length -1 ?  ', ' : '');
 					switch (keys[k]) {
 						case 'DUPE':
 							modeflags.gdupe = true;
@@ -1039,31 +1041,52 @@ function SetModes() {
 				}
 			}
 
-			//Wacky 			
-			
-			//Other
-			if (flagsets[fs].startsWith('-')) {
-				flagsReadable += flagsets[fs] + (k < keys.length -1 ?  ',' : '');
-				switch (flagsets[fs]) {
-					case '-WACKY:NIGHTMODE':
-						flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Wacky' + '</div>';
-						flagsReadable += 'Overworld shops are closed (except Baron weapon/armor and Toroia cafe item). Outdoor maps in the overworld use a darkened color palette.'
-						break;
-					case '-KIT:MINIMAL':
+			// Item kits			
+			if (flagsets[fs].startsWith('-KIT')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'ITEM KITS' + '</div>';
+				var flagstring = flagsets[fs].split(/-KIT[0-9]?:/);
+				flagsReadable += flagstring[1];
+
+				switch (flagstring) {
+					case 'MINIMAL':
 						modeflags.ostarterkit = 'minimal';
 						break;
-					case '-KIT:BASIC':
+					case 'BASIC':
 						modeflags.ostarterkit = 'basic';
 						break;
-					case '-KIT:BETTER':
+					case 'BETTER':
 						modeflags.ostarterkit = 'better';
 						break;
-					case '-KIT:LOADED':
+					case 'LOADED':
 						modeflags.ostarterkit = 'loaded';
 						break;
-					case '-KIT:SPITBALL':
+					case 'SPITBALL':
 						modeflags.ostarterkit = 'spitball';
 						break;
+				}
+			}
+
+			//Wacky 
+			else if (flagsets[fs].startsWith('-WACKY')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Wacky' + '</div>';
+				var flagstring = flagsets[fs].substr(6);
+				flagsReadable += flagstring;
+				switch (flagstring) {
+					case 'NIGHTMODE':						
+						flagsReadable += 'Overworld shops are closed (except Baron weapon/armor and Toroia cafe item). Outdoor maps in the overworld use a darkened color palette.'
+						break;				
+				}
+			}
+			//Other
+			else if (flagsets[fs].startsWith('-')) {
+				if (!bAddedMiscHeader)
+				{
+					bAddedMiscHeader = true
+					flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'MISC' + '</div>';
+				}
+
+				flagsReadable += flagsets[fs].substr(1) + ', ';
+				switch (flagsets[fs]) {
 					case '-NOADAMANTS':
 						modeflags.onoadamants = true;
 						break;
