@@ -1156,8 +1156,44 @@ function SetModes() {
 	SetObjectives();
 }
 
+function httpGetAsync(theUrl, callback)
+	{
+		fetch(theUrl)
+			.then((response) => {
+				console.log(response);
+				return response.json();
+			})
+			.then((myJson) => {
+				callback(myJson);
+			}).catch((error) =>
+			{
+				console.log(error)
+			});				
+	}
+
 function SetupFlagProps()
 {
+	console.log("Setting up flag props");
+	httpGetAsync('/draft/flagstring?validate='+flags.replace(/\|/gi, " "), (response)=>
+	{
+		console.log(response['data']['cardDefs'])
+		flagsReadable = ""
+		lastCategory = "";
+		flagCount = 0;
+		for (let i=0 ; i<response['data']['cardDefs'].length ; i++)
+		{
+			var cardDef = response['data']['cardDefs'][i];
+			if (lastCategory != cardDef['category'])
+			{
+				lastCategory = cardDef['category'];
+				flagCount = 0;
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + cardDef['category'] + '</div>';
+			}
+			flagsReadable += (flagCount >= 1 ? ", ": "") + cardDef['name'];
+			flagCount++;
+		}
+		document.getElementById('keyString').innerHTML = flagsReadable;	
+	})
 	document.getElementById('keyString').innerHTML = flagsReadable;
 }
 
