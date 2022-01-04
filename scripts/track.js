@@ -92,6 +92,7 @@ var modeflags = {
 	cpermajoin: false,
 	cpermadeath: false,
 	cpermadeader: false,
+	cnoearned: false,
 	tchests: 'tvanilla',
 	tsparse: 0,
 	tnoj: false,
@@ -735,10 +736,17 @@ function SetModes() {
 								modeflags.nchars = true;
 								flagsReadable += 'No Free characters';
 							}
+
+							if (keys[k].startsWith('NOEARNED'))
+							{
+								modeflags.cnoearned = true;
+								flagsReadable += 'No Earned characters';
+							}
+							
 							if (keys[k].startsWith('NO')) {
 								var cha = keys[k].substring(3).split(',');
 								for (var j in cha) {
-									var characterAvailable = anystart === true || cstartstring == cha[j];
+									var characterAvailable = anystart === true || cstartstring.includes(cha[j]);
 									switch (cha[j]) {
 										case 'CECIL':
 											modeflags.ccecil = (characterAvailable ? true : false);
@@ -1482,6 +1490,19 @@ function SetFlagOptions() {
 		characterlocations[CharacterCheck.MT_ORDEALS] = 3;
 		characterlocations[CharacterCheck.MYSIDIA] = 3;
 		characterlocations[CharacterCheck.WATERWAY] = 3;
+	}
+
+		
+	if (modeflags.cnoearned) {
+		characterlocations[CharacterCheck.MT_HOBS] = 3;
+		characterlocations[CharacterCheck.KAIPO] = 3;
+		characterlocations[CharacterCheck.BARON_INN] = 3;
+		characterlocations[CharacterCheck.BARON_CASTLE] = 3;
+		characterlocations[CharacterCheck.TOWER_ZOT] = 3;
+		characterlocations[CharacterCheck.DWARF] = 3;
+		characterlocations[CharacterCheck.EBLAN_CAVE] = 3;
+		characterlocations[CharacterCheck.MOON] = 3;
+		characterlocations[CharacterCheck.GIANT_BABIL] = 3;
 	}
 	
 	if (modeflags.nkey) {
