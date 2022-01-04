@@ -299,6 +299,11 @@ function SetModes() {
 										case 'CHAR':
 											modeflags.ochar = true;
 											break;
+										case 'TOUGH_QUEST':
+											modeflags.ochar = true;
+											modeflags.oquests = true;
+											modeflags.oboss = true;
+											break;
 										default:
 											if (randomquests[l].startsWith('RANDOM')) {
 												modeflags.orandomcount = randomquests[l].substring(7);
