@@ -35,7 +35,7 @@ function load_cookie() {
 	}
 }
 
-function launch() {
+function launch(bUseBeta) {
 	var flagsval = document.getElementById('flags').value;
 	//flagsval = flagsval.replace(' ','|');
 	flagsval = flagsval.replace(new RegExp(' ', 'g'), '|');
@@ -122,7 +122,7 @@ function launch() {
 	var w = 930;
 	
 
-	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&o=' + objectivetracking + '&b=' + browser,
+	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&o=' + objectivetracking + '&b=' + browser + '&beta='+bUseBeta,
 		'',
 		'width=' + w + ',height=' + h + ',titlebar=0,menubar=0,toolbar=0,scrollbars=0,resizable=0');
 }

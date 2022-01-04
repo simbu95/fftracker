@@ -156,7 +156,7 @@ var partyswap = 0;
 var ignoreswap = false;
 
 var flags = getParameterByName('f');
-
+var useBeta = getParameterByName('beta');
 var flagsets = flags.split('|');
 var flagsReadable = '';
 var flagsHeaderStyle = 'style="font-size:1.5rem; border-bottom: 1px white solid;margin-top:5px;color:#6Cf;"'
@@ -612,6 +612,9 @@ function SetModes() {
 						case 'UNSAFE':
 							modeflags.kunsafe = true;
 							break;
+						case 'NOFREE':
+							modeflags.nkey = true;
+							break;		
 					}
 				}
 			}
@@ -638,6 +641,30 @@ function SetModes() {
 					}
 				}
 			}
+			
+			//Challenges
+			if (flagsets[fs].startsWith('N')) {
+				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Challenges' + '</div>';
+				var flagstring = flagsets[fs].substr(1);
+				var keys = flagstring.split('/');
+				
+				for (var k in keys) {
+					flagsReadable += 'No Free ' + keys[k] + (k < keys.length -1 ?  ', ' : '');
+					console.log(keys);
+					switch (keys[k]) {
+						case 'CHARS':
+							modeflags.nchars = true;
+							break;
+						case 'KEY':
+							modeflags.nkey = true;
+							break;
+						case 'BOSSES':
+							modeflags.nbosses = true;
+							break;
+					}
+				}
+			}
+														
 			
 			var cstartstring = '';
 			//Characters
@@ -702,6 +729,11 @@ function SetModes() {
 							}
 							if (keys[k].startsWith('PARTY')) {
 								modeflags.climit = keys[k].substring(6);
+							}
+							if (keys[k].startsWith('NOFREE'))
+							{
+								modeflags.nchars = true;
+								flagsReadable += 'No Free characters';
 							}
 							if (keys[k].startsWith('NO')) {
 								var cha = keys[k].substring(3).split(',');
@@ -940,32 +972,13 @@ function SetModes() {
 						case 'WHICHBURN':
 							modeflags.bwhichburn = true;
 							break;
+						case 'NOFREE':
+							modeflags.nbosses = true;
 					}
 				}
 			}
 			
-			//Challenges
-			if (flagsets[fs].startsWith('N')) {
-				flagsReadable += '<div ' + flagsHeaderStyle + '>' + 'Challenges' + '</div>';
-				var flagstring = flagsets[fs].substr(1);
-				var keys = flagstring.split('/');
-				
-				for (var k in keys) {
-					flagsReadable += 'No Free ' + keys[k] + (k < keys.length -1 ?  ', ' : '');
-					console.log(keys);
-					switch (keys[k]) {
-						case 'CHARS':
-							modeflags.nchars = true;
-							break;
-						case 'KEY':
-							modeflags.nkey = true;
-							break;
-						case 'BOSSES':
-							modeflags.nbosses = true;
-							break;
-					}
-				}
-			}
+		
 			
 			//Encounters
 			if (flagsets[fs].startsWith('E')) {
@@ -1173,8 +1186,14 @@ function httpGetAsync(theUrl, callback)
 
 function SetupFlagProps()
 {
-	console.log("Setting up flag props");
-	httpGetAsync('/draft/flagstring?validate='+flags.replace(/\|/gi, " "), (response)=>
+	console.log("Setting up flag props");	
+	var query = '/draft/flagstring?validate='+flags.replace(/\|/gi, " ")
+	if (useBeta)
+	{
+		query += '&useBetaChanges';
+	}
+
+	httpGetAsync(query, (response)=>
 	{
 		console.log(response['data']['cardDefs'])
 		flagsReadable = ""
