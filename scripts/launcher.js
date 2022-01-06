@@ -86,7 +86,7 @@ function launch(bUseBeta) {
 
 		//Chrome defaults
 	var h = 660;
-	var w = 800;
+	var w = 900;
 	
 
 	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&o=' + objectivetracking + '&b=' + browser + '&beta='+bUseBeta,
