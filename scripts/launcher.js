@@ -83,43 +83,10 @@ function launch(bUseBeta) {
 	} else {
 		document.cookie = "settings=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 	}	
-	
-	//Chrome defaults
-	var h = 560;
-	var w = 930;
-	
-	if (verticallayout === '1') {
-		var h = 910;
-		var w = 490;
-	}
-	
-	if (window.navigator.userAgent.indexOf("Firefox") > -1) {
-		browser = '1';
-		//Firefox
-		h = 460;
-		//w = 930;
-		if (verticallayout === '1') {
-			var h = 980;
-			var w = 540;
-		}
-	} else if (window.navigator.userAgent.indexOf("Edge") > -1) {
-		browser = '2';
-		h = 460;
-		//Edge
-		if (verticallayout === '1') {
-			var h = 920;
-			//var w = 520;
-		}
-	}
-	
-	if (locationtracking === '1') {
-		w = 420;
-		h = 430;
-	}
-	
+
 		//Chrome defaults
 	var h = 660;
-	var w = 930;
+	var w = 800;
 	
 
 	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&o=' + objectivetracking + '&b=' + browser + '&beta='+bUseBeta,

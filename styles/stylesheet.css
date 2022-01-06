@@ -202,7 +202,6 @@ input:checked + .slider:before {
 
 #leftDiv
 {
-  width: 360px; 
   float: left; 
   margin: 0px 10px 0px 10px;
   display:flex;
