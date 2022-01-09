@@ -1446,6 +1446,11 @@ function SetFlagOptions() {
 		document.getElementById('charactersdiv').style.width = "160px";
 		document.getElementById('townsdiv').style.width = "160px";
 	}
+
+	if (useBeta && modeflags.ktrap && !modeflags.kmoon)
+	{
+		trappedchestlocations[9] = 2;
+	}
 	
 	if (!modeflags.ksummon) {
 		keyitemlocations[KeyItemCheck.BARON_ODIN] = 3; //Odin
