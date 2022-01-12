@@ -1468,10 +1468,6 @@ function SetFlagOptions() {
 		keyitemlocations[KeyItemCheck.MOON_WHITE] = 3; //Lunar White
 	}
 	
-	if (modeflags.sshops == 'empty') {
-		disableitemtracker = '1';
-	}
-	
 	/* if (modeflags.snoj) {
 	}
 	
