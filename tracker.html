@@ -1,724 +1,745 @@
 <html>
-	<body bgcolor="#000000">
-		<head>
-			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=211">
-			<script src="./scripts/enums.js?v=211"></script>
-			<script src="./scripts/items.js?v=211"></script>
-			<script src="./scripts/track.js?v=211"></script>
-			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
-			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
-			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
-			<script type="text/javascript">
-				$(document).ready(function(){
-					SetModes();
-					ApplyChecks();
-				});
-			</script>
-			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
-			<script>
-				$(function() {
-					$('.south').powerTip({ placement: 's', intentPollInterval: 350 });
-					$('.north').powerTip({ placement: 'n', intentPollInterval: 350 });
-				});
-				window.dataLayer = window.dataLayer || [];
-				function gtag(){dataLayer.push(arguments);}
-				gtag('js', new Date());
 
-				gtag('config', 'UA-121466364-1');
+<body bgcolor="#000000">
 
-				// Protection from accidental reload.
-				//window.onbeforeunload = function() {
-					//return "Are you sure you want to leave this page? Data will be lost."
-				//}
-			</script>
-		</head>
-		
-		<div id="rootDiv">
-			<div id="wrapperdiv" style="width: 100%;">
-				<div id="leftdiv">					
-					<div id="partydiv" class="characterdiv">
-						<div class="categoryHeader">CURRENT PARTY</div>
-						<div>
-							<div id="heroHeaderDiv" class="heroHeader">HERO</div>
-							<div id="party0" class="partyPortrait" onclick="SwapParty(0)"><span id="partyClear0" class="partyClear" onmouseleave="UnhighlightClear(0);" onmouseover="HighlightClear(0);" onclick="PartyClear(0);"><span class="partyClearInner">X</span></span></div>
-							<div id="party1" class="partyPortrait" onclick="SwapParty(1)"><span id="partyClear1" class="partyClear" onmouseleave="UnhighlightClear(1);" onmouseover="HighlightClear(1);" onclick="PartyClear(1);"><span class="partyClearInner">X</span></span></div>
-							<div id="party2" class="partyPortrait" onclick="SwapParty(2)"><span id="partyClear2" class="partyClear" onmouseleave="UnhighlightClear(2);" onmouseover="HighlightClear(2);" onclick="PartyClear(2);"><span class="partyClearInner">X</span></span></div>
-							<div id="party3" class="partyPortrait" onclick="SwapParty(3)"><span id="partyClear3" class="partyClear" onmouseleave="UnhighlightClear(3);" onmouseover="HighlightClear(3);" onclick="PartyClear(3);"><span class="partyClearInner">X</span></span></div>
-							<div id="party4" class="partyPortrait" onclick="SwapParty(4)"><span id="partyClear4" class="partyClear" onmouseleave="UnhighlightClear(4);" onmouseover="HighlightClear(4);" onclick="PartyClear(4);"><span class="partyClearInner">X</span></span></div>
-						</div>
-					</div>
-					<div class="itemContainer">
-						<div id="characterdiv" class="characterchoosediv" style="display: none;">
-							<div class="categoryHeader">CHOOSE PARTY MEMBER</div>
-							<div class="charactercolumn">
-								<div id="character0" class="characterPortrait south" onclick="SwapCharacter(0)" style="background-image: url('images/character0_a.png')" title="Cecil">
-									<img id="character0_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character4" class="characterPortrait south" onclick="SwapCharacter(4)" style="background-image: url('images/character4_a.png')" title="Edward">
-									<img id="character4_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character8" class="characterPortrait south" onclick="SwapCharacter(8)" style="background-image: url('images/character8_a.png')" title="Porom">
-									<img id="character8_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-							</div>
-							<div class="charactercolumn">
-								<div id="character1" class="characterPortrait south" onclick="SwapCharacter(1)" style="background-image: url('images/character1_a.png')" title="Kain">
-									<img id="character1_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character5" class="characterPortrait south" onclick="SwapCharacter(5)" style="background-image: url('images/character5_a.png')" title="Rosa">
-									<img id="character5_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character9" class="characterPortrait south" onclick="SwapCharacter(9)" style="background-image: url('images/character9_a.png')" title="Cid">
-									<img id="character9_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-							</div>
-							<div class="charactercolumn">
-								<div id="character2" class="characterPortrait south" onclick="SwapCharacter(2)" style="background-image: url('images/character2_a.png')" title="Rydia">
-									<img id="character2_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character6" class="characterPortrait south" onclick="SwapCharacter(6)" style="background-image: url('images/character6_a.png')" title="Yang">
-									<img id="character6_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character10" class="characterPortrait south" onclick="SwapCharacter(10)" style="background-image: url('images/character10_a.png')" title="Edge">
-									<img id="character10_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-							</div>
-							<div class="charactercolumn">
-								<div id="character3" class="characterPortrait south" onclick="SwapCharacter(3)" style="background-image: url('images/character3_a.png')" title="Tellah">
-									<img id="character3_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character7" class="characterPortrait south" onclick="SwapCharacter(7)" style="background-image: url('images/character7_a.png')" title="Palom">
-									<img id="character7_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-								<div id="character11" class="characterPortrait south" onclick="SwapCharacter(11)" style="background-image: url('images/character11_a.png')" title="FuSoYa">
-									<img id="character11_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
-								</div>
-							</div>
-						</div>
-						<div id="itemdiv" class="itemdiv">
-							<div class="categoryHeader">KEY ITEMS</div>
-							<div class="itemcolumn">
-								<div id="item0" class="itemImage south" onclick="SwapItem(0)" style="background-image: url('images/item0.png')" title="Baron Key"></div>
-								<div id="item4td">
-									<div id="item4" class="itemImage south" onclick="SwapItem(4)" style="background-image: url('images/item4.png')" title="Darkness Crystal"></div>
-								</div>
-								<div id="item8" class="itemImage south" onclick="SwapItem(8)" style="background-image: url('images/item8.png')" title="Package"></div>
-								<div id="item12td">
-									<div id="item12" class="itemImage south" onclick="SwapItem(12)" style="background-image: url('images/item12.png')" title="Adamant"></div>
-								</div>
-								<div id="misttoggle" class="itemImage south" onclick="ToggleMist()" style="background-image: url('images/mistdragon_2.png')" title=""></div>
-							</div>
-							<div class="itemcolumn">
-								<div id="item1" class="itemImage south" onclick="SwapItem(1)" style="background-image: url('images/item1.png')" title="Luca Key"></div>
-								<div id="item5" class="itemImage south" onclick="SwapItem(5)" style="background-image: url('images/item5.png')" title="Earth Crystal"></div>
-								<div id="item9" class="itemImage south" onclick="SwapItem(9)" style="background-image: url('images/item9.png')" title="Pan"></div>
-								<div id="item13td">
-									<div id="item13" class="itemImage south" onclick="SwapItem(13)" style="background-image: url('images/item13.png')" title="Legend Sword"></div>
-								</div>
-								<div id="item16td">
-									<div id="item16" class="itemImage south" onclick="SwapItem(16)" style="background-image: url('images/item16.png')" title="Crystal"></div>
-								</div>
-							</div>
-							<div class="itemcolumn">
-								<div id="item2" class="itemImage south" onclick="SwapItem(2)" style="background-image: url('images/item2.png')" title="Magma Key"></div>
-								<div id="item6" class="itemImage south" onclick="SwapItem(6)" style="background-image: url('images/item6.png')" title="Hook"></div>
-								<div id="item10" class="itemImage south" onclick="SwapItem(10)" style="background-image: url('images/item10.png')" title="Sandruby"></div>
-								<div id="item14" class="itemImage south" onclick="SwapItem(14)" style="background-image: url('images/item16.png')" title="Spoon"></div>
-								<div id="item17td">
-									<div id="item17" class="itemImage south" onclick="SwapItem(17)" style="background-image: url('images/item17.png')" title="Pass"></div>
-								</div>
-							</div>
-							<div class="itemcolumn">
-								<div id="item3" class="itemImage south" onclick="SwapItem(3)" style="background-image: url('images/item3.png')" title="Tower Key"></div>
-								<div id="item7" class="itemImage south" onclick="SwapItem(7)" style="background-image: url('images/item7.png')" title="Twinharp"></div>
-								<div id="item11" class="itemImage south" onclick="SwapItem(11)" style="background-image: url('images/item11.png')" title="Rat Tail"></div>
-								<div id="item15" class="itemImage south" onclick="SwapItem(15)" style="background-image: url('images/item15.png')" title="Pink Tail"></div>
-								<div id="itemtracker" style="font-size: 20px; cursor: auto; padding-top: 8px; text-align: center;">0/17</div>
-							</div>
-						</div>
-					</div>
-					<div id="objectivediv" class="objectivediv">
-						<div id="changemysteryflagsdiv" class="mysteryFlags" onclick="ViewMystery();">== CHANGE MYSTERY FLAGS ==</div>
-						<div class="categoryHeader"><span>OBJECTIVES [<span id="objectivesVictory"></span>: <span id="objectivesRequiredCount"></span>]</span></div>
-						<div id="objectivelistdiv" style="overflow: auto;">
-							<span id="objectivedm"><img id="objectiveCheckdm" style="width: 16px;">&nbsp;&nbsp;Collect Dark Matter&nbsp;&nbsp;<img id="dkmatterUpArrow"onclick="DMTicker(1);" src="images/uparrow.png" style="width: 16px;">&nbsp;<span id="dmcountspan">0</span>&nbsp;<img id="dkmatterDownArrow"onclick="DMTicker(-1);" src="images/downarrow.png" style="width: 16px;"><br></span>
-							<span id="objective0"><img id="objectiveCheck0" onclick="checkOffObjective(0);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Classic Forge the Crystal<br></span>
-							<span id="objective1"><img id="objectiveCheck1" onclick="checkOffObjective(1);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Classic Giant<br></span>
-							<span id="objective2"><img id="objectiveCheck2" onclick="checkOffObjective(2);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Fiends <br></span>
-							<span id="objective3"><img id="objectiveCheck3" onclick="checkOffObjective(3);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Dark Matter Hunt<br></span>
-							<span id="objective4"><img id="objectiveCheck4" onclick="checkOffObjective(4);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Cecil<br></span>
-							<span id="objective5"><img id="objectiveCheck5" onclick="checkOffObjective(5);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Kain<br></span>
-							<span id="objective6"><img id="objectiveCheck6" onclick="checkOffObjective(6);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Rydia<br></span>
-							<span id="objective7"><img id="objectiveCheck7" onclick="checkOffObjective(7);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Tellah<br></span>
-							<span id="objective8"><img id="objectiveCheck8" onclick="checkOffObjective(8);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Edward<br></span>
-							<span id="objective9"><img id="objectiveCheck9" onclick="checkOffObjective(9);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Rosa<br></span>
-							<span id="objective10"><img id="objectiveCheck10" onclick="checkOffObjective(10);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Yang<br></span>
-							<span id="objective11"><img id="objectiveCheck11" onclick="checkOffObjective(11);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Palom<br></span>
-							<span id="objective12"><img id="objectiveCheck12" onclick="checkOffObjective(12);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Porom<br></span>
-							<span id="objective13"><img id="objectiveCheck13" onclick="checkOffObjective(13);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Cid<br></span>
-							<span id="objective14"><img id="objectiveCheck14" onclick="checkOffObjective(14);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Edge<br></span>
-							<span id="objective15"><img id="objectiveCheck15" onclick="checkOffObjective(15);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get FuSoYa<br></span>
-							<span id="objective16"><img id="objectiveCheck16" onclick="checkOffObjective(16);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat D.Mist<br></span>
-							<span id="objective17"><img id="objectiveCheck17" onclick="checkOffObjective(17);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Officer<br></span>
-							<span id="objective18"><img id="objectiveCheck18" onclick="checkOffObjective(18);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Octomamm<br></span>
-							<span id="objective19"><img id="objectiveCheck19" onclick="checkOffObjective(19);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Antlion<br></span>
-							<span id="objective20"><img id="objectiveCheck20" onclick="checkOffObjective(20);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Waterhag (boss version)<br></span>
-							<span id="objective21"><img id="objectiveCheck21" onclick="checkOffObjective(21);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat MomBomb<br></span>
-							<span id="objective22"><img id="objectiveCheck22" onclick="checkOffObjective(22);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Fabul Gauntlet<br></span>
-							<span id="objective23"><img id="objectiveCheck23" onclick="checkOffObjective(23);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Milon<br></span>
-							<span id="objective24"><img id="objectiveCheck24" onclick="checkOffObjective(24);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Milon Z.<br></span>
-							<span id="objective25"><img id="objectiveCheck25" onclick="checkOffObjective(25);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat D.Knight<br></span>
-							<span id="objective26"><img id="objectiveCheck26" onclick="checkOffObjective(26);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Guards (boss)<br></span>
-							<span id="objective27"><img id="objectiveCheck27" onclick="checkOffObjective(27);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Karate<br></span>
-							<span id="objective28"><img id="objectiveCheck28" onclick="checkOffObjective(28);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Baigan<br></span>
-							<span id="objective29"><img id="objectiveCheck29" onclick="checkOffObjective(29);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Kainazzo<br></span>
-							<span id="objective30"><img id="objectiveCheck30" onclick="checkOffObjective(30);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Dark Elf (dragon form)<br></span>
-							<span id="objective31"><img id="objectiveCheck31" onclick="checkOffObjective(31);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Magus Sisters<br></span>
-							<span id="objective32"><img id="objectiveCheck32" onclick="checkOffObjective(32);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Valvalis<br></span>
-							<span id="objective33"><img id="objectiveCheck33" onclick="checkOffObjective(33);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Calbrena<br></span>
-							<span id="objective34"><img id="objectiveCheck34" onclick="checkOffObjective(34);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Golbez<br></span>
-							<span id="objective35"><img id="objectiveCheck35" onclick="checkOffObjective(35);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Dr. Lugae<br></span>
-							<span id="objective36"><img id="objectiveCheck36" onclick="checkOffObjective(36);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Dark Imps (boss)<br></span>
-							<span id="objective37"><img id="objectiveCheck37" onclick="checkOffObjective(37);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat K.Eblan and Q.Eblan<br></span>
-							<span id="objective38"><img id="objectiveCheck38" onclick="checkOffObjective(38);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Rubicant<br></span>
-							<span id="objective39"><img id="objectiveCheck39" onclick="checkOffObjective(39);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat EvilWall<br></span>
-							<span id="objective40"><img id="objectiveCheck40" onclick="checkOffObjective(40);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Asura<br></span>
-							<span id="objective41"><img id="objectiveCheck41" onclick="checkOffObjective(41);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Leviatan<br></span>
-							<span id="objective42"><img id="objectiveCheck42" onclick="checkOffObjective(42);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Odin<br></span>
-							<span id="objective43"><img id="objectiveCheck43" onclick="checkOffObjective(43);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Bahamut<br></span>
-							<span id="objective44"><img id="objectiveCheck44" onclick="checkOffObjective(44);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Elements<br></span>
-							<span id="objective45"><img id="objectiveCheck45" onclick="checkOffObjective(45);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat CPU<br></span>
-							<span id="objective46"><img id="objectiveCheck46" onclick="checkOffObjective(46);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Pale Dim<br></span>
-							<span id="objective47"><img id="objectiveCheck47" onclick="checkOffObjective(47);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Wyvern<br></span>
-							<span id="objective48"><img id="objectiveCheck48" onclick="checkOffObjective(48);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Plague<br></span>
-							<span id="objective49"><img id="objectiveCheck49" onclick="checkOffObjective(49);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the D.Lunars<br></span>
-							<span id="objective50"><img id="objectiveCheck50" onclick="checkOffObjective(50);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Ogopogo<br></span>
-							<span id="objective51"><img id="objectiveCheck51" onclick="checkOffObjective(51);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the boss of the Mist Cave<br></span>
-							<span id="objective52"><img id="objectiveCheck52" onclick="checkOffObjective(52);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the boss of the Waterfall<br></span>
-							<span id="objective53"><img id="objectiveCheck53" onclick="checkOffObjective(53);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Antlion Nest<br></span>
-							<span id="objective54"><img id="objectiveCheck54" onclick="checkOffObjective(54);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Rescue the hostage on Mt. Hobs<br></span>
-							<span id="objective55"><img id="objectiveCheck55" onclick="checkOffObjective(55);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defend Fabul<br></span>
-							<span id="objective56"><img id="objectiveCheck56" onclick="checkOffObjective(56);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete Mt. Ordeals<br></span>
-							<span id="objective57"><img id="objectiveCheck57" onclick="checkOffObjective(57);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the bosses of Baron Inn<br></span>
-							<span id="objective58"><img id="objectiveCheck58" onclick="checkOffObjective(58);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Liberate Baron Castle<br></span>
-							<span id="objective59"><img id="objectiveCheck59" onclick="checkOffObjective(59);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete Cave Magnes<br></span>
-							<span id="objective60"><img id="objectiveCheck60" onclick="checkOffObjective(60);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Tower of Zot<br></span>
-							<span id="objective61"><img id="objectiveCheck61" onclick="checkOffObjective(61);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the bosses of Dwarf Castle<br></span>
-							<span id="objective62"><img id="objectiveCheck62" onclick="checkOffObjective(62);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the boss of Lower Bab-il<br></span>
-							<span id="objective63"><img id="objectiveCheck63" onclick="checkOffObjective(63);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Launch the Falcon<br></span>
-							<span id="objective64"><img id="objectiveCheck64" onclick="checkOffObjective(64);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Sealed Cave<br></span>
-							<span id="objective65"><img id="objectiveCheck65" onclick="checkOffObjective(65);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the queen at the Town of Monsters<br></span>
-							<span id="objective66"><img id="objectiveCheck66" onclick="checkOffObjective(66);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the king at the Town of Monsters<br></span>
-							<span id="objective67"><img id="objectiveCheck67" onclick="checkOffObjective(67);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Baron Castle basement throne<br></span>
-							<span id="objective68"><img id="objectiveCheck68" onclick="checkOffObjective(68);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Giant of Bab-il<br></span>
-							<span id="objective69"><img id="objectiveCheck69" onclick="checkOffObjective(69);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete Cave Bahamut<br></span>
-							<span id="objective70"><img id="objectiveCheck70" onclick="checkOffObjective(70);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Murasame altar<br></span>
-							<span id="objective71"><img id="objectiveCheck71" onclick="checkOffObjective(71);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Crystal Sword altar<br></span>
-							<span id="objective72"><img id="objectiveCheck72" onclick="checkOffObjective(72);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla White Spear altar<br></span>
-							<span id="objective73"><img id="objectiveCheck73" onclick="checkOffObjective(73);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Ribbon room<br></span>
-							<span id="objective74"><img id="objectiveCheck74" onclick="checkOffObjective(74);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Masamune altar<br></span>
-							<span id="objective75"><img id="objectiveCheck75" onclick="checkOffObjective(75);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Burn village Mist with the Package<br></span>
-							<span id="objective76"><img id="objectiveCheck76" onclick="checkOffObjective(76);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Cure the fever with the SandRuby<br></span>
-							<span id="objective77"><img id="objectiveCheck77" onclick="checkOffObjective(77);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Unlock the sewer with the Baron Key<br></span>
-							<span id="objective78"><img id="objectiveCheck78" onclick="checkOffObjective(78);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Break the Dark Elf's spell with the TwinHarp<br></span>
-							<span id="objective79"><img id="objectiveCheck79" onclick="checkOffObjective(79);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Open the Toroia treasury with the Earth Crystal<br></span>
-							<span id="objective80"><img id="objectiveCheck80" onclick="checkOffObjective(80);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Drop the Magma Key into the Agart well<br></span>
-							<span id="objective81"><img id="objectiveCheck81" onclick="checkOffObjective(81);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Destroy the Super Cannon<br></span>
-							<span id="objective82"><img id="objectiveCheck82" onclick="checkOffObjective(82);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Unlock the Sealed Cave<br></span>
-							<span id="objective83"><img id="objectiveCheck83" onclick="checkOffObjective(83);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Raise the Big Whale<br></span>
-							<span id="objective84"><img id="objectiveCheck84" onclick="checkOffObjective(84);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Trade away the Rat Tail<br></span>
-							<span id="objective85"><img id="objectiveCheck85" onclick="checkOffObjective(85);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Have Kokkol forge Legend Sword with Adamant<br></span>
-							<span id="objective86"><img id="objectiveCheck86" onclick="checkOffObjective(86);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Wake Yang with the Pan<br></span>
-							<span id="objective87"><img id="objectiveCheck87" onclick="checkOffObjective(87);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Return the Pan to Yang's wife<br></span>
-							<span id="objective88"><img id="objectiveCheck88" onclick="checkOffObjective(88);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Trade away the Pink Tail<br></span>
-							<span id="objective89"><img id="objectiveCheck89" onclick="checkOffObjective(89);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Unlock the Pass door in Toroia<br></span>
-							<span id="objective90"><img id="objectiveCheck90" onclick="checkOffObjective(90);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective1" onclick="ChangeObjective(1);" style="cursor: pointer">[Set Random Objective 1]</span><br></span>
-							<span id="objective91"><img id="objectiveCheck91" onclick="checkOffObjective(91);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective2" onclick="ChangeObjective(2);" style="cursor: pointer">[Set Random Objective 2]</span><br></span>
-							<span id="objective92"><img id="objectiveCheck92" onclick="checkOffObjective(92);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective3" onclick="ChangeObjective(3);" style="cursor: pointer">[Set Random Objective 3]</span><br></span>
-							<span id="objective93"><img id="objectiveCheck93" onclick="checkOffObjective(93);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective4" onclick="ChangeObjective(4);" style="cursor: pointer">[Set Random Objective 4]</span><br></span>
-							<span id="objective94"><img id="objectiveCheck94" onclick="checkOffObjective(94);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective5" onclick="ChangeObjective(5);" style="cursor: pointer">[Set Random Objective 5]</span><br></span>
-							<span id="objective95"><img id="objectiveCheck95" onclick="checkOffObjective(95);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective6" onclick="ChangeObjective(6);" style="cursor: pointer">[Set Random Objective 6]</span><br></span>
-							<span id="objective96"><img id="objectiveCheck96" onclick="checkOffObjective(96);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective7" onclick="ChangeObjective(7);" style="cursor: pointer">[Set Random Objective 7]</span><br></span>
-							<span id="objective97"><img id="objectiveCheck97" onclick="checkOffObjective(97);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective8" onclick="ChangeObjective(8);" style="cursor: pointer">[Set Random Objective 8]</span><br></span>
-						</div>
-					</div>
-				</div>
-				<div class="trackingTableText" id="trackingtable">
-					<div id="keyitemsdiv" style="float: left; height: 440px; width: 140px; overflow-x: auto;">
-						<div style="margin-bottom: 10px;"><u class="trackingTableHeader">Locations</u><br></div>
-						<div id="keyitemlocation0" onclick="SwapKeyItemLocation(0);" class="clickablediv trackingTableOverworld">Adamant Cave<br></div>
-						<div id="keyitemlocation1" onclick="SwapKeyItemLocation(1);" class="clickablediv trackingTableOverworld">Antlion Cave<br></div>
-						<div id="keyitemlocation2" onclick="SwapKeyItemLocation(2);" class="clickablediv trackingTableOverworld">Baron Castle [King]<br></div>
-						<div id="keyitemlocation3" onclick="SwapKeyItemLocation(3);" class="clickablediv trackingTableOverworld">Baron Castle [Odin]<br></div>
-						<div id="keyitemlocation4" onclick="SwapKeyItemLocation(4);" class="clickablediv trackingTableOverworld">Town of Baron<br></div>
-						<div id="keyitemlocation5" onclick="SwapKeyItemLocation(5);" class="clickablediv trackingTableOverworld">Fabul [Defend]<br></div>
-						<div id="keyitemlocation8" onclick="SwapKeyItemLocation(8);" class="clickablediv trackingTableOverworld">Magnes Cave<br></div>
-						<div id="keyitemlocation9" onclick="SwapKeyItemLocation(9);" class="clickablediv trackingTableOverworld">Mist Village<br></div>
-						<div id="keyitemlocation10" onclick="SwapKeyItemLocation(10);" class="clickablediv trackingTableOverworld">Mt Ordeals<br></div>
-						<!-- These are out of order since IDs were assigned before typos in Toroia's name were fixed. -->
-						<div id="keyitemlocation12" onclick="SwapKeyItemLocation(12);" class="clickablediv trackingTableOverworld">Toroia Castle<br></div>
-						<div id="keyitemlocation11" onclick="SwapKeyItemLocation(11);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
-						<div id="keyitemlocation27" onclick="SwapKeyItemLocation(27);" class="clickablediv trackingTableOverUnder">Clear Hook Route<br></div>
-						<div id="keyitemlocation13" onclick="SwapKeyItemLocation(13);" class="clickablediv trackingTableUnderworld">Dwarf Castle<br></div>
-						<div id="keyitemlocation28" onclick="WarpGlitch();" class="clickablediv trackingTableUnderworld">Warp Glitch? [Yes] <span onclick="ClearWarpGlitch(); return false;">[No]</span><br></div>
-						<div id="keyitemlocation6" onclick="SwapKeyItemLocation(6);" class="clickablediv trackingTableUnderworld">Fabul [Sheila/Sylph]<br></div>
-						<div id="keyitemlocation7" onclick="SwapKeyItemLocation(7);" class="clickablediv trackingTableUnderworld">Fabul [Sheila/Pan]<br></div>
-						<div id="keyitemlocation14" onclick="SwapKeyItemLocation(14);" class="clickablediv trackingTableUnderworld">Feymarch [Chest]<br></div>
-						<div id="keyitemlocation15" onclick="SwapKeyItemLocation(15);" class="clickablediv trackingTableUnderworld">Feymarch [Asura]<br></div>
-						<div id="keyitemlocation16" onclick="SwapKeyItemLocation(16);" class="clickablediv trackingTableUnderworld">Feymarch [Leviathan]<br></div>
-						<div id="keyitemlocation17" onclick="SwapKeyItemLocation(17);" class="clickablediv trackingTableUnderworld">Lower Babil [Boss]<br></div>
-						<div id="keyitemlocation18" onclick="SwapKeyItemLocation(18);" class="clickablediv trackingTableUnderworld">Lower Babil [Cannon]<br></div>
-						<div id="keyitemlocation19" onclick="SwapKeyItemLocation(19);" class="clickablediv trackingTableUnderworld">Sealed Cave<br></div>
-						<div id="keyitemlocation20" onclick="SwapKeyItemLocation(20);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
-						<div id="keyitemlocation21" onclick="SwapKeyItemLocation(21);" class="clickablediv trackingTableMoon">Bahamut<br></div>
-						<div id="keyitemlocation22" onclick="SwapKeyItemLocation(22);" class="clickablediv trackingTableMoon">Lunar [Crystal]<br></div>
-						<div id="keyitemlocation23" onclick="SwapKeyItemLocation(23);" class="clickablediv trackingTableMoon">Lunar [Masamune]<br></div>
-						<div id="keyitemlocation24" onclick="SwapKeyItemLocation(24);" class="clickablediv trackingTableMoon">Lunar [Murasame]<br></div>
-						<div id="keyitemlocation25" onclick="SwapKeyItemLocation(25);" class="clickablediv trackingTableMoon">Lunar [Ribbon]<br></div>
-						<div id="keyitemlocation26" onclick="SwapKeyItemLocation(26);" class="clickablediv trackingTableMoon">Lunar [White]<br></div>
-						<div id="keyitemlocationviewchecked" onclick="ViewCheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
-						<div id="keyitemlocationviewunchecked" onclick="ViewUncheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
-					</div>
-					<div id="charactersdiv" style="float: left; height: 400px; width: 120px;">
-						<div style="margin-bottom: 10px;"><u class="trackingTableHeader">Characters</u><br></div>
-						<div id="characterlocation0" onclick="SwapCharacterLocation(0);" class="clickablediv trackingTableOverworld">Baron Castle<br></div>
-						<div id="characterlocation1" onclick="SwapCharacterLocation(1);" class="clickablediv trackingTableOverworld">Town of Baron<br></div>
-						<div id="characterlocation2" onclick="SwapCharacterLocation(2);" class="clickablediv trackingTableOverworld">Damcyan<br></div>
-						<div id="characterlocation3" onclick="SwapCharacterLocation(3);" class="clickablediv trackingTableOverworld">Eblan Cave<br></div>
-						<div id="characterlocation4" onclick="SwapCharacterLocation(4);" class="clickablediv trackingTableOverworld">Giant of Babil<br></div>
-						<div id="characterlocation5" onclick="SwapCharacterLocation(5);" class="clickablediv trackingTableOverworld">Kaipo<br></div>
-						<div id="characterlocation6" onclick="SwapCharacterLocation(6);" class="clickablediv trackingTableOverworld">Mist Village<br></div>
-						<div id="characterlocation7" onclick="SwapCharacterLocation(7);" class="clickablediv trackingTableOverworld">Mt Hobbs<br></div>
-						<div id="characterlocation8" onclick="SwapCharacterLocation(8);" class="clickablediv trackingTableOverworld">Mt Ordeals<br></div>
-						<div id="characterlocation9" onclick="SwapCharacterLocation(9);" class="clickablediv trackingTableOverworld">Mysidia<br></div>
-						<div id="characterlocation10" onclick="SwapCharacterLocation(10);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
-						<div id="characterlocation11" onclick="SwapCharacterLocation(11);" class="clickablediv trackingTableOverworld">Waterway<br></div>
-						<div id="characterlocation12" onclick="SwapCharacterLocation(12);" class="clickablediv trackingTableUnderworld">Dwarf Castle<br></div>
-						<div id="characterlocation13" onclick="SwapCharacterLocation(13);" class="clickablediv trackingTableMoon">Lunar Sub.<br></div>
-						<div id="characterlocationviewchecked" onclick="ViewCheckedCharacters();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
-						<div id="characterlocationviewunchecked" onclick="ViewUncheckedCharacters();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
-					</div>
-					<div id="townsdiv" style="float: left; height: 400px; width: 120px;">
-						<div style="margin-bottom: 10px;"><u class="trackingTableHeader">Towns/Shops</u><br></div>
-						<div id="townlocation0" onclick="LoadItems(0);" class="clickablediv">Agart<br></div>
-						<div id="townlocation1" onclick="LoadItems(1);" class="clickablediv">Town of Baron<br></div>
-						<div id="townlocation2" onclick="LoadItems(2);" class="clickablediv">Eblan Cave<br></div>
-						<div id="townlocation3" onclick="LoadItems(3);" class="clickablediv">Fabul<br></div>
-						<div id="townlocation4" onclick="LoadItems(4);" class="clickablediv">Kaipo<br></div>
-						<div id="townlocation5" onclick="LoadItems(5);" class="clickablediv">Mysidia<br></div>
-						<div id="townlocation6" onclick="LoadItems(6);" class="clickablediv">Silvera<br></div>
-						<div id="townlocation7" onclick="LoadItems(7);" class="clickablediv">Toroia [Item]<br></div>
-						<div id="townlocation8" onclick="LoadItems(8);" class="clickablediv">Toroia [Pub]<br></div>
-						<div id="townlocation9" onclick="LoadItems(9);" class="clickablediv">Dwarf Castle<br></div>
-						<div id="townlocation10" onclick="LoadItems(10);" class="clickablediv">Feymarch<br></div>
-						<div id="townlocation11" onclick="LoadItems(11);" class="clickablediv">Tomra<br></div>
-						<div id="townlocation12" onclick="LoadItems(12);" class="clickablediv">Hummingway<br></div>
-						<div id="townlocationviewchecked" onclick="ViewCheckedTowns();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
-						<div id="townlocationviewunchecked" onclick="ViewUncheckedTowns();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
-						<div id="trappedlocationviewtown" onclick="ViewTown();" class="clickablediv" style="height: 32px;"><br>= Item Summary =<br></div>
-						<div id="showFlagsButton" onclick="OpenFlags();" class="clickablediv" style="height: 32px;"><br>= Show Flags =<br></div>
-					</div>
-					<div id="trappedchestsdiv" style="float: left; height: 400px; width: 120px;">
-						<div style="margin-bottom: 10px;"><u class="trackingTableHeader">Trapped Chests</u><br></div>
-						<div id="trappedlocation0" onclick="SwapTrappedLocation(0);" class="clickablediv trackingTableOverworld">Castle Eblan<br></div>
-						<div id="trappedlocation1" onclick="SwapTrappedLocation(1);" class="clickablediv trackingTableOverworld">Eblan Cave<br></div>
-						<div id="trappedlocation2" onclick="SwapTrappedLocation(2);" class="clickablediv trackingTableOverworld">Giant of Babil<br></div>
-						<div id="trappedlocation3" onclick="SwapTrappedLocation(3);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
-						<div id="trappedlocation4" onclick="SwapTrappedLocation(4);" class="clickablediv trackingTableOverworld">Upper Babil<br></div>
-						<div id="trappedlocation5" onclick="SwapTrappedLocation(5);" class="clickablediv trackingTableUnderworld">Feymarch<br></div>
-						<div id="trappedlocation6" onclick="SwapTrappedLocation(6);" class="clickablediv trackingTableUnderworld">Lower Babil<br></div>
-						<div id="trappedlocation7" onclick="SwapTrappedLocation(7);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
-						<div id="trappedlocation8" onclick="SwapTrappedLocation(8);" class="clickablediv trackingTableMoon">Lunar Path<br></div>
-						<div id="trappedlocation9" onclick="SwapTrappedLocation(9);" class="clickablediv trackingTableMoon">Lunar Sub.<br></div>
-						<div id="trappedlocationviewchecked" onclick="ViewCheckedTrapped();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
-						<div id="trappedlocationviewunchecked" onclick="ViewUncheckedTrapped();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
-					</div>				
-				</div>			
-			</div>
-			<div id="timerContainer">
-				<div id="timerDiv">
-					00:00:00
-				</div>
-				<div class="timerButtons">
-					<button id="startButton" onclick="StartTimer()">Start</button>
-					<button id="pauseButton" onclick="PauseTimer()">Pause</button>
-					<button id="resetButton" onclick="ResetTimer()">Reset</button>
-				</div>
-				<button id="copyToClipboardButton" onclick="CopyTimerToClipboard()">Copy time to clipboard</button>
-			</div>
-		</div>
+    <head>
+        <title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
+        <link rel="stylesheet" href="./styles/stylesheet.css?v=211">
+        <script src="./scripts/enums.js?v=211"></script>
+        <script src="./scripts/items.js?v=211"></script>
+        <script src="./scripts/track.js?v=211"></script>
+        <script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
+        <link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
+        <script type="text/javascript">
+            $(document).ready(function() {
+                SetModes();
+                ApplyChecks();
+            });
+        </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
+        <script>
+            $(function() {
+                $('.south').powerTip({
+                    placement: 's',
+                    intentPollInterval: 350
+                });
+                $('.north').powerTip({
+                    placement: 'n',
+                    intentPollInterval: 350
+                });
+            });
+            window.dataLayer = window.dataLayer || [];
 
-		<div class="modal fade" id="itemModal" aria-hidden="true" onclick="CloseItems();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="itemModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; padding: 10px;">
-				<table width="400px" style="font-size: 15px;">
-					<tr>
-						<td colspan="2">
-							<span onclick="CloseItems();" class="clickablediv" style="float: left;" >[X] Close</span>
-						</td>
-						<td colspan="2">
-							<span style="float: right;" onclick="CheckItemSpan(0);" class="clickablediv" id="itemspan0">No Items - [Will clear list and close]</span><br>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<hr>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<u>Restore Items</u>
-						</td>
-					</tr>
-					<tr>
-						<td id="lifetd">
-							<span onclick="CheckItemSpan(1);" class="clickablediv" id="itemspan1">Life</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(2);" class="clickablediv" id="itemspan2">Cure2</span> / <span onclick="CheckItemSpan(3);" class="clickablediv" id="itemspan3">Cure3</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(4);" class="clickablediv" id="itemspan4">Ether1</span> / <span onclick="CheckItemSpan(5);" class="clickablediv" id="itemspan5">Ether2</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(6);" class="clickablediv" id="itemspan6">Tent</span> / <span onclick="CheckItemSpan(7);" class="clickablediv" id="itemspan7">Cabin</span>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span onclick="CheckItemSpan(8);" class="clickablediv" id="itemspan8">Heal</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(9);" class="clickablediv" id="itemspan9">Unihorn</span>
-						</td>
-						<td></td>
-						<td>
-							<span onclick="CheckItemSpan(10);" class="clickablediv" id="itemspan10">Other - Restore</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<hr>
-						</td>
-					</tr>
-					<tr id="offensive1">
-						<td colspan="4">
-							<u>Offensive Items</u>
-						</td>
-					</tr>
-					<tr id="offensive2">
-						<td colspan="2">
-							<span onclick="CheckItemSpan(11);" class="clickablediv" id="itemspan11">Bomb</span> / <span onclick="CheckItemSpan(12);" class="clickablediv" id="itemspan12">Notus</span> / <span onclick="CheckItemSpan(13);" class="clickablediv" id="itemspan13">ThorRage</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(14);" class="clickablediv" id="itemspan14">Vampire</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(15);" class="clickablediv" id="itemspan15">Kamikaze</span>
-						</td>
-					</tr>
-					<tr id="offensive3">
-						<td colspan="4">
-							<hr>
-						</td>
-					</tr>
-					<tr id="utility1">
-						<td colspan="4">
-							<u>Utility Items</u>
-						</td>
-					</tr>
-					<tr id="utility2">
-						<td>
-							<span onclick="CheckItemSpan(16);" class="clickablediv" id="itemspan16">Coffin</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(17);" class="clickablediv" id="itemspan17">HrGlass (Any)</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(18);" class="clickablediv" id="itemspan18">MuteBell</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(19);" class="clickablediv" id="itemspan19">SilkWeb</span>
-						</td>
-					</tr>
-					<tr id="utility3">
-						<td>
-							<span onclick="CheckItemSpan(20);" class="clickablediv" id="itemspan20">Bacchus</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(21);" class="clickablediv" id="itemspan21">Illusion</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(22);" class="clickablediv" id="itemspan22">StarVeil</span> / <span onclick="CheckItemSpan(23);" class="clickablediv" id="itemspan23">MoonVeil</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(24);" class="clickablediv" id="itemspan24">Succubus</span>
-						</td>
-					</tr>
-					<tr id="utility4">
-						<td>
-							<span onclick="CheckItemSpan(25);" class="clickablediv" id="itemspan25">Exit</span>
-						</td>
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
 
-						<td id="sirentd">
-							<span onclick="CheckItemSpan(26);" class="clickablediv" id="itemspan26">Siren</span>
-						</td>
-						<td></td>
-						<td>
-							<span onclick="CheckItemSpan(27);" class="clickablediv" id="itemspan27">Other - Utility</span>
-						</td>
-					</tr>
-					<tr id="utility5">
-						<td colspan="4">
-							<hr>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<u>Misc Items</u>
-						</td>
-					</tr>
-					<tr id="misc1">
-						<td id="appletd">
-							<span onclick="CheckItemSpan(28);" class="clickablediv" id="itemspan28">AgApple</span> / <span onclick="CheckItemSpan(29);" class="clickablediv" id="itemspan29">AuApple</span>
-						</td>
-						<td id="somadroptd">
-							<span onclick="CheckItemSpan(30);" class="clickablediv" id="itemspan30">SomaDrop</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(31);" class="clickablediv" id="itemspan31">Other - Misc</span>
-						</td>
-					</tr>
-					<tr id="misc2">
-						<td>
-							<span onclick="CheckItemSpan(33);" class="clickablediv" id="itemspan33">Asura</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(34);" class="clickablediv" id="itemspan34">Baham</span> / <span onclick="CheckItemSpan(35);" class="clickablediv" id="itemspan35">Levia</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(36);" class="clickablediv" id="itemspan36">Odin</span>
-						</td>
-						<td>
-							<span onclick="CheckItemSpan(37);" class="clickablediv" id="itemspan37">Sylph</span>
-						</td>
-					</tr>
-					<tr>
-						<td id="notes1td">
-							Notes: 
-						</td>
-						<td id="notes2td" colspan="2">
-							<input id="townnotes" type="textbox" style="width: 200px" />
-						</td>
-						<td id="passtd" style="display: none;">
-							<span onclick="CheckItemSpan(32);" class="clickablediv" id="itemspan32">Pass</span>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		
-		<div class="modal fade" id="objectiveModal" aria-hidden="true" onclick="CloseObjectives();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow: scroll;">
-			<div id="objectiveModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 10px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow-y: auto;">
-				<span onclick="CloseObjectives();" class="clickablediv">[X] Close</span><br><br>
-				<div id="objectivesselectdiv" style="text-align: center">
-					<span id="objectivecategoryquestsspan" onclick="LoadObjectiveDetail(0);" class="clickablediv">Quests</span>
-					<span id="objectivecategorybossspan" onclick="LoadObjectiveDetail(1);" class="clickablediv" style="padding-left: 40px; padding-right: 40px;">Boss Hunts</span>
-					<span id="objectivecategorycharacterspan" onclick="LoadObjectiveDetail(2);" class="clickablediv">Character Hunts</span>
-				</div>
-				<div id="objectivedetaildiv" style="text-align: left; overflow: auto; height: 310px;">
-					<div id="objectivesquestsdiv" style="display: none;">
-						<span onclick="SetObjective(74);" class="clickablediv">Break the Dark Elfs spell with the TwinHarp</span><br>
-						<span onclick="SetObjective(71);" class="clickablediv">Burn village Mist with the Package</span><br>
-						<span onclick="SetObjective(65);" class="clickablediv">Complete Cave Bahamut</span><br>
-						<span onclick="SetObjective(55);" class="clickablediv">Complete Cave Magnes</span><br>
-						<span onclick="SetObjective(52);" class="clickablediv">Complete Mt. Ordeals</span><br>
-						<span onclick="SetObjective(49);" class="clickablediv">Complete the Antlion Nest</span><br>
-						<span onclick="SetObjective(64);" class="clickablediv">Complete the Giant of Bab-il</span><br>
-						<span onclick="SetObjective(60);" class="clickablediv">Complete the Sealed Cave</span><br>
-						<span onclick="SetObjective(56);" class="clickablediv">Complete the Tower of Zot</span><br>
-						<span onclick="SetObjective(67);" class="clickablediv">Conquer the vanilla Crystal Sword altar</span><br>
-						<span onclick="SetObjective(70);" class="clickablediv">Conquer the vanilla Masamune altar</span><br>
-						<span onclick="SetObjective(66);" class="clickablediv">Conquer the vanilla Murasame altar</span><br>
-						<span onclick="SetObjective(69);" class="clickablediv">Conquer the vanilla Ribbon room</span><br>
-						<span onclick="SetObjective(68);" class="clickablediv">Conquer the vanilla White Spear altar</span><br>
-						<span onclick="SetObjective(72);" class="clickablediv">Cure the fever with the SandRuby</span><br>
-						<span onclick="SetObjective(63);" class="clickablediv">Defeat the Baron Castle basement throne</span><br>
-						<span onclick="SetObjective(58);" class="clickablediv">Defeat the boss of Lower Bab-il</span><br>
-						<span onclick="SetObjective(47);" class="clickablediv">Defeat the boss of the Mist Cave</span><br>
-						<span onclick="SetObjective(48);" class="clickablediv">Defeat the boss of the Waterfall</span><br>
-						<span onclick="SetObjective(53);" class="clickablediv">Defeat the bosses of Baron Inn</span><br>
-						<span onclick="SetObjective(57);" class="clickablediv">Defeat the bosses of Dwarf Castle</span><br>
-						<span onclick="SetObjective(62);" class="clickablediv">Defeat the king at the Town of Monsters</span><br>
-						<span onclick="SetObjective(61);" class="clickablediv">Defeat the queen at the Town of Monsters</span><br>
-						<span onclick="SetObjective(51);" class="clickablediv">Defend Fabul</span><br>
-						<span onclick="SetObjective(77);" class="clickablediv">Destroy the Super Cannon</span><br>
-						<span onclick="SetObjective(76);" class="clickablediv">Drop the Magma Key into the Agart well</span><br>
-						<span onclick="SetObjective(81);" class="clickablediv">Have Kokkol forge Legend Sword with Adamant</span><br>
-						<span onclick="SetObjective(59);" class="clickablediv">Launch the Falcon</span><br>
-						<span onclick="SetObjective(54);" class="clickablediv">Liberate Baron Castle</span><br>
-						<span onclick="SetObjective(75);" class="clickablediv">Open the Toroia treasury with the Earth Crystal</span><br>
-						<span onclick="SetObjective(79);" class="clickablediv">Raise the Big Whale</span><br>
-						<span onclick="SetObjective(50);" class="clickablediv">Rescue the hostage on Mt. Hobs</span><br>
-						<span onclick="SetObjective(83);" class="clickablediv">Return the Pan to Yang's wife</span><br>
-						<span onclick="SetObjective(84);" class="clickablediv">Trade away the Pink Tail</span><br>
-						<span onclick="SetObjective(80);" class="clickablediv">Trade away the Rat Tail</span><br>
-						<span onclick="SetObjective(85);" class="clickablediv">Unlock the Pass door in Toroia</span><br>
-						<span onclick="SetObjective(78);" class="clickablediv">Unlock the Sealed Cave</span><br>
-						<span onclick="SetObjective(73);" class="clickablediv">Unlock the sewer with the Baron Key</span><br>
-						<span onclick="SetObjective(82);" class="clickablediv">Wake Yang with the Pan</span><br>
-					</div>
-					<div id="objectivesbossdiv" style="display: none; overflow: scroll;">
-						<span onclick="SetObjective(15);" class="clickablediv">Defeat Antlion</span><br>
-						<span onclick="SetObjective(36);" class="clickablediv">Defeat Asura</span><br>
-						<span onclick="SetObjective(39);" class="clickablediv">Defeat Bahamut</span><br>
-						<span onclick="SetObjective(24);" class="clickablediv">Defeat Baigan</span><br>
-						<span onclick="SetObjective(29);" class="clickablediv">Defeat Calbrena</span><br>
-						<span onclick="SetObjective(41);" class="clickablediv">Defeat CPU</span><br>
-						<span onclick="SetObjective(21);" class="clickablediv">Defeat D.Knight</span><br>
-						<span onclick="SetObjective(12);" class="clickablediv">Defeat D.Mist</span><br>
-						<span onclick="SetObjective(31);" class="clickablediv">Defeat Dr. Lugae</span><br>
-						<span onclick="SetObjective(40);" class="clickablediv">Defeat Elements</span><br>
-						<span onclick="SetObjective(35);" class="clickablediv">Defeat EvilWall</span><br>
-						<span onclick="SetObjective(30);" class="clickablediv">Defeat Golbez</span><br>
-						<span onclick="SetObjective(33);" class="clickablediv">Defeat K.Eblan and Q.Eblan</span><br>
-						<span onclick="SetObjective(25);" class="clickablediv">Defeat Kainazzo</span><br>
-						<span onclick="SetObjective(23);" class="clickablediv">Defeat Karate</span><br>
-						<span onclick="SetObjective(37);" class="clickablediv">Defeat Leviatan</span><br>
-						<span onclick="SetObjective(19);" class="clickablediv">Defeat Milon</span><br>
-						<span onclick="SetObjective(20);" class="clickablediv">Defeat Milon Z.</span><br>
-						<span onclick="SetObjective(17);" class="clickablediv">Defeat MomBomb</span><br>
-						<span onclick="SetObjective(14);" class="clickablediv">Defeat Octomamm</span><br>
-						<span onclick="SetObjective(38);" class="clickablediv">Defeat Odin</span><br>
-						<span onclick="SetObjective(13);" class="clickablediv">Defeat Officer</span><br>
-						<span onclick="SetObjective(46);" class="clickablediv">Defeat Ogopogo</span><br>
-						<span onclick="SetObjective(42);" class="clickablediv">Defeat Pale Dim</span><br>
-						<span onclick="SetObjective(44);" class="clickablediv">Defeat Plague</span><br>
-						<span onclick="SetObjective(34);" class="clickablediv">Defeat Rubicant</span><br>
-						<span onclick="SetObjective(45);" class="clickablediv">Defeat the D.Lunars</span><br>
-						<span onclick="SetObjective(26);" class="clickablediv">Defeat the Dark Elf (dragon form)</span><br>
-						<span onclick="SetObjective(32);" class="clickablediv">Defeat the Dark Imps (boss)</span><br>
-						<span onclick="SetObjective(18);" class="clickablediv">Defeat the Fabul Gauntlet</span><br>
-						<span onclick="SetObjective(22);" class="clickablediv">Defeat the Guards (boss)</span><br>
-						<span onclick="SetObjective(27);" class="clickablediv">Defeat the Magus Sisters</span><br>
-						<span onclick="SetObjective(28);" class="clickablediv">Defeat Valvalis</span><br>
-						<span onclick="SetObjective(16);" class="clickablediv">Defeat Waterhag (boss version)</span><br>
-						<span onclick="SetObjective(43);" class="clickablediv">Defeat Wyvern</span><br>
-					</div>
-					<div id="objectivescharacterdiv" style="display: none; overflow: scroll;">
-						<span onclick="SetObjective(0);" class="clickablediv">Get Cecil</span><br>
-						<span onclick="SetObjective(9);" class="clickablediv">Get Cid</span><br>
-						<span onclick="SetObjective(10);" class="clickablediv">Get Edge</span><br>
-						<span onclick="SetObjective(4);" class="clickablediv">Get Edward</span><br>
-						<span onclick="SetObjective(11);" class="clickablediv">Get FuSoYa</span><br>
-						<span onclick="SetObjective(1);" class="clickablediv">Get Kain</span><br>
-						<span onclick="SetObjective(7);" class="clickablediv">Get Palom</span><br>
-						<span onclick="SetObjective(8);" class="clickablediv">Get Porom</span><br>
-						<span onclick="SetObjective(5);" class="clickablediv">Get Rosa</span><br>
-						<span onclick="SetObjective(2);" class="clickablediv">Get Rydia</span><br>
-						<span onclick="SetObjective(3);" class="clickablediv">Get Tellah</span><br>
-						<span onclick="SetObjective(6);" class="clickablediv">Get Yang</span><br>				
-					</div>
-				</div>
-			</div>
-		</div>		
-		
-		<div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
-			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px;  width: 404px; border-radius: 5px; border:1px white solid; background-color: #333333d3; font-size: 18px; padding: 10px;">				
-				<div id="keyString"></div>
-			</div>
-		</div>
-		
-		<div class="modal fade" id="bossModal" aria-hidden="true" onclick="CloseBoss();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="bossModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
-				<span onclick="CloseBoss();" class="clickablediv">[X] Close</span><br><br>
-				<span id="bossmodal0" onclick="SwapBoss(0);" class="bossmodalspan clickablediv" >Mist Dragon</span>
-				<span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv" >Baron Soldiers</span>
-				<span id="bossmodal2" onclick="SwapBoss(2);" class="bossmodalspan clickablediv" >Octomamm</span><br>
-				<span id="bossmodal3" onclick="SwapBoss(3);" class="bossmodalspan clickablediv" >Antlion</span>
-				<span id="bossmodal4" onclick="SwapBoss(4);" class="bossmodalspan clickablediv" >Waterhag</span>
-				<span id="bossmodal5" onclick="SwapBoss(5);" class="bossmodalspan clickablediv" >Mom Bomb</span><br>
-				<span id="bossmodal6" onclick="SwapBoss(6);" class="bossmodalspan clickablediv" >Fabul Gauntlet</span>
-				<span id="bossmodal7" onclick="SwapBoss(7);" class="bossmodalspan clickablediv" >Milon</span>
-				<span id="bossmodal8" onclick="SwapBoss(8);" class="bossmodalspan clickablediv" >MilonZ</span><br>
-				<span id="bossmodal9" onclick="SwapBoss(9);" class="bossmodalspan clickablediv" >Dark Knight Cecil</span>
-				<span id="bossmodal10" onclick="SwapBoss(10);" class="bossmodalspan clickablediv" >Baron Guards</span>
-				<span id="bossmodal11" onclick="SwapBoss(11);" class="bossmodalspan clickablediv" >Yang</span><br>
-				<span id="bossmodal12" onclick="SwapBoss(12);" class="bossmodalspan clickablediv" >Baigan</span>
-				<span id="bossmodal13" onclick="SwapBoss(13);" class="bossmodalspan clickablediv" >Kainazzo</span>
-				<span id="bossmodal14" onclick="SwapBoss(14);" class="bossmodalspan clickablediv" >Dark Elf</span><br>
-				<span id="bossmodal15" onclick="SwapBoss(15);" class="bossmodalspan clickablediv" >Magus Sisters</span>
-				<span id="bossmodal16" onclick="SwapBoss(16);" class="bossmodalspan clickablediv" >Valvalis</span>
-				<span id="bossmodal17" onclick="SwapBoss(17);" class="bossmodalspan clickablediv" >Calcabrina</span><br>
-				<span id="bossmodal18" onclick="SwapBoss(18);" class="bossmodalspan clickablediv" >Golbez</span>
-				<span id="bossmodal19" onclick="SwapBoss(19);" class="bossmodalspan clickablediv" >Dr Lugae</span>
-				<span id="bossmodal20" onclick="SwapBoss(20);" class="bossmodalspan clickablediv" >Dark Imps</span><br>
-				<span id="bossmodal21" onclick="SwapBoss(21);" class="bossmodalspan clickablediv" >K & Q Eblan</span>
-				<span id="bossmodal22" onclick="SwapBoss(22);" class="bossmodalspan clickablediv" >Rubicant</span>
-				<span id="bossmodal23" onclick="SwapBoss(23);" class="bossmodalspan clickablediv" >Evil Wall</span><br>
-				<span id="bossmodal24" onclick="SwapBoss(24);" class="bossmodalspan clickablediv" >Elementals</span>
-				<span id="bossmodal25" onclick="SwapBoss(25);" class="bossmodalspan clickablediv" >CPU</span>
-				<span id="bossmodal26" onclick="SwapBoss(26);" class="bossmodalspan clickablediv" >Odin</span><br>
-				<span id="bossmodal27" onclick="SwapBoss(27);" class="bossmodalspan clickablediv" >Asura</span>
-				<span id="bossmodal28" onclick="SwapBoss(28);" class="bossmodalspan clickablediv" >Leviathan</span>
-				<span id="bossmodal29" onclick="SwapBoss(29);" class="bossmodalspan clickablediv" >Bahamut</span><br>
-				<span id="bossmodal30" onclick="SwapBoss(30);" class="bossmodalspan clickablediv" >Pale Dim</span>
-				<span id="bossmodal31" onclick="SwapBoss(31);" class="bossmodalspan clickablediv" >Lunar Dragons</span>
-				<span id="bossmodal32" onclick="SwapBoss(32);" class="bossmodalspan clickablediv" >Plague</span><br>
-				<span id="bossmodal33" onclick="SwapBoss(33);" class="bossmodalspan clickablediv" >Ogopogo</span>
-				<span id="bossmodal34" onclick="SwapBoss(34);" class="bossmodalspan clickablediv" >Wyvern</span>
-			</div>
-		</div>	
+            gtag('config', 'UA-121466364-1');
 
-		<div class="modal fade" id="townModal" aria-hidden="true" onclick="CloseTown();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="townModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow-x: hidden; overflow-y: auto;">
-				<span onclick="CloseTown();" class="clickablediv">[X] Close</span><br>
-				<span id="townlist1">Agart: </span><span id="townlistlocation1" style="color: #0F0;"></span><br>
-				<span id="townlist2">Town of Baron: </span><span id="townlistlocation2" style="color: #0F0;"></span><br>
-				<span id="townlist3">Eblan Cave: </span><span id="townlistlocation3" style="color: #0F0;"></span><br>
-				<span id="townlist4">Fabul: </span><span id="townlistlocation4" style="color: #0F0;"></span><br>
-				<span id="townlist5">Kaipo: </span><span id="townlistlocation5" style="color: #0F0;"></span><br>
-				<span id="townlist6">Mysidia: </span><span id="townlistlocation6" style="color: #0F0;"></span><br>
-				<span id="townlist7">Silvera: </span><span id="townlistlocation7" style="color: #0F0;"></span><br>
-				<span id="townlist8">Toroia [Item]: </span><span id="townlistlocation8" style="color: #0F0;"></span><br>
-				<span id="townlist9">Toroia [Pub]: </span><span id="townlistlocation9" style="color: #0F0;"></span><br>
-				<span id="townlist10">Dwarf Castle: </span><span id="townlistlocation10" style="color: #0F0;"></span><br>
-				<span id="townlist11">Feymarch: </span><span id="townlistlocation11" style="color: #0F0;"></span><br>
-				<span id="townlist12">Tomra: </span><span id="townlistlocation12" style="color: #0F0;"></span><br>
-				<span id="townlist13">Hummingway: </span><span id="townlistlocation13" style="color: #0F0;"></span><br>
-			</div>
-		</div>
+            // Protection from accidental reload.
+            //window.onbeforeunload = function() {
+            //return "Are you sure you want to leave this page? Data will be lost."
+            //}
+        </script>
+    </head>
 
-		<div class="modal fade" id="mysteryModal" aria-hidden="true" onclick="CloseMystery();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="mysteryModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 17px; padding: 10px;">
-				<span onclick="CloseMystery();" class="clickablediv">[X] Close and Save</span><br><br>
-				<u><b>OBJECTIVES</b></u><br>
-				Objective Condition: <select id="mystery_owin">
+    <div id="rootDiv">
+        <div id="wrapperdiv" style="width: 100%;">
+            <div id="leftdiv">
+                <div id="partydiv" class="characterdiv">
+                    <div class="categoryHeader">CURRENT PARTY</div>
+                    <div>
+                        <div id="heroHeaderDiv" class="heroHeader">HERO</div>
+                        <div id="party0" class="partyPortrait" onclick="SwapParty(0)"><span id="partyClear0" class="partyClear" onmouseleave="UnhighlightClear(0);" onmouseover="HighlightClear(0);" onclick="PartyClear(0);"><span class="partyClearInner">X</span></span>
+                        </div>
+                        <div id="party1" class="partyPortrait" onclick="SwapParty(1)"><span id="partyClear1" class="partyClear" onmouseleave="UnhighlightClear(1);" onmouseover="HighlightClear(1);" onclick="PartyClear(1);"><span class="partyClearInner">X</span></span>
+                        </div>
+                        <div id="party2" class="partyPortrait" onclick="SwapParty(2)"><span id="partyClear2" class="partyClear" onmouseleave="UnhighlightClear(2);" onmouseover="HighlightClear(2);" onclick="PartyClear(2);"><span class="partyClearInner">X</span></span>
+                        </div>
+                        <div id="party3" class="partyPortrait" onclick="SwapParty(3)"><span id="partyClear3" class="partyClear" onmouseleave="UnhighlightClear(3);" onmouseover="HighlightClear(3);" onclick="PartyClear(3);"><span class="partyClearInner">X</span></span>
+                        </div>
+                        <div id="party4" class="partyPortrait" onclick="SwapParty(4)"><span id="partyClear4" class="partyClear" onmouseleave="UnhighlightClear(4);" onmouseover="HighlightClear(4);" onclick="PartyClear(4);"><span class="partyClearInner">X</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="itemContainer">
+                    <div id="characterdiv" class="characterchoosediv" style="display: none;">
+                        <div class="categoryHeader">CHOOSE PARTY MEMBER</div>
+                        <div class="charactercolumn">
+                            <div id="character0" class="characterPortrait south" onclick="SwapCharacter(0)" style="background-image: url('images/character0_a.png')" title="Cecil">
+                                <img id="character0_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character4" class="characterPortrait south" onclick="SwapCharacter(4)" style="background-image: url('images/character4_a.png')" title="Edward">
+                                <img id="character4_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character8" class="characterPortrait south" onclick="SwapCharacter(8)" style="background-image: url('images/character8_a.png')" title="Porom">
+                                <img id="character8_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                        </div>
+                        <div class="charactercolumn">
+                            <div id="character1" class="characterPortrait south" onclick="SwapCharacter(1)" style="background-image: url('images/character1_a.png')" title="Kain">
+                                <img id="character1_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character5" class="characterPortrait south" onclick="SwapCharacter(5)" style="background-image: url('images/character5_a.png')" title="Rosa">
+                                <img id="character5_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character9" class="characterPortrait south" onclick="SwapCharacter(9)" style="background-image: url('images/character9_a.png')" title="Cid">
+                                <img id="character9_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                        </div>
+                        <div class="charactercolumn">
+                            <div id="character2" class="characterPortrait south" onclick="SwapCharacter(2)" style="background-image: url('images/character2_a.png')" title="Rydia">
+                                <img id="character2_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character6" class="characterPortrait south" onclick="SwapCharacter(6)" style="background-image: url('images/character6_a.png')" title="Yang">
+                                <img id="character6_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character10" class="characterPortrait south" onclick="SwapCharacter(10)" style="background-image: url('images/character10_a.png')" title="Edge">
+                                <img id="character10_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                        </div>
+                        <div class="charactercolumn">
+                            <div id="character3" class="characterPortrait south" onclick="SwapCharacter(3)" style="background-image: url('images/character3_a.png')" title="Tellah">
+                                <img id="character3_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character7" class="characterPortrait south" onclick="SwapCharacter(7)" style="background-image: url('images/character7_a.png')" title="Palom">
+                                <img id="character7_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                            <div id="character11" class="characterPortrait south" onclick="SwapCharacter(11)" style="background-image: url('images/character11_a.png')" title="FuSoYa">
+                                <img id="character11_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: not-allowed; opacity: 0;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="itemdiv" class="itemdiv">
+                        <div class="categoryHeader">KEY ITEMS</div>
+                        <div class="itemcolumn">
+                            <div id="item0" class="itemImage south" onclick="SwapItem(0)" style="background-image: url('images/item0.png')" title="Baron Key"></div>
+                            <div id="item4td">
+                                <div id="item4" class="itemImage south" onclick="SwapItem(4)" style="background-image: url('images/item4.png')" title="Darkness Crystal"></div>
+                            </div>
+                            <div id="item8" class="itemImage south" onclick="SwapItem(8)" style="background-image: url('images/item8.png')" title="Package"></div>
+                            <div id="item12td">
+                                <div id="item12" class="itemImage south" onclick="SwapItem(12)" style="background-image: url('images/item12.png')" title="Adamant"></div>
+                            </div>
+                            <div id="misttoggle" class="itemImage south" onclick="ToggleMist()" style="background-image: url('images/mistdragon_2.png')" title=""></div>
+                        </div>
+                        <div class="itemcolumn">
+                            <div id="item1" class="itemImage south" onclick="SwapItem(1)" style="background-image: url('images/item1.png')" title="Luca Key"></div>
+                            <div id="item5" class="itemImage south" onclick="SwapItem(5)" style="background-image: url('images/item5.png')" title="Earth Crystal"></div>
+                            <div id="item9" class="itemImage south" onclick="SwapItem(9)" style="background-image: url('images/item9.png')" title="Pan"></div>
+                            <div id="item13td">
+                                <div id="item13" class="itemImage south" onclick="SwapItem(13)" style="background-image: url('images/item13.png')" title="Legend Sword"></div>
+                            </div>
+                            <div id="item16td">
+                                <div id="item16" class="itemImage south" onclick="SwapItem(16)" style="background-image: url('images/item16.png')" title="Crystal"></div>
+                            </div>
+                        </div>
+                        <div class="itemcolumn">
+                            <div id="item2" class="itemImage south" onclick="SwapItem(2)" style="background-image: url('images/item2.png')" title="Magma Key"></div>
+                            <div id="item6" class="itemImage south" onclick="SwapItem(6)" style="background-image: url('images/item6.png')" title="Hook"></div>
+                            <div id="item10" class="itemImage south" onclick="SwapItem(10)" style="background-image: url('images/item10.png')" title="Sandruby"></div>
+                            <div id="item14" class="itemImage south" onclick="SwapItem(14)" style="background-image: url('images/item16.png')" title="Spoon"></div>
+                            <div id="item17td">
+                                <div id="item17" class="itemImage south" onclick="SwapItem(17)" style="background-image: url('images/item17.png')" title="Pass"></div>
+                            </div>
+                        </div>
+                        <div class="itemcolumn">
+                            <div id="item3" class="itemImage south" onclick="SwapItem(3)" style="background-image: url('images/item3.png')" title="Tower Key"></div>
+                            <div id="item7" class="itemImage south" onclick="SwapItem(7)" style="background-image: url('images/item7.png')" title="Twinharp"></div>
+                            <div id="item11" class="itemImage south" onclick="SwapItem(11)" style="background-image: url('images/item11.png')" title="Rat Tail"></div>
+                            <div id="item15" class="itemImage south" onclick="SwapItem(15)" style="background-image: url('images/item15.png')" title="Pink Tail"></div>
+                            <div id="itemtracker" style="font-size: 20px; cursor: auto; padding-top: 8px; text-align: center;">0/17</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="objectivediv" class="objectivediv">
+                    <div id="changemysteryflagsdiv" class="mysteryFlags" onclick="ViewMystery();">== CHANGE MYSTERY FLAGS ==</div>
+                    <div class="categoryHeader"><span>OBJECTIVES [<span id="objectivesVictory"></span>: <span id="objectivesRequiredCount"></span>]</span>
+                    </div>
+                    <div id="objectivelistdiv" style="overflow: auto;">
+                        <span id="objectivedm"><img id="objectiveCheckdm" style="width: 16px;">&nbsp;&nbsp;Collect Dark Matter&nbsp;&nbsp;<img id="dkmatterUpArrow"onclick="DMTicker(1);" src="images/uparrow.png" style="width: 16px;">&nbsp;<span id="dmcountspan">0</span>&nbsp;
+                        <img id="dkmatterDownArrow" onclick="DMTicker(-1);" src="images/downarrow.png" style="width: 16px;"><br></span>
+                        <span id="objective0"><img id="objectiveCheck0" onclick="checkOffObjective(0);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Classic Forge the Crystal<div id="objectivetimeStampe0"></div></span>
+                        <span id="objective1"><img id="objectiveCheck1" onclick="checkOffObjective(1);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Classic Giant<div id="objectivetimeStamp1"></div></span>
+                        <span id="objective2"><img id="objectiveCheck2" onclick="checkOffObjective(2);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Fiends <div id="objectivetimeStamp2"></div></span>
+                        <span id="objective3"><img id="objectiveCheck3" onclick="checkOffObjective(3);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Dark Matter Hunt<div id="objectivetimeStamp3"></div></span>
+                        <span id="objective4"><img id="objectiveCheck4" onclick="checkOffObjective(4);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Cecil<div id="objectivetimeStamp4"></div></span>
+                        <span id="objective5"><img id="objectiveCheck5" onclick="checkOffObjective(5);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Kain<div id="objectivetimeStamp5"></div></span>
+                        <span id="objective6"><img id="objectiveCheck6" onclick="checkOffObjective(6);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Rydia<div id="objectivetimeStamp6"></div></span>
+                        <span id="objective7"><img id="objectiveCheck7" onclick="checkOffObjective(7);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Tellah<div id="objectivetimeStamp7"></div></span>
+                        <span id="objective8"><img id="objectiveCheck8" onclick="checkOffObjective(8);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Edward<div id="objectivetimeStamp8"></div></span>
+                        <span id="objective9"><img id="objectiveCheck9" onclick="checkOffObjective(9);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Rosa<div id="objectivetimeStamp9"></div></span>
+                        <span id="objective10"><img id="objectiveCheck10" onclick="checkOffObjective(10);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Yang<div id="objectivetimeStamp10"></div></span>
+                        <span id="objective11"><img id="objectiveCheck11" onclick="checkOffObjective(11);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Palom<div id="objectivetimeStamp11"></div></span>
+                        <span id="objective12"><img id="objectiveCheck12" onclick="checkOffObjective(12);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Porom<div id="objectivetimeStamp12"></div></span>
+                        <span id="objective13"><img id="objectiveCheck13" onclick="checkOffObjective(13);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Cid<div id="objectivetimeStamp13"></div></span>
+                        <span id="objective14"><img id="objectiveCheck14" onclick="checkOffObjective(14);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get Edge<div id="objectivetimeStamp14"></div></span>
+                        <span id="objective15"><img id="objectiveCheck15" onclick="checkOffObjective(15);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Get FuSoYa<div id="objectivetimeStamp15"></div></span>
+                        <span id="objective16"><img id="objectiveCheck16" onclick="checkOffObjective(16);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat D.Mist<div id="objectivetimeStamp16"></div></span>
+                        <span id="objective17"><img id="objectiveCheck17" onclick="checkOffObjective(17);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Officer<div id="objectivetimeStamp17"></div></span>
+                        <span id="objective18"><img id="objectiveCheck18" onclick="checkOffObjective(18);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Octomamm<div id="objectivetimeStamp18"></div></span>
+                        <span id="objective19"><img id="objectiveCheck19" onclick="checkOffObjective(19);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Antlion<div id="objectivetimeStamp19"></div></span>
+                        <span id="objective20"><img id="objectiveCheck20" onclick="checkOffObjective(20);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Waterhag (boss version)<div id="objectivetimeStamp20"></div></span>
+                        <span id="objective21"><img id="objectiveCheck21" onclick="checkOffObjective(21);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat MomBomb<div id="objectivetimeStamp21"></div></span>
+                        <span id="objective22"><img id="objectiveCheck22" onclick="checkOffObjective(22);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Fabul Gauntlet<div id="objectivetimeStamp22"></div></span>
+                        <span id="objective23"><img id="objectiveCheck23" onclick="checkOffObjective(23);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Milon<div id="objectivetimeStamp23"></div></span>
+                        <span id="objective24"><img id="objectiveCheck24" onclick="checkOffObjective(24);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Milon Z.<div id="objectivetimeStamp24"></div></span>
+                        <span id="objective25"><img id="objectiveCheck25" onclick="checkOffObjective(25);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat D.Knight<div id="objectivetimeStamp25"></div></span>
+                        <span id="objective26"><img id="objectiveCheck26" onclick="checkOffObjective(26);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Guards (boss)<div id="objectivetimeStamp26"></div></span>
+                        <span id="objective27"><img id="objectiveCheck27" onclick="checkOffObjective(27);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Karate<div id="objectivetimeStamp27"></div></span>
+                        <span id="objective28"><img id="objectiveCheck28" onclick="checkOffObjective(28);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Baigan<div id="objectivetimeStamp28"></div></span>
+                        <span id="objective29"><img id="objectiveCheck29" onclick="checkOffObjective(29);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Kainazzo<div id="objectivetimeStamp29"></div></span>
+                        <span id="objective30"><img id="objectiveCheck30" onclick="checkOffObjective(30);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Dark Elf (dragon form)<div id="objectivetimeStamp30"></div></span>
+                        <span id="objective31"><img id="objectiveCheck31" onclick="checkOffObjective(31);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Magus Sisters<div id="objectivetimeStamp31"></div></span>
+                        <span id="objective32"><img id="objectiveCheck32" onclick="checkOffObjective(32);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Valvalis<div id="objectivetimeStamp32"></div></span>
+                        <span id="objective33"><img id="objectiveCheck33" onclick="checkOffObjective(33);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Calbrena<div id="objectivetimeStamp33"></div></span>
+                        <span id="objective34"><img id="objectiveCheck34" onclick="checkOffObjective(34);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Golbez<div id="objectivetimeStamp34"></div></span>
+                        <span id="objective35"><img id="objectiveCheck35" onclick="checkOffObjective(35);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Dr. Lugae<div id="objectivetimeStamp35"></div></span>
+                        <span id="objective36"><img id="objectiveCheck36" onclick="checkOffObjective(36);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Dark Imps (boss)<div id="objectivetimeStamp36"></div></span>
+                        <span id="objective37"><img id="objectiveCheck37" onclick="checkOffObjective(37);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat K.Eblan and Q.Eblan<div id="objectivetimeStamp37"></div></span>
+                        <span id="objective38"><img id="objectiveCheck38" onclick="checkOffObjective(38);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Rubicant<div id="objectivetimeStamp38"></div></span>
+                        <span id="objective39"><img id="objectiveCheck39" onclick="checkOffObjective(39);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat EvilWall<div id="objectivetimeStamp39"></div></span>
+                        <span id="objective40"><img id="objectiveCheck40" onclick="checkOffObjective(40);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Asura<div id="objectivetimeStamp40"></div></span>
+                        <span id="objective41"><img id="objectiveCheck41" onclick="checkOffObjective(41);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Leviatan<div id="objectivetimeStamp41"></div></span>
+                        <span id="objective42"><img id="objectiveCheck42" onclick="checkOffObjective(42);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Odin<div id="objectivetimeStamp42"></div></span>
+                        <span id="objective43"><img id="objectiveCheck43" onclick="checkOffObjective(43);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Bahamut<div id="objectivetimeStamp43"></div></span>
+                        <span id="objective44"><img id="objectiveCheck44" onclick="checkOffObjective(44);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Elements<div id="objectivetimeStamp44"></div></span>
+                        <span id="objective45"><img id="objectiveCheck45" onclick="checkOffObjective(45);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat CPU<div id="objectivetimeStamp45"></div></span>
+                        <span id="objective46"><img id="objectiveCheck46" onclick="checkOffObjective(46);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Pale Dim<div id="objectivetimeStamp46"></div></span>
+                        <span id="objective47"><img id="objectiveCheck47" onclick="checkOffObjective(47);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Wyvern<div id="objectivetimeStamp47"></div></span>
+                        <span id="objective48"><img id="objectiveCheck48" onclick="checkOffObjective(48);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Plague<div id="objectivetimeStamp48"></div></span>
+                        <span id="objective49"><img id="objectiveCheck49" onclick="checkOffObjective(49);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the D.Lunars<div id="objectivetimeStamp49"></div></span>
+                        <span id="objective50"><img id="objectiveCheck50" onclick="checkOffObjective(50);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat Ogopogo<div id="objectivetimeStamp50"></div></span>
+                        <span id="objective51"><img id="objectiveCheck51" onclick="checkOffObjective(51);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the boss of the Mist Cave<div id="objectivetimeStamp51"></div></span>
+                        <span id="objective52"><img id="objectiveCheck52" onclick="checkOffObjective(52);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the boss of the Waterfall<div id="objectivetimeStamp52"></div></span>
+                        <span id="objective53"><img id="objectiveCheck53" onclick="checkOffObjective(53);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Antlion Nest<div id="objectivetimeStamp53"></div></span>
+                        <span id="objective54"><img id="objectiveCheck54" onclick="checkOffObjective(54);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Rescue the hostage on Mt. Hobs<div id="objectivetimeStamp54"></div></span>
+                        <span id="objective55"><img id="objectiveCheck55" onclick="checkOffObjective(55);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defend Fabul<div id="objectivetimeStamp55"></div></span>
+                        <span id="objective56"><img id="objectiveCheck56" onclick="checkOffObjective(56);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete Mt. Ordeals<div id="objectivetimeStamp56"></div></span>
+                        <span id="objective57"><img id="objectiveCheck57" onclick="checkOffObjective(57);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the bosses of Baron Inn<div id="objectivetimeStamp57"></div></span>
+                        <span id="objective58"><img id="objectiveCheck58" onclick="checkOffObjective(58);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Liberate Baron Castle<div id="objectivetimeStamp58"></div></span>
+                        <span id="objective59"><img id="objectiveCheck59" onclick="checkOffObjective(59);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete Cave Magnes<div id="objectivetimeStamp59"></div></span>
+                        <span id="objective60"><img id="objectiveCheck60" onclick="checkOffObjective(60);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Tower of Zot<div id="objectivetimeStamp60"></div></span>
+                        <span id="objective61"><img id="objectiveCheck61" onclick="checkOffObjective(61);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the bosses of Dwarf Castle<div id="objectivetimeStamp61"></div></span>
+                        <span id="objective62"><img id="objectiveCheck62" onclick="checkOffObjective(62);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the boss of Lower Bab-il<div id="objectivetimeStamp62"></div></span>
+                        <span id="objective63"><img id="objectiveCheck63" onclick="checkOffObjective(63);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Launch the Falcon<div id="objectivetimeStamp63"></div></span>
+                        <span id="objective64"><img id="objectiveCheck64" onclick="checkOffObjective(64);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Sealed Cave<div id="objectivetimeStamp64"></div></span>
+                        <span id="objective65"><img id="objectiveCheck65" onclick="checkOffObjective(65);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the queen at the Town of Monsters<div id="objectivetimeStamp65"></div></span>
+                        <span id="objective66"><img id="objectiveCheck66" onclick="checkOffObjective(66);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the king at the Town of Monsters<div id="objectivetimeStamp66"></div></span>
+                        <span id="objective67"><img id="objectiveCheck67" onclick="checkOffObjective(67);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Defeat the Baron Castle basement throne<div id="objectivetimeStamp67"></div></span>
+                        <span id="objective68"><img id="objectiveCheck68" onclick="checkOffObjective(68);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete the Giant of Bab-il<div id="objectivetimeStamp68"></div></span>
+                        <span id="objective69"><img id="objectiveCheck69" onclick="checkOffObjective(69);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Complete Cave Bahamut<div id="objectivetimeStamp69"></div></span>
+                        <span id="objective70"><img id="objectiveCheck70" onclick="checkOffObjective(70);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Murasame altar<div id="objectivetimeStamp70"></div></span>
+                        <span id="objective71"><img id="objectiveCheck71" onclick="checkOffObjective(71);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Crystal Sword altar<div id="objectivetimeStamp71"></div></span>
+                        <span id="objective72"><img id="objectiveCheck72" onclick="checkOffObjective(72);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla White Spear altar<div id="objectivetimeStamp72"></div></span>
+                        <span id="objective73"><img id="objectiveCheck73" onclick="checkOffObjective(73);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Ribbon room<div id="objectivetimeStamp73"></div></span>
+                        <span id="objective74"><img id="objectiveCheck74" onclick="checkOffObjective(74);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Conquer the vanilla Masamune altar<div id="objectivetimeStamp74"></div></span>
+                        <span id="objective75"><img id="objectiveCheck75" onclick="checkOffObjective(75);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Burn village Mist with the Package<div id="objectivetimeStamp75"></div></span>
+                        <span id="objective76"><img id="objectiveCheck76" onclick="checkOffObjective(76);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Cure the fever with the SandRuby<div id="objectivetimeStamp76"></div></span>
+                        <span id="objective77"><img id="objectiveCheck77" onclick="checkOffObjective(77);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Unlock the sewer with the Baron Key<div id="objectivetimeStamp77"></div></span>
+                        <span id="objective78"><img id="objectiveCheck78" onclick="checkOffObjective(78);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Break the Dark Elf's spell with the TwinHarp<div id="objectivetimeStamp78"></div></span>
+                        <span id="objective79"><img id="objectiveCheck79" onclick="checkOffObjective(79);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Open the Toroia treasury with the Earth Crystal<div id="objectivetimeStamp79"></div></span>
+                        <span id="objective80"><img id="objectiveCheck80" onclick="checkOffObjective(80);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Drop the Magma Key into the Agart well<div id="objectivetimeStamp80"></div></span>
+                        <span id="objective81"><img id="objectiveCheck81" onclick="checkOffObjective(81);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Destroy the Super Cannon<div id="objectivetimeStamp81"></div></span>
+                        <span id="objective82"><img id="objectiveCheck82" onclick="checkOffObjective(82);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Unlock the Sealed Cave<div id="objectivetimeStamp82"></div></span>
+                        <span id="objective83"><img id="objectiveCheck83" onclick="checkOffObjective(83);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Raise the Big Whale<div id="objectivetimeStamp83"></div></span>
+                        <span id="objective84"><img id="objectiveCheck84" onclick="checkOffObjective(84);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Trade away the Rat Tail<div id="objectivetimeStamp84"></div></span>
+                        <span id="objective85"><img id="objectiveCheck85" onclick="checkOffObjective(85);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Have Kokkol forge Legend Sword with Adamant<div id="objectivetimeStamp85"></div></span>
+                        <span id="objective86"><img id="objectiveCheck86" onclick="checkOffObjective(86);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Wake Yang with the Pan<div id="objectivetimeStamp86"></div></span>
+                        <span id="objective87"><img id="objectiveCheck87" onclick="checkOffObjective(87);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Return the Pan to Yang's wife<div id="objectivetimeStamp87"></div></span>
+                        <span id="objective88"><img id="objectiveCheck88" onclick="checkOffObjective(88);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Trade away the Pink Tail<div id="objectivetimeStamp88"></div></span>
+                        <span id="objective89"><img id="objectiveCheck89" onclick="checkOffObjective(89);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;Unlock the Pass door in Toroia<div id="objectivetimeStamp89"></div></span>
+                        <span id="objective90"><img id="objectiveCheck90" onclick="checkOffObjective(90);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective1" onclick="ChangeObjective(1);" style="cursor: pointer">[Set Random Objective 1]</span>
+                        <div id="objectivetimeStamp90"></div>
+                        </span>
+                        <span id="objective91"><img id="objectiveCheck91" onclick="checkOffObjective(91);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective2" onclick="ChangeObjective(2);" style="cursor: pointer">[Set Random Objective 2]</span>
+                        <div id="objectivetimeStamp91"></div>
+                        </span>
+                        <span id="objective92"><img id="objectiveCheck92" onclick="checkOffObjective(92);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective3" onclick="ChangeObjective(3);" style="cursor: pointer">[Set Random Objective 3]</span>
+                        <div id="objectivetimeStamp92"></div>
+                        </span>
+                        <span id="objective93"><img id="objectiveCheck93" onclick="checkOffObjective(93);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective4" onclick="ChangeObjective(4);" style="cursor: pointer">[Set Random Objective 4]</span>
+                        <div id="objectivetimeStamp93"></div>
+                        </span>
+                        <span id="objective94"><img id="objectiveCheck94" onclick="checkOffObjective(94);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective5" onclick="ChangeObjective(5);" style="cursor: pointer">[Set Random Objective 5]</span>
+                        <div id="objectivetimeStamp94"></div>
+                        </span>
+                        <span id="objective95"><img id="objectiveCheck95" onclick="checkOffObjective(95);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective6" onclick="ChangeObjective(6);" style="cursor: pointer">[Set Random Objective 6]</span>
+                        <div id="objectivetimeStamp95"></div>
+                        </span>
+                        <span id="objective96"><img id="objectiveCheck96" onclick="checkOffObjective(96);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective7" onclick="ChangeObjective(7);" style="cursor: pointer">[Set Random Objective 7]</span>
+                        <div id="objectivetimeStamp96"></div>
+                        </span>
+                        <span id="objective97"><img id="objectiveCheck97" onclick="checkOffObjective(97);" src="images/objectiveunchecked.png" style="width: 16px;">&nbsp;&nbsp;<span id="randomobjective8" onclick="ChangeObjective(8);" style="cursor: pointer">[Set Random Objective 8]</span>
+                        <div id="objectivetimeStamp97"></div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="trackingTableText" id="trackingtable">
+                <div id="keyitemsdiv" style="float: left; height: 440px; width: 140px; overflow-x: auto;">
+                    <div style="margin-bottom: 10px;"><u class="trackingTableHeader">Locations</u><br></div>
+                    <div id="keyitemlocation0" onclick="SwapKeyItemLocation(0);" class="clickablediv trackingTableOverworld">Adamant Cave<br></div>
+                    <div id="keyitemlocation1" onclick="SwapKeyItemLocation(1);" class="clickablediv trackingTableOverworld">Antlion Cave<br></div>
+                    <div id="keyitemlocation2" onclick="SwapKeyItemLocation(2);" class="clickablediv trackingTableOverworld">Baron Castle [King]<br></div>
+                    <div id="keyitemlocation3" onclick="SwapKeyItemLocation(3);" class="clickablediv trackingTableOverworld">Baron Castle [Odin]<br></div>
+                    <div id="keyitemlocation4" onclick="SwapKeyItemLocation(4);" class="clickablediv trackingTableOverworld">Town of Baron<br></div>
+                    <div id="keyitemlocation5" onclick="SwapKeyItemLocation(5);" class="clickablediv trackingTableOverworld">Fabul [Defend]<br></div>
+                    <div id="keyitemlocation8" onclick="SwapKeyItemLocation(8);" class="clickablediv trackingTableOverworld">Magnes Cave<br></div>
+                    <div id="keyitemlocation9" onclick="SwapKeyItemLocation(9);" class="clickablediv trackingTableOverworld">Mist Village<br></div>
+                    <div id="keyitemlocation10" onclick="SwapKeyItemLocation(10);" class="clickablediv trackingTableOverworld">Mt Ordeals<br></div>
+                    <!-- These are out of order since IDs were assigned before typos in Toroia's name were fixed. -->
+                    <div id="keyitemlocation12" onclick="SwapKeyItemLocation(12);" class="clickablediv trackingTableOverworld">Toroia Castle<br></div>
+                    <div id="keyitemlocation11" onclick="SwapKeyItemLocation(11);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
+                    <div id="keyitemlocation27" onclick="SwapKeyItemLocation(27);" class="clickablediv trackingTableOverUnder">Clear Hook Route<br></div>
+                    <div id="keyitemlocation13" onclick="SwapKeyItemLocation(13);" class="clickablediv trackingTableUnderworld">Dwarf Castle<br></div>
+                    <div id="keyitemlocation28" onclick="WarpGlitch();" class="clickablediv trackingTableUnderworld">Warp Glitch? [Yes] <span onclick="ClearWarpGlitch(); return false;">[No]</span><br></div>
+                    <div id="keyitemlocation6" onclick="SwapKeyItemLocation(6);" class="clickablediv trackingTableUnderworld">Fabul [Sheila/Sylph]<br></div>
+                    <div id="keyitemlocation7" onclick="SwapKeyItemLocation(7);" class="clickablediv trackingTableUnderworld">Fabul [Sheila/Pan]<br></div>
+                    <div id="keyitemlocation14" onclick="SwapKeyItemLocation(14);" class="clickablediv trackingTableUnderworld">Feymarch [Chest]<br></div>
+                    <div id="keyitemlocation15" onclick="SwapKeyItemLocation(15);" class="clickablediv trackingTableUnderworld">Feymarch [Asura]<br></div>
+                    <div id="keyitemlocation16" onclick="SwapKeyItemLocation(16);" class="clickablediv trackingTableUnderworld">Feymarch [Leviathan]<br></div>
+                    <div id="keyitemlocation17" onclick="SwapKeyItemLocation(17);" class="clickablediv trackingTableUnderworld">Lower Babil [Boss]<br></div>
+                    <div id="keyitemlocation18" onclick="SwapKeyItemLocation(18);" class="clickablediv trackingTableUnderworld">Lower Babil [Cannon]<br></div>
+                    <div id="keyitemlocation19" onclick="SwapKeyItemLocation(19);" class="clickablediv trackingTableUnderworld">Sealed Cave<br></div>
+                    <div id="keyitemlocation20" onclick="SwapKeyItemLocation(20);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
+                    <div id="keyitemlocation21" onclick="SwapKeyItemLocation(21);" class="clickablediv trackingTableMoon">Bahamut<br></div>
+                    <div id="keyitemlocation22" onclick="SwapKeyItemLocation(22);" class="clickablediv trackingTableMoon">Lunar [Crystal]<br></div>
+                    <div id="keyitemlocation23" onclick="SwapKeyItemLocation(23);" class="clickablediv trackingTableMoon">Lunar [Masamune]<br></div>
+                    <div id="keyitemlocation24" onclick="SwapKeyItemLocation(24);" class="clickablediv trackingTableMoon">Lunar [Murasame]<br></div>
+                    <div id="keyitemlocation25" onclick="SwapKeyItemLocation(25);" class="clickablediv trackingTableMoon">Lunar [Ribbon]<br></div>
+                    <div id="keyitemlocation26" onclick="SwapKeyItemLocation(26);" class="clickablediv trackingTableMoon">Lunar [White]<br></div>
+                    <div id="keyitemlocationviewchecked" onclick="ViewCheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
+                    <div id="keyitemlocationviewunchecked" onclick="ViewUncheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
+                </div>
+                <div id="charactersdiv" style="float: left; height: 400px; width: 120px;">
+                    <div style="margin-bottom: 10px;"><u class="trackingTableHeader">Characters</u><br></div>
+                    <div id="characterlocation0" onclick="SwapCharacterLocation(0);" class="clickablediv trackingTableOverworld">Baron Castle<br></div>
+                    <div id="characterlocation1" onclick="SwapCharacterLocation(1);" class="clickablediv trackingTableOverworld">Town of Baron<br></div>
+                    <div id="characterlocation2" onclick="SwapCharacterLocation(2);" class="clickablediv trackingTableOverworld">Damcyan<br></div>
+                    <div id="characterlocation3" onclick="SwapCharacterLocation(3);" class="clickablediv trackingTableOverworld">Eblan Cave<br></div>
+                    <div id="characterlocation4" onclick="SwapCharacterLocation(4);" class="clickablediv trackingTableOverworld">Giant of Babil<br></div>
+                    <div id="characterlocation5" onclick="SwapCharacterLocation(5);" class="clickablediv trackingTableOverworld">Kaipo<br></div>
+                    <div id="characterlocation6" onclick="SwapCharacterLocation(6);" class="clickablediv trackingTableOverworld">Mist Village<br></div>
+                    <div id="characterlocation7" onclick="SwapCharacterLocation(7);" class="clickablediv trackingTableOverworld">Mt Hobbs<br></div>
+                    <div id="characterlocation8" onclick="SwapCharacterLocation(8);" class="clickablediv trackingTableOverworld">Mt Ordeals<br></div>
+                    <div id="characterlocation9" onclick="SwapCharacterLocation(9);" class="clickablediv trackingTableOverworld">Mysidia<br></div>
+                    <div id="characterlocation10" onclick="SwapCharacterLocation(10);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
+                    <div id="characterlocation11" onclick="SwapCharacterLocation(11);" class="clickablediv trackingTableOverworld">Waterway<br></div>
+                    <div id="characterlocation12" onclick="SwapCharacterLocation(12);" class="clickablediv trackingTableUnderworld">Dwarf Castle<br></div>
+                    <div id="characterlocation13" onclick="SwapCharacterLocation(13);" class="clickablediv trackingTableMoon">Lunar Sub.<br></div>
+                    <div id="characterlocationviewchecked" onclick="ViewCheckedCharacters();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
+                    <div id="characterlocationviewunchecked" onclick="ViewUncheckedCharacters();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
+                </div>
+                <div id="townsdiv" style="float: left; height: 400px; width: 120px;">
+                    <div style="margin-bottom: 10px;"><u class="trackingTableHeader">Towns/Shops</u><br></div>
+                    <div id="townlocation0" onclick="LoadItems(0);" class="clickablediv">Agart<br></div>
+                    <div id="townlocation1" onclick="LoadItems(1);" class="clickablediv">Town of Baron<br></div>
+                    <div id="townlocation2" onclick="LoadItems(2);" class="clickablediv">Eblan Cave<br></div>
+                    <div id="townlocation3" onclick="LoadItems(3);" class="clickablediv">Fabul<br></div>
+                    <div id="townlocation4" onclick="LoadItems(4);" class="clickablediv">Kaipo<br></div>
+                    <div id="townlocation5" onclick="LoadItems(5);" class="clickablediv">Mysidia<br></div>
+                    <div id="townlocation6" onclick="LoadItems(6);" class="clickablediv">Silvera<br></div>
+                    <div id="townlocation7" onclick="LoadItems(7);" class="clickablediv">Toroia [Item]<br></div>
+                    <div id="townlocation8" onclick="LoadItems(8);" class="clickablediv">Toroia [Pub]<br></div>
+                    <div id="townlocation9" onclick="LoadItems(9);" class="clickablediv">Dwarf Castle<br></div>
+                    <div id="townlocation10" onclick="LoadItems(10);" class="clickablediv">Feymarch<br></div>
+                    <div id="townlocation11" onclick="LoadItems(11);" class="clickablediv">Tomra<br></div>
+                    <div id="townlocation12" onclick="LoadItems(12);" class="clickablediv">Hummingway<br></div>
+                    <div id="townlocationviewchecked" onclick="ViewCheckedTowns();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
+                    <div id="townlocationviewunchecked" onclick="ViewUncheckedTowns();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
+                    <div id="trappedlocationviewtown" onclick="ViewTown();" class="clickablediv" style="height: 32px;"><br>= Item Summary =<br></div>
+                    <div id="showFlagsButton" onclick="OpenFlags();" class="clickablediv" style="height: 32px;"><br>= Show Flags =<br></div>
+                </div>
+                <div id="trappedchestsdiv" style="float: left; height: 400px; width: 120px;">
+                    <div style="margin-bottom: 10px;"><u class="trackingTableHeader">Trapped Chests</u><br></div>
+                    <div id="trappedlocation0" onclick="SwapTrappedLocation(0);" class="clickablediv trackingTableOverworld">Castle Eblan<br></div>
+                    <div id="trappedlocation1" onclick="SwapTrappedLocation(1);" class="clickablediv trackingTableOverworld">Eblan Cave<br></div>
+                    <div id="trappedlocation2" onclick="SwapTrappedLocation(2);" class="clickablediv trackingTableOverworld">Giant of Babil<br></div>
+                    <div id="trappedlocation3" onclick="SwapTrappedLocation(3);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
+                    <div id="trappedlocation4" onclick="SwapTrappedLocation(4);" class="clickablediv trackingTableOverworld">Upper Babil<br></div>
+                    <div id="trappedlocation5" onclick="SwapTrappedLocation(5);" class="clickablediv trackingTableUnderworld">Feymarch<br></div>
+                    <div id="trappedlocation6" onclick="SwapTrappedLocation(6);" class="clickablediv trackingTableUnderworld">Lower Babil<br></div>
+                    <div id="trappedlocation7" onclick="SwapTrappedLocation(7);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
+                    <div id="trappedlocation8" onclick="SwapTrappedLocation(8);" class="clickablediv trackingTableMoon">Lunar Path<br></div>
+                    <div id="trappedlocation9" onclick="SwapTrappedLocation(9);" class="clickablediv trackingTableMoon">Lunar Sub.<br></div>
+                    <div id="trappedlocationviewchecked" onclick="ViewCheckedTrapped();" class="clickablediv" style="height: 32px;"><br>= View Checked =<br></div>
+                    <div id="trappedlocationviewunchecked" onclick="ViewUncheckedTrapped();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
+                </div>
+            </div>
+        </div>
+        <div id="timerContainer">
+            <div id="timerDiv">
+                00:00:00
+            </div>
+            <div class="timerButtons">
+                <button id="startButton" style="font-size:12px" onclick="StartTimer()">Start</button>
+                <button id="pauseButton" style="font-size:12px" onclick="PauseTimer()">Pause</button>
+                <button id="resetButton" style="font-size:12px" onclick="ResetTimer()">Reset</button>
+            </div>
+            <button id="copyToClipboardButton" onclick="CopyTimerToClipboard()">Copy time to clipboard</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="itemModal" aria-hidden="true" onclick="CloseItems();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+        <div id="itemModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; padding: 10px;">
+            <table width="400px" style="font-size: 15px;">
+                <tr>
+                    <td colspan="2">
+                        <span onclick="CloseItems();" class="clickablediv" style="float: left;">[X] Close</span>
+                    </td>
+                    <td colspan="2">
+                        <span style="float: right;" onclick="CheckItemSpan(0);" class="clickablediv" id="itemspan0">No Items - [Will clear list and close]</span><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <hr>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <u>Restore Items</u>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="lifetd">
+                        <span onclick="CheckItemSpan(1);" class="clickablediv" id="itemspan1">Life</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(2);" class="clickablediv" id="itemspan2">Cure2</span> / <span onclick="CheckItemSpan(3);" class="clickablediv" id="itemspan3">Cure3</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(4);" class="clickablediv" id="itemspan4">Ether1</span> / <span onclick="CheckItemSpan(5);" class="clickablediv" id="itemspan5">Ether2</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(6);" class="clickablediv" id="itemspan6">Tent</span> / <span onclick="CheckItemSpan(7);" class="clickablediv" id="itemspan7">Cabin</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span onclick="CheckItemSpan(8);" class="clickablediv" id="itemspan8">Heal</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(9);" class="clickablediv" id="itemspan9">Unihorn</span>
+                    </td>
+                    <td></td>
+                    <td>
+                        <span onclick="CheckItemSpan(10);" class="clickablediv" id="itemspan10">Other - Restore</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <hr>
+                    </td>
+                </tr>
+                <tr id="offensive1">
+                    <td colspan="4">
+                        <u>Offensive Items</u>
+                    </td>
+                </tr>
+                <tr id="offensive2">
+                    <td colspan="2">
+                        <span onclick="CheckItemSpan(11);" class="clickablediv" id="itemspan11">Bomb</span> / <span onclick="CheckItemSpan(12);" class="clickablediv" id="itemspan12">Notus</span> / <span onclick="CheckItemSpan(13);" class="clickablediv"
+                            id="itemspan13">ThorRage</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(14);" class="clickablediv" id="itemspan14">Vampire</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(15);" class="clickablediv" id="itemspan15">Kamikaze</span>
+                    </td>
+                </tr>
+                <tr id="offensive3">
+                    <td colspan="4">
+                        <hr>
+                    </td>
+                </tr>
+                <tr id="utility1">
+                    <td colspan="4">
+                        <u>Utility Items</u>
+                    </td>
+                </tr>
+                <tr id="utility2">
+                    <td>
+                        <span onclick="CheckItemSpan(16);" class="clickablediv" id="itemspan16">Coffin</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(17);" class="clickablediv" id="itemspan17">HrGlass (Any)</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(18);" class="clickablediv" id="itemspan18">MuteBell</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(19);" class="clickablediv" id="itemspan19">SilkWeb</span>
+                    </td>
+                </tr>
+                <tr id="utility3">
+                    <td>
+                        <span onclick="CheckItemSpan(20);" class="clickablediv" id="itemspan20">Bacchus</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(21);" class="clickablediv" id="itemspan21">Illusion</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(22);" class="clickablediv" id="itemspan22">StarVeil</span> / <span onclick="CheckItemSpan(23);" class="clickablediv" id="itemspan23">MoonVeil</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(24);" class="clickablediv" id="itemspan24">Succubus</span>
+                    </td>
+                </tr>
+                <tr id="utility4">
+                    <td>
+                        <span onclick="CheckItemSpan(25);" class="clickablediv" id="itemspan25">Exit</span>
+                    </td>
+
+                    <td id="sirentd">
+                        <span onclick="CheckItemSpan(26);" class="clickablediv" id="itemspan26">Siren</span>
+                    </td>
+                    <td></td>
+                    <td>
+                        <span onclick="CheckItemSpan(27);" class="clickablediv" id="itemspan27">Other - Utility</span>
+                    </td>
+                </tr>
+                <tr id="utility5">
+                    <td colspan="4">
+                        <hr>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <u>Misc Items</u>
+                    </td>
+                </tr>
+                <tr id="misc1">
+                    <td id="appletd">
+                        <span onclick="CheckItemSpan(28);" class="clickablediv" id="itemspan28">AgApple</span> / <span onclick="CheckItemSpan(29);" class="clickablediv" id="itemspan29">AuApple</span>
+                    </td>
+                    <td id="somadroptd">
+                        <span onclick="CheckItemSpan(30);" class="clickablediv" id="itemspan30">SomaDrop</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(31);" class="clickablediv" id="itemspan31">Other - Misc</span>
+                    </td>
+                </tr>
+                <tr id="misc2">
+                    <td>
+                        <span onclick="CheckItemSpan(33);" class="clickablediv" id="itemspan33">Asura</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(34);" class="clickablediv" id="itemspan34">Baham</span> / <span onclick="CheckItemSpan(35);" class="clickablediv" id="itemspan35">Levia</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(36);" class="clickablediv" id="itemspan36">Odin</span>
+                    </td>
+                    <td>
+                        <span onclick="CheckItemSpan(37);" class="clickablediv" id="itemspan37">Sylph</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="notes1td">
+                        Notes:
+                    </td>
+                    <td id="notes2td" colspan="2">
+                        <input id="townnotes" type="textbox" style="width: 200px" />
+                    </td>
+                    <td id="passtd" style="display: none;">
+                        <span onclick="CheckItemSpan(32);" class="clickablediv" id="itemspan32">Pass</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="objectiveModal" aria-hidden="true" onclick="CloseObjectives();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow: scroll;">
+        <div id="objectiveModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 10px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow-y: auto;">
+            <span onclick="CloseObjectives();" class="clickablediv">[X] Close</span><br><br>
+            <div id="objectivesselectdiv" style="text-align: center">
+                <span id="objectivecategoryquestsspan" onclick="LoadObjectiveDetail(0);" class="clickablediv">Quests</span>
+                <span id="objectivecategorybossspan" onclick="LoadObjectiveDetail(1);" class="clickablediv" style="padding-left: 40px; padding-right: 40px;">Boss Hunts</span>
+                <span id="objectivecategorycharacterspan" onclick="LoadObjectiveDetail(2);" class="clickablediv">Character Hunts</span>
+            </div>
+            <div id="objectivedetaildiv" style="text-align: left; overflow: auto; height: 310px;">
+                <div id="objectivesquestsdiv" style="display: none;">
+                    <span onclick="SetObjective(74);" class="clickablediv">Break the Dark Elfs spell with the TwinHarp</span><br>
+                    <span onclick="SetObjective(71);" class="clickablediv">Burn village Mist with the Package</span><br>
+                    <span onclick="SetObjective(65);" class="clickablediv">Complete Cave Bahamut</span><br>
+                    <span onclick="SetObjective(55);" class="clickablediv">Complete Cave Magnes</span><br>
+                    <span onclick="SetObjective(52);" class="clickablediv">Complete Mt. Ordeals</span><br>
+                    <span onclick="SetObjective(49);" class="clickablediv">Complete the Antlion Nest</span><br>
+                    <span onclick="SetObjective(64);" class="clickablediv">Complete the Giant of Bab-il</span><br>
+                    <span onclick="SetObjective(60);" class="clickablediv">Complete the Sealed Cave</span><br>
+                    <span onclick="SetObjective(56);" class="clickablediv">Complete the Tower of Zot</span><br>
+                    <span onclick="SetObjective(67);" class="clickablediv">Conquer the vanilla Crystal Sword altar</span><br>
+                    <span onclick="SetObjective(70);" class="clickablediv">Conquer the vanilla Masamune altar</span><br>
+                    <span onclick="SetObjective(66);" class="clickablediv">Conquer the vanilla Murasame altar</span><br>
+                    <span onclick="SetObjective(69);" class="clickablediv">Conquer the vanilla Ribbon room</span><br>
+                    <span onclick="SetObjective(68);" class="clickablediv">Conquer the vanilla White Spear altar</span><br>
+                    <span onclick="SetObjective(72);" class="clickablediv">Cure the fever with the SandRuby</span><br>
+                    <span onclick="SetObjective(63);" class="clickablediv">Defeat the Baron Castle basement throne</span><br>
+                    <span onclick="SetObjective(58);" class="clickablediv">Defeat the boss of Lower Bab-il</span><br>
+                    <span onclick="SetObjective(47);" class="clickablediv">Defeat the boss of the Mist Cave</span><br>
+                    <span onclick="SetObjective(48);" class="clickablediv">Defeat the boss of the Waterfall</span><br>
+                    <span onclick="SetObjective(53);" class="clickablediv">Defeat the bosses of Baron Inn</span><br>
+                    <span onclick="SetObjective(57);" class="clickablediv">Defeat the bosses of Dwarf Castle</span><br>
+                    <span onclick="SetObjective(62);" class="clickablediv">Defeat the king at the Town of Monsters</span><br>
+                    <span onclick="SetObjective(61);" class="clickablediv">Defeat the queen at the Town of Monsters</span><br>
+                    <span onclick="SetObjective(51);" class="clickablediv">Defend Fabul</span><br>
+                    <span onclick="SetObjective(77);" class="clickablediv">Destroy the Super Cannon</span><br>
+                    <span onclick="SetObjective(76);" class="clickablediv">Drop the Magma Key into the Agart well</span><br>
+                    <span onclick="SetObjective(81);" class="clickablediv">Have Kokkol forge Legend Sword with Adamant</span><br>
+                    <span onclick="SetObjective(59);" class="clickablediv">Launch the Falcon</span><br>
+                    <span onclick="SetObjective(54);" class="clickablediv">Liberate Baron Castle</span><br>
+                    <span onclick="SetObjective(75);" class="clickablediv">Open the Toroia treasury with the Earth Crystal</span><br>
+                    <span onclick="SetObjective(79);" class="clickablediv">Raise the Big Whale</span><br>
+                    <span onclick="SetObjective(50);" class="clickablediv">Rescue the hostage on Mt. Hobs</span><br>
+                    <span onclick="SetObjective(83);" class="clickablediv">Return the Pan to Yang's wife</span><br>
+                    <span onclick="SetObjective(84);" class="clickablediv">Trade away the Pink Tail</span><br>
+                    <span onclick="SetObjective(80);" class="clickablediv">Trade away the Rat Tail</span><br>
+                    <span onclick="SetObjective(85);" class="clickablediv">Unlock the Pass door in Toroia</span><br>
+                    <span onclick="SetObjective(78);" class="clickablediv">Unlock the Sealed Cave</span><br>
+                    <span onclick="SetObjective(73);" class="clickablediv">Unlock the sewer with the Baron Key</span><br>
+                    <span onclick="SetObjective(82);" class="clickablediv">Wake Yang with the Pan</span><br>
+                </div>
+                <div id="objectivesbossdiv" style="display: none; overflow: scroll;">
+                    <span onclick="SetObjective(15);" class="clickablediv">Defeat Antlion</span><br>
+                    <span onclick="SetObjective(36);" class="clickablediv">Defeat Asura</span><br>
+                    <span onclick="SetObjective(39);" class="clickablediv">Defeat Bahamut</span><br>
+                    <span onclick="SetObjective(24);" class="clickablediv">Defeat Baigan</span><br>
+                    <span onclick="SetObjective(29);" class="clickablediv">Defeat Calbrena</span><br>
+                    <span onclick="SetObjective(41);" class="clickablediv">Defeat CPU</span><br>
+                    <span onclick="SetObjective(21);" class="clickablediv">Defeat D.Knight</span><br>
+                    <span onclick="SetObjective(12);" class="clickablediv">Defeat D.Mist</span><br>
+                    <span onclick="SetObjective(31);" class="clickablediv">Defeat Dr. Lugae</span><br>
+                    <span onclick="SetObjective(40);" class="clickablediv">Defeat Elements</span><br>
+                    <span onclick="SetObjective(35);" class="clickablediv">Defeat EvilWall</span><br>
+                    <span onclick="SetObjective(30);" class="clickablediv">Defeat Golbez</span><br>
+                    <span onclick="SetObjective(33);" class="clickablediv">Defeat K.Eblan and Q.Eblan</span><br>
+                    <span onclick="SetObjective(25);" class="clickablediv">Defeat Kainazzo</span><br>
+                    <span onclick="SetObjective(23);" class="clickablediv">Defeat Karate</span><br>
+                    <span onclick="SetObjective(37);" class="clickablediv">Defeat Leviatan</span><br>
+                    <span onclick="SetObjective(19);" class="clickablediv">Defeat Milon</span><br>
+                    <span onclick="SetObjective(20);" class="clickablediv">Defeat Milon Z.</span><br>
+                    <span onclick="SetObjective(17);" class="clickablediv">Defeat MomBomb</span><br>
+                    <span onclick="SetObjective(14);" class="clickablediv">Defeat Octomamm</span><br>
+                    <span onclick="SetObjective(38);" class="clickablediv">Defeat Odin</span><br>
+                    <span onclick="SetObjective(13);" class="clickablediv">Defeat Officer</span><br>
+                    <span onclick="SetObjective(46);" class="clickablediv">Defeat Ogopogo</span><br>
+                    <span onclick="SetObjective(42);" class="clickablediv">Defeat Pale Dim</span><br>
+                    <span onclick="SetObjective(44);" class="clickablediv">Defeat Plague</span><br>
+                    <span onclick="SetObjective(34);" class="clickablediv">Defeat Rubicant</span><br>
+                    <span onclick="SetObjective(45);" class="clickablediv">Defeat the D.Lunars</span><br>
+                    <span onclick="SetObjective(26);" class="clickablediv">Defeat the Dark Elf (dragon form)</span><br>
+                    <span onclick="SetObjective(32);" class="clickablediv">Defeat the Dark Imps (boss)</span><br>
+                    <span onclick="SetObjective(18);" class="clickablediv">Defeat the Fabul Gauntlet</span><br>
+                    <span onclick="SetObjective(22);" class="clickablediv">Defeat the Guards (boss)</span><br>
+                    <span onclick="SetObjective(27);" class="clickablediv">Defeat the Magus Sisters</span><br>
+                    <span onclick="SetObjective(28);" class="clickablediv">Defeat Valvalis</span><br>
+                    <span onclick="SetObjective(16);" class="clickablediv">Defeat Waterhag (boss version)</span><br>
+                    <span onclick="SetObjective(43);" class="clickablediv">Defeat Wyvern</span><br>
+                </div>
+                <div id="objectivescharacterdiv" style="display: none; overflow: scroll;">
+                    <span onclick="SetObjective(0);" class="clickablediv">Get Cecil</span><br>
+                    <span onclick="SetObjective(9);" class="clickablediv">Get Cid</span><br>
+                    <span onclick="SetObjective(10);" class="clickablediv">Get Edge</span><br>
+                    <span onclick="SetObjective(4);" class="clickablediv">Get Edward</span><br>
+                    <span onclick="SetObjective(11);" class="clickablediv">Get FuSoYa</span><br>
+                    <span onclick="SetObjective(1);" class="clickablediv">Get Kain</span><br>
+                    <span onclick="SetObjective(7);" class="clickablediv">Get Palom</span><br>
+                    <span onclick="SetObjective(8);" class="clickablediv">Get Porom</span><br>
+                    <span onclick="SetObjective(5);" class="clickablediv">Get Rosa</span><br>
+                    <span onclick="SetObjective(2);" class="clickablediv">Get Rydia</span><br>
+                    <span onclick="SetObjective(3);" class="clickablediv">Get Tellah</span><br>
+                    <span onclick="SetObjective(6);" class="clickablediv">Get Yang</span><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
+        <div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px;  width: 404px; border-radius: 5px; border:1px white solid; background-color: #333333d3; font-size: 18px; padding: 10px;">
+            <div id="keyString"></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bossModal" aria-hidden="true" onclick="CloseBoss();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+        <div id="bossModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
+            <span onclick="CloseBoss();" class="clickablediv">[X] Close</span><br><br>
+            <span id="bossmodal0" onclick="SwapBoss(0);" class="bossmodalspan clickablediv">Mist Dragon</span>
+            <span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv">Baron Soldiers</span>
+            <span id="bossmodal2" onclick="SwapBoss(2);" class="bossmodalspan clickablediv">Octomamm</span><br>
+            <span id="bossmodal3" onclick="SwapBoss(3);" class="bossmodalspan clickablediv">Antlion</span>
+            <span id="bossmodal4" onclick="SwapBoss(4);" class="bossmodalspan clickablediv">Waterhag</span>
+            <span id="bossmodal5" onclick="SwapBoss(5);" class="bossmodalspan clickablediv">Mom Bomb</span><br>
+            <span id="bossmodal6" onclick="SwapBoss(6);" class="bossmodalspan clickablediv">Fabul Gauntlet</span>
+            <span id="bossmodal7" onclick="SwapBoss(7);" class="bossmodalspan clickablediv">Milon</span>
+            <span id="bossmodal8" onclick="SwapBoss(8);" class="bossmodalspan clickablediv">MilonZ</span><br>
+            <span id="bossmodal9" onclick="SwapBoss(9);" class="bossmodalspan clickablediv">Dark Knight Cecil</span>
+            <span id="bossmodal10" onclick="SwapBoss(10);" class="bossmodalspan clickablediv">Baron Guards</span>
+            <span id="bossmodal11" onclick="SwapBoss(11);" class="bossmodalspan clickablediv">Yang</span><br>
+            <span id="bossmodal12" onclick="SwapBoss(12);" class="bossmodalspan clickablediv">Baigan</span>
+            <span id="bossmodal13" onclick="SwapBoss(13);" class="bossmodalspan clickablediv">Kainazzo</span>
+            <span id="bossmodal14" onclick="SwapBoss(14);" class="bossmodalspan clickablediv">Dark Elf</span><br>
+            <span id="bossmodal15" onclick="SwapBoss(15);" class="bossmodalspan clickablediv">Magus Sisters</span>
+            <span id="bossmodal16" onclick="SwapBoss(16);" class="bossmodalspan clickablediv">Valvalis</span>
+            <span id="bossmodal17" onclick="SwapBoss(17);" class="bossmodalspan clickablediv">Calcabrina</span><br>
+            <span id="bossmodal18" onclick="SwapBoss(18);" class="bossmodalspan clickablediv">Golbez</span>
+            <span id="bossmodal19" onclick="SwapBoss(19);" class="bossmodalspan clickablediv">Dr Lugae</span>
+            <span id="bossmodal20" onclick="SwapBoss(20);" class="bossmodalspan clickablediv">Dark Imps</span><br>
+            <span id="bossmodal21" onclick="SwapBoss(21);" class="bossmodalspan clickablediv">K & Q Eblan</span>
+            <span id="bossmodal22" onclick="SwapBoss(22);" class="bossmodalspan clickablediv">Rubicant</span>
+            <span id="bossmodal23" onclick="SwapBoss(23);" class="bossmodalspan clickablediv">Evil Wall</span><br>
+            <span id="bossmodal24" onclick="SwapBoss(24);" class="bossmodalspan clickablediv">Elementals</span>
+            <span id="bossmodal25" onclick="SwapBoss(25);" class="bossmodalspan clickablediv">CPU</span>
+            <span id="bossmodal26" onclick="SwapBoss(26);" class="bossmodalspan clickablediv">Odin</span><br>
+            <span id="bossmodal27" onclick="SwapBoss(27);" class="bossmodalspan clickablediv">Asura</span>
+            <span id="bossmodal28" onclick="SwapBoss(28);" class="bossmodalspan clickablediv">Leviathan</span>
+            <span id="bossmodal29" onclick="SwapBoss(29);" class="bossmodalspan clickablediv">Bahamut</span><br>
+            <span id="bossmodal30" onclick="SwapBoss(30);" class="bossmodalspan clickablediv">Pale Dim</span>
+            <span id="bossmodal31" onclick="SwapBoss(31);" class="bossmodalspan clickablediv">Lunar Dragons</span>
+            <span id="bossmodal32" onclick="SwapBoss(32);" class="bossmodalspan clickablediv">Plague</span><br>
+            <span id="bossmodal33" onclick="SwapBoss(33);" class="bossmodalspan clickablediv">Ogopogo</span>
+            <span id="bossmodal34" onclick="SwapBoss(34);" class="bossmodalspan clickablediv">Wyvern</span>
+        </div>
+    </div>
+
+    <div class="modal fade" id="townModal" aria-hidden="true" onclick="CloseTown();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+        <div id="townModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow-x: hidden; overflow-y: auto;">
+            <span onclick="CloseTown();" class="clickablediv">[X] Close</span><br>
+            <span id="townlist1">Agart: </span><span id="townlistlocation1" style="color: #0F0;"></span><br>
+            <span id="townlist2">Town of Baron: </span><span id="townlistlocation2" style="color: #0F0;"></span><br>
+            <span id="townlist3">Eblan Cave: </span><span id="townlistlocation3" style="color: #0F0;"></span><br>
+            <span id="townlist4">Fabul: </span><span id="townlistlocation4" style="color: #0F0;"></span><br>
+            <span id="townlist5">Kaipo: </span><span id="townlistlocation5" style="color: #0F0;"></span><br>
+            <span id="townlist6">Mysidia: </span><span id="townlistlocation6" style="color: #0F0;"></span><br>
+            <span id="townlist7">Silvera: </span><span id="townlistlocation7" style="color: #0F0;"></span><br>
+            <span id="townlist8">Toroia [Item]: </span><span id="townlistlocation8" style="color: #0F0;"></span><br>
+            <span id="townlist9">Toroia [Pub]: </span><span id="townlistlocation9" style="color: #0F0;"></span><br>
+            <span id="townlist10">Dwarf Castle: </span><span id="townlistlocation10" style="color: #0F0;"></span><br>
+            <span id="townlist11">Feymarch: </span><span id="townlistlocation11" style="color: #0F0;"></span><br>
+            <span id="townlist12">Tomra: </span><span id="townlistlocation12" style="color: #0F0;"></span><br>
+            <span id="townlist13">Hummingway: </span><span id="townlistlocation13" style="color: #0F0;"></span><br>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mysteryModal" aria-hidden="true" onclick="CloseMystery();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+        <div id="mysteryModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 17px; padding: 10px;">
+            <span onclick="CloseMystery();" class="clickablediv">[X] Close and Save</span><br><br>
+            <u><b>OBJECTIVES</b></u><br> Objective Condition: <select id="mystery_owin">
 					<option value="crystal">Win Crystal</option>
 					<option value="game">Win Game</option>
-				</select><br>
-				Classic Forge The Crystal: <input type="checkbox" id="mystery_oforge"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				Classic Giant %: <input type="checkbox" id="mystery_ogiant"></input><br>
-				Fiends %: <input type="checkbox" id="mystery_ofiends"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				Dark Matter Hunt: <input type="checkbox" id="mystery_odarkmatter"></input><br>
-				Total Other Objectives: <input style="width: 30px" type="text" id="mystery_oquests"></input><br>
-				<u><b>KEY ITEMS</b></u><br>
-				Summon Quest Rewards: <input type="checkbox" id="mystery_ksummon"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				Moon Boos Rewards: <input type="checkbox" id="mystery_kmoon"></input><br>
-				Trapped Chests: <input type="checkbox" id="mystery_ktrap"></input><br>
-				<u><b>CHARACTERS</b></u><br>
-				C Hero: <input type="checkbox" id="mystery_chero"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				Character Limit: <input style="width: 30px" type="text" id="mystery_climit"></input><br>
-				<u><b>CHALLENGES</b></u><br>
-				No Free Characters: <input type="checkbox" id="mystery_nchars"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				No Free Key Items: <input type="checkbox" id="mystery_nkey"></input><br>
-				<u><b>GLITCHES</b></u><br>
-				Warp Glitch: <input type="checkbox" id="mystery_gwarp"></input><br>
-				<u><b>OTHER</b></u><br>
-				No Bonus XP after 10 Key Items: <input type="checkbox" id="mystery_oexpnokeybonus"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-				Push B To Jump: <input type="checkbox" id="mystery_opushbtojump"></input>
-			</div>
-		</div>	
+				</select><br> Classic Forge The Crystal: <input type="checkbox" id="mystery_oforge"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Classic Giant %: <input type="checkbox" id="mystery_ogiant"></input><br> Fiends %: <input type="checkbox" id="mystery_ofiends"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>            Dark Matter Hunt: <input type="checkbox" id="mystery_odarkmatter"></input><br> Total Other Objectives: <input style="width: 30px" type="text" id="mystery_oquests"></input><br>
+            <u><b>KEY ITEMS</b></u><br> Summon Quest Rewards: <input type="checkbox" id="mystery_ksummon"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Moon Boos Rewards: <input type="checkbox" id="mystery_kmoon"></input><br> Trapped Chests:
+            <input type="checkbox" id="mystery_ktrap"></input><br>
+            <u><b>CHARACTERS</b></u><br> C Hero: <input type="checkbox" id="mystery_chero"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Character Limit: <input style="width: 30px" type="text" id="mystery_climit"></input><br>
+            <u><b>CHALLENGES</b></u><br> No Free Characters: <input type="checkbox" id="mystery_nchars"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> No Free Key Items: <input type="checkbox" id="mystery_nkey"></input><br>
+            <u><b>GLITCHES</b></u><br> Warp Glitch: <input type="checkbox" id="mystery_gwarp"></input><br>
+            <u><b>OTHER</b></u><br> No Bonus XP after 10 Key Items: <input type="checkbox" id="mystery_oexpnokeybonus"></input><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Push B To Jump: <input type="checkbox" id="mystery_opushbtojump"></input>
+        </div>
+    </div>
 
-	</body>
+</body>
+
 </html>
