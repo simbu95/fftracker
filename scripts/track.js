@@ -1197,7 +1197,7 @@ function httpGetAsync(theUrl, callback) {
 function SetupFlagProps() {
     console.log("Setting up flag props");
     var query = '/draft/flagstring?validate=' + flags.replace(/\|/gi, " ")
-    if (useBeta) {
+    if (useBeta != "false") {
         query += '&useBetaChanges';
     }
 
@@ -1439,7 +1439,7 @@ function SetFlagOptions() {
         document.getElementById('townsdiv').style.width = "160px";
     }
 
-    if (useBeta && modeflags.ktrap && !modeflags.kmoon) {
+    if (useBeta != "false" && modeflags.ktrap && !modeflags.kmoon) {
         trappedchestlocations[9] = 2;
     }
 
