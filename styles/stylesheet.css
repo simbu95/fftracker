@@ -170,7 +170,22 @@ input:checked+.slider:before {
 }
 
 .clickablediv {
-    cursor: pointer;
+    transition:0.1s all ease-out;
+    cursor: pointer;    
+}
+
+.clickablediv:hover {    
+    opacity:0.5;
+}
+
+.objectiveCheck
+{
+    transition:0.2s all ease-in-out;
+}
+
+.objectiveCheck:hover
+{
+    filter:hue-rotate(270deg);
 }
 
 .bossmodalspan {
@@ -221,7 +236,6 @@ input:checked+.slider:before {
 #rootDiv {
     display: flex;
     flex-direction: column;
-    /* height: 100%; */
     max-height: 900px;
     flex: 1 1 auto;
 }
