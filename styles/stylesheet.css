@@ -323,7 +323,6 @@ button:active {
 
 #timerDiv {
     font-size: 60px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.175), black);
 }
 
 #timerDiv.timerRunning {
