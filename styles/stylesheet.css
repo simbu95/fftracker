@@ -174,8 +174,34 @@ input:checked+.slider:before {
 }
 
 .bossmodalspan {
-    width: 130px;
     float: left;
+}
+
+.bossImage {
+    opacity:0.5;
+    filter:grayscale();
+    color:black;
+    transition:0.2s all ease-out;
+}
+
+.bossImage:hover {
+    opacity:1;
+}
+
+.bossImage.clicked
+{
+    filter:brightness(2);
+    color:white;
+    opacity:1;
+    filter:none;
+    outline:2px dashed rgba(255, 255, 255, 0.5);
+}
+
+.bossContainer
+{
+    display:flex;
+    flex-wrap: wrap;
+    width:140px;
 }
 
 .characterchoosediv {

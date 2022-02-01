@@ -2397,6 +2397,11 @@ function SwapBoss(bossId) {
     ApplyChecks();
 }
 
+function SwapBossImage(element) {
+    element.classList.toggle("clicked");
+    ApplyChecks();
+}
+
 function IgnoreMenuClose() {
     menutoggle = true;
 }
