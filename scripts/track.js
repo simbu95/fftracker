@@ -1527,6 +1527,7 @@ function SetFlagOptions() {
         document.getElementById('townModalInner').style.top = "460px";
         document.getElementById('bossModalInner').style.left = "34px";
         document.getElementById('mysteryModalInner').style.left = "34px";
+        document.getElementById('flagsModalInner').style.left = "34px";
 
     }
 
