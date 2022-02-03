@@ -62,6 +62,7 @@ var modeflags = {
     kmoon: false,
     ktrap: false,
     kunsafe: false,
+    kunsafer: false,
     pshop: false,
     pkey: false,
     pchests: false,
@@ -621,6 +622,9 @@ function SetModes() {
                             break;
                         case 'UNSAFE':
                             modeflags.kunsafe = true;
+                            break;
+                        case 'UNSAFER':
+                            modeflags.kunsafer = true;
                             break;
                         case 'NOFREE':
                             modeflags.nkey = true;
@@ -1439,7 +1443,7 @@ function SetFlagOptions() {
         document.getElementById('townsdiv').style.width = "160px";
     }
 
-    if (useBeta != "false" && modeflags.ktrap && !modeflags.kmoon) {
+    if (useBeta != "false" && modeflags.ktrap && !modeflags.kmoon && !modeflags.kunsafer) {
         trappedchestlocations[9] = 2;
     }
 
