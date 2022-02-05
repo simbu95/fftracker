@@ -185,17 +185,17 @@ function SetModes() {
     $('#objectiveModal').hide();
     $('#mysteryModal').hide();
 
-    disableitemtracker = getParameterByName('d');
+    disableitemtracker = '0';
 
-    disableloctracker = getParameterByName('c');
+    disableloctracker = '0';
 
-    disablebosstracker = getParameterByName('s');
+    disablebosstracker = '1';
 
-    disablelocationtracker = getParameterByName('l');
+    disablelocationtracker = '0';
 
-    disablecharactertracker = getParameterByName('h');
+    disablecharactertracker = '0';
 
-    disableobjectivetracker = getParameterByName('o');
+    disableobjectivetracker = '0';
 
     if (disableloctracker === '1') {
         keyitemlocations = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -1200,7 +1200,7 @@ function httpGetAsync(theUrl, callback) {
 
 function SetupFlagProps() {
     console.log("Setting up flag props");
-    var query = '/draft/flagstring?validate=' + flags.replace(/\|/gi, " ")
+    var query = 'hettps://www.galeswift.com/draft/flagstring?validate=' + flags.replace(/\|/gi, " ")
     if (useBeta != "false") {
         query += '&useBetaChanges';
     }
