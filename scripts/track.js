@@ -157,9 +157,9 @@ var disableobjectivetracker = '0';
 var partyswap = 0;
 var ignoreswap = false;
 
-var flags = getParameterByName('f');
-var useBeta = getParameterByName('beta');
-var flagsets = flags.split('|');
+flags=""
+var useBeta = 'true';
+var flagsets = []
 var flagsReadable = '';
 var flagsHeaderStyle = 'style="font-size:1.5rem; border-bottom: 1px white solid;margin-top:5px;color:#6Cf;"';
 var excludedCharacters = '';
