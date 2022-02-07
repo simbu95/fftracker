@@ -39,7 +39,7 @@ function create_network(parent, isReact = true) {
         disconnecting = false;
         try {
 
-            socket = await snes.connect('ws://localhost:54321');
+            socket = await snes.connect('ws://localhost:8765');
             socket.onclose = socket_onclose;
 
             parent.log('Connected to websocket');
