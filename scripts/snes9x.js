@@ -36,6 +36,11 @@ function snes9x() {
             
             socket.addEventListener('message', function (event) {
                 console.log('Message from server ', event.data);
+                if(event.data['metadata']){
+                    flags=event.data['metadata']['flags']
+                    objectives=event.data['metadata']['objectives']
+                    SetModes();
+                    ApplyChecks();
             });
         });
     }
