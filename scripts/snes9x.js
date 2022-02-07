@@ -41,6 +41,7 @@ function snes9x() {
                     objectives=event.data['metadata']['objectives']
                     SetModes();
                     ApplyChecks();
+                }
             });
         });
     }
