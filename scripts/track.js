@@ -1198,7 +1198,7 @@ function httpGetAsync(theUrl, callback) {
 
 function SetupFlagProps() {
     console.log("Setting up flag props");
-    var query = 'hettps://www.galeswift.com/draft/flagstring?validate=' + flags.replace(/\|/gi, " ")
+    var query = 'https://www.galeswift.com/draft/flagstring?validate=' + flags.replace(/\|/gi, " ")
     if (useBeta != "false") {
         query += '&useBetaChanges';
     }
