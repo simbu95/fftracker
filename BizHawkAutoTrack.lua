@@ -7,9 +7,9 @@ tcp:connect('127.0.0.1',54321)
 tcp:setoption('keepalive',true)
 
 local function checkKIs()
-	local lowLOC = mainmemory.read_u32_le(0x7E1514)
-	local highLOC = mainmemory.read_u32_le(0x7E1518)
-	local KI = bit.band(mainmemory.read_u32_le(0x7E1500),0x1FFFF)
+	local lowLOC = mainmemory.read_u32_le(0x1514)
+	local highLOC = mainmemory.read_u32_le(0x1518)
+	local KI = bit.band(mainmemory.read_u32_le(0x1500),0x1FFFF)
 	tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KI,lowLOC,highLOC))
 end
 
@@ -30,7 +30,7 @@ end
 
 tcp:send("{" .. metaData() .. "}\n")
 
-while not Exited do
+while true do
 	myframe()
 	emu.frameadvance()
 end
