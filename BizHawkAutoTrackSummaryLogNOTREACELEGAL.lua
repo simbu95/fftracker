@@ -185,8 +185,6 @@ local function myframe()
 			mapID = -1
 		end
 		area_frames[mapID] = area_frames[mapID] + 1
-		gui.text(70,60, area_frames[mapID])
-		gui.text(70,70, areas[mapID+1])
 		if battle ~= 0x85 then
 			area_battles[mapID] = area_battles[mapID] + 1
 			local formID = mainmemory.read_u16_le(0x1800)
@@ -256,7 +254,6 @@ local function metaData()
 	for i=1,numBytes-2 do
 		str = str .. string.char(memory.read_u8(0x1FF004+i))
 	end
-	print(str)
 	return string.format("\"metadata\": {%s}",str)
 end
 
