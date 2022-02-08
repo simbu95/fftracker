@@ -49,9 +49,9 @@ function snes9x() {
                         out[i] = (dat['KI'] >> i) & 1;
                     }
                     order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
-                    for(x in KI){
-                        if(KI[x] == 1 && keyitems[order[x]]==0){	
-                            keyitems[order[x]] = KI[x];	
+                    for(x in out){
+                        if(out[x] == 1 && keyitems[order[x]]==0){	
+                            keyitems[order[x]] = out[x];	
                         }	
                     }
                     for(let i = 0; i < 32; i++){
@@ -60,9 +60,8 @@ function snes9x() {
                     }
                     out = out1.concat(out2)
                     order = [14,1,5,19,4,2,15,16,7,57,3,8,6,11,13,17,18,9,10,12,20,21,23,27,22,25,24]
-                    Locs = [out[i] for i in order]
-                    for(x in Locs){	
-                        if(Locs[x] == 1 ){	
+                    for(x in out){	
+                        if(out[x] == 1 ){	
                           keyitemlocations[order[x]] = 2;	
                         }	
                     }
