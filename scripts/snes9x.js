@@ -44,22 +44,26 @@ function snes9x() {
                     ApplyChecks();
                 }
                 else if(dat['KI']){
-                    out  = dat['KI'].toString(2)
+                    out=[]
+                    for(int i = 0; i < 17; i++){
+                        out[i] = (dat['KI'] >> i) & 1;
+                    }
                     order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
-                    KI = [out[i] for i in order]
                     for(x in KI){
-                        if(KI[x] == 1 && keyitems[x]==0){	
-                            keyitems[x] = KI[x];	
+                        if(KI[x] == 1 && keyitems[order[x]]==0){	
+                            keyitems[order[x]] = KI[x];	
                         }	
-                    }	
-                    out1 = dat['Loc1'].toString(2)
-                    out2 = dat['Loc2'].toString(2)
-                    out = out1 + out2
+                    }
+                    for(int i = 0; i < 32; i++){
+                        out1[i] = (dat['Loc1'] >> i) & 1;
+                        out2[i] = (dat['Loc2'] >> i) & 1;
+                    }
+                    out = out1.concat(out2)
                     order = [14,1,5,19,4,2,15,16,7,57,3,8,6,11,13,17,18,9,10,12,20,21,23,27,22,25,24]
                     Locs = [out[i] for i in order]
                     for(x in Locs){	
                         if(Locs[x] == 1 ){	
-                          keyitemlocations[x] = 2;	
+                          keyitemlocations[order[x]] = 2;	
                         }	
                     }
                     ApplyChecks();
