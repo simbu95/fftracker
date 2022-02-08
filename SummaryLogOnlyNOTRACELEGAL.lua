@@ -194,7 +194,7 @@ local function myframe()
 					BossTime[13]=emu.framecount()-startTime
 				elseif(BossFormations[formID] ~= nil) then
 					BossParty[BossFormations[formID]]=printChars()
-					BossTime[formID]=emu.framecount()-startTime
+					BossTime[BossFormations[formID]]=emu.framecount()-startTime
 				else
 					BossParty[42]=printChars()
 					BossTime[42]=emu.framecount()-startTime
