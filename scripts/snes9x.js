@@ -1,4 +1,8 @@
 function snes9x() {
+    ki_map = {KeyItem.PACKAGE,KeyItem.SANDRUBY,KeyItem.LEGEND,KeyItem.BARON_KEY,KeyItem.TWINHARP,KeyItem.EARTH_CRYSTAL,KeyItem.MAGMA_KEY,
+			  KeyItem.TOWER_KEY,KeyItem.HOOK, KeyItem.LUCA_KEY,KeyItem.DARKNESS_CRYSTAL,KeyItem.RAT_TAIL,KeyItem.ADAMANT,KeyItem.PAN,
+			  KeyItem.SPOON,KeyItem.PINK_TAIL,KeyItem.CRYSTAL
+			}
     const methods = {};
 
     let ws = null;
@@ -48,10 +52,9 @@ function snes9x() {
                     for(let i = 0; i < 17; i++){
                         out[i] = (dat['KI'] >> i) & 1;
                     }
-                    order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
                     for(x in out){
-                        if(out[x] == 1 && keyitems[order[x]]==0){	
-                            keyitems[order[x]] = out[x];	
+                        if(out[x] == 1 && keyitems[ki_map[x]]==0){	
+                            keyitems[ki_map[x]] = out[x];	
                         }	
                     }
                     for(let i = 0; i < 32; i++){
