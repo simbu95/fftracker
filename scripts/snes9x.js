@@ -1,5 +1,5 @@
 function snes9x() {
-    ki_map = {KeyItem.PACKAGE,KeyItem.SANDRUBY,KeyItem.LEGEND,KeyItem.BARON_KEY,KeyItem.TWINHARP,KeyItem.EARTH_CRYSTAL,KeyItem.MAGMA_KEY,
+    let ki_map = {KeyItem.PACKAGE,KeyItem.SANDRUBY,KeyItem.LEGEND,KeyItem.BARON_KEY,KeyItem.TWINHARP,KeyItem.EARTH_CRYSTAL,KeyItem.MAGMA_KEY,
 			  KeyItem.TOWER_KEY,KeyItem.HOOK, KeyItem.LUCA_KEY,KeyItem.DARKNESS_CRYSTAL,KeyItem.RAT_TAIL,KeyItem.ADAMANT,KeyItem.PAN,
 			  KeyItem.SPOON,KeyItem.PINK_TAIL,KeyItem.CRYSTAL
 			}
