@@ -123,7 +123,7 @@ local function checkKIs()
 				LocTimes[32*i+j]=emu.framecount()-startTime
 				LocParty[32*i+j]=printChars()
 				KiB=bit.band(memory.readdword(0x7E1500),0x1FFFF)
-				tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}",KiB,words[0],words[1]))
+				tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
 				KINb=bit.bnot(KIBinary)
 				KINb=bit.band(KINb,KiB)
 				for l=0,17 do
@@ -253,7 +253,7 @@ local function metaData()
 	for i=1,numBytes-2 do
 		str = str .. string.char(memory.readbyte(0x3FF004+i))
 	end
-	return string.format("\"metadata\": {\n%s}\n",str)
+	return string.format("\"metadata\": {%s}",str)
 end
 
 
@@ -426,6 +426,6 @@ end
 emu.registerbefore(myframe)
 --emu.registerexit(myexit)
 
-tcp:send("{" .. metaData() .. "}")
+tcp:send("{" .. metaData() .. "}\n")
 
 memory.registerexec(0x03F591,1,myexit)

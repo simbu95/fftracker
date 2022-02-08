@@ -12,7 +12,7 @@ async def handle_client(reader, writer):
     global globe
     global connected
     while request != 'quit':
-        request = (await reader.read(1024)).decode('utf8')
+        request = (await reader.readline()).decode('utf8')
         print(request)
         x=json.loads(request)
         print(json.dumps(x, sort_keys=True, indent=4))
