@@ -239,10 +239,6 @@ function SetModes() {
         modeflags.orandomcount = 1;
         document.getElementById('changemysteryflagsdiv').style.display = "";
         modeflags.oreq = "?";
-
-        for (var j = 0; j < modeflags.orandomcount; j++) {
-            objectives[90 + j] = 0;
-        }
     } else {
         document.getElementById('changemysteryflagsdiv').style.display = "none";
 
@@ -309,10 +305,8 @@ function SetModes() {
                                             break;
                                         default:
                                             if (randomquests[l].startsWith('RANDOM')) {
-                                                modeflags.orandomcount = randomquests[l].substring(7);
-                                                for (var j = 0; j < modeflags.orandomcount; j++) {
-                                                    objectives[90 + j] = 0;
-                                                }
+                                                for( var x in Objectives){	
+                                                    objectives[objectivenames.indexOf(Objectives[x])] = 0;
                                             }
                                             break;
                                     }
