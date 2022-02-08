@@ -37,7 +37,7 @@ function snes9x() {
             socket.addEventListener('message', function (event) {
                 console.log('Message from server ', event.data);
                 dat=JSON.parse(event.data)
-                if(dat){
+                if(dat['metadata']){
                     flags=dat['metadata']['flags']
                     objectives=dat['metadata']['objectives']
                     SetModes();
