@@ -1,5 +1,4 @@
 function snes9x() {
-    let ki_map = [8,10,13,0,7,5,2,6,1,4,11,12,9,15,16]
     const methods = {};
 
     let ws = null;
@@ -49,9 +48,10 @@ function snes9x() {
                     for(let i = 0; i < 17; i++){
                         out[i] = (dat['KI'] >> i) & 1;
                     }
+                    order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
                     for(x in out){
-                        if(out[x] == 1 && keyitems[ki_map[x]]==0){	
-                            keyitems[ki_map[x]] = out[x];	
+                        if(out[order[x]] == 1 && keyitems[x]==0){	
+                            keyitems[x] = out[order[x]];	
                         }	
                     }
                     for(let i = 0; i < 32; i++){
@@ -60,8 +60,8 @@ function snes9x() {
                     }
                     order = [14,1,5,19,4,2,15,16,7,57,3,8,6,11,13,17,18,9,10,12,20,21,23,27,22,25,24]
                     for(x in out){	
-                        if(out[x] == 1 ){	
-                          keyitemlocations[order[x]] = 2;	
+                        if(out[order[x]] == 1 ){	
+                          keyitemlocations[x] = 2;	
                         }	
                     }
                     ApplyChecks();
