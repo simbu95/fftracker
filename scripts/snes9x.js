@@ -1,8 +1,5 @@
 function snes9x() {
-    let ki_map = {KeyItem.PACKAGE,KeyItem.SANDRUBY,KeyItem.LEGEND,KeyItem.BARON_KEY,KeyItem.TWINHARP,KeyItem.EARTH_CRYSTAL,KeyItem.MAGMA_KEY,
-			  KeyItem.TOWER_KEY,KeyItem.HOOK, KeyItem.LUCA_KEY,KeyItem.DARKNESS_CRYSTAL,KeyItem.RAT_TAIL,KeyItem.ADAMANT,KeyItem.PAN,
-			  KeyItem.SPOON,KeyItem.PINK_TAIL,KeyItem.CRYSTAL
-			}
+    let ki_map = [8,10,13,0,7,5,2,6,1,4,11,12,9,15,16]
     const methods = {};
 
     let ws = null;
