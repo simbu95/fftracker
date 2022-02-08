@@ -44,7 +44,7 @@ function snes9x() {
                     ApplyChecks();
                 }
                 else if(dat['KI']){
-                    out = [dat['KI'] & 1 << b and 1 for b in range(17)]
+                    out  = dat['KI'].toString(2)
                     order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
                     KI = [out[i] for i in order]
                     for(x in KI){
@@ -52,8 +52,8 @@ function snes9x() {
                             keyitems[x] = KI[x];	
                         }	
                     }	
-                    out1 = [dat['Loc1'] & 1 << b and 1 for b in range(32)]
-                    out2 = [dat['Loc2'] & 1 << b and 1 for b in range(32)]
+                    out1 = dat['Loc1'].toString(2)
+                    out2 = dat['Loc2'].toString(2)
                     out = out1 + out2
                     order = [14,1,5,19,4,2,15,16,7,57,3,8,6,11,13,17,18,9,10,12,20,21,23,27,22,25,24]
                     Locs = [out[i] for i in order]
