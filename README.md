@@ -1,2 +1,4 @@
 # fftracker
-Final Fantasy IV Free Enterprise tracker
+Final Fantasy IV Free Enterprise AutoTracker
+
+
