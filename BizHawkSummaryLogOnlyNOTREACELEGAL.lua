@@ -181,16 +181,16 @@ local function myframe()
 		if battle ~= 0x85 then
 			area_battles[mapID] = area_battles[mapID] + 1
 			local formID = mainmemory.read_u16_le(0x1800)
-			if(BossFormations[formID] ~= nil) then
-				BossBattles[BossFormations[formID]]=BossBattles[BossFormations[formID]]+1
-			elseif mainmemory.read_u8(0x1628) ~= 0 then
+			if mainmemory.read_u8(0x1628) ~= 0 then
 				BossBattles[13]=BossBattles[13]+1
+			elseif(BossFormations[formID] ~= nil) then
+				BossBattles[BossFormations[formID]]=BossBattles[BossFormations[formID]]+1
 			else
 				BossBattles[42]=BossBattles[42]+1
 			end
 			if not Battle then
 				Battle=true
-				if mainmemory.readbyte(0x1628) ~= 0 then
+				if mainmemory.read_u8(0x1628) ~= 0 then
 					BossParty[13]=printChars()
 					BossTime[13]=emu.framecount()-startTime
 				elseif(BossFormations[formID] ~= nil) then
