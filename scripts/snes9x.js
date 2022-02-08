@@ -45,7 +45,7 @@ function snes9x() {
                 }
                 else if(dat['KI']){
                     out=[]
-                    for(int i = 0; i < 17; i++){
+                    for(let i = 0; i < 17; i++){
                         out[i] = (dat['KI'] >> i) & 1;
                     }
                     order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
@@ -54,7 +54,7 @@ function snes9x() {
                             keyitems[order[x]] = KI[x];	
                         }	
                     }
-                    for(int i = 0; i < 32; i++){
+                    for(let i = 0; i < 32; i++){
                         out1[i] = (dat['Loc1'] >> i) & 1;
                         out2[i] = (dat['Loc2'] >> i) & 1;
                     }
