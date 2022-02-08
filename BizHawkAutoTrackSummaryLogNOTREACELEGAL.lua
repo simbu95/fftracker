@@ -197,7 +197,7 @@ local function myframe()
 			end
 			if not Battle then
 				Battle=true
-				if memory.readbyte(0x7e1628) ~= 0 then
+				if mainmemory.read_u8(0x1628) ~= 0 then
 					BossParty[13]=printChars()
 					BossTime[13]=emu.framecount()-startTime
 				elseif(BossFormations[formID] ~= nil) then
