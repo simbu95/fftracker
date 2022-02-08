@@ -1,7 +1,7 @@
 startTime,lagcount,treasures=0,0,0
 started,Battle,Menu=false,false,false
 
-area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossParty = {},{},{},{},{},{},{},{},{},{}
+area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty = {},{},{},{},{},{},{},{},{},{}
 KIBinary=0
 LocNames={"Starting item","Antlion nest","Defending Fabul","Mt. Ordeals","Baron Inn","Baron Castle","Edward in Toroia","Cave Magnes","Tower of Zot","Lower Bab-il boss","Super Cannon","Dwarf Castle/Luca","Sealed Cave","Feymarch chest","Rat Tail trade","Yang's wife (for finding Yang)","Yang's wife (Pan trade)","Feymarch queen","Feymarch king","Odin throne","From the Sylphs","Cave Bahamut","Pale Dim/Murasame altar","Wyvern/Crystal Sword altar","Plague/White spear altar","D.Lunar/Ribbon chest 1","D.Lunar/Ribbon chest 2","Ogopogo/Masamune altar","Tower of Zot trapped chest","Eblan trapped chest 1","Eblan trapped chest 2","Eblan trapped chest 3","Lower Bab-il trapped chest 1","Lower Bab-il trapped chest 2","Lower Bab-il trapped chest 3","Lower Bab-il trapped chest 4","Cave Eblan trapped chest","Upper Bab-il trapped chest","Cave of Summons trapped chest","Sylph Cave trapped chest 1","Sylph Cave trapped chest 2","Sylph Cave trapped chest 3","Sylph Cave trapped chest 4","Sylph Cave trapped chest 5","Sylph Cave trapped chest 6","Sylph Cave trapped chest 7","Giant of Bab-il trapped chest","Lunar Path trapped chest","Lunar Core trapped chest ","Lunar Core trapped chest 2","Lunar Core trapped chest 3","Lunar Core trapped chest 4","Lunar Core trapped chest 5","Lunar Core trapped chest 6","Lunar Core trapped chest 7","Lunar Core trapped chest 8","Lunar Core trapped chest 9","Rydia's Mom","Fallen Golbez (vanilla Crystal location)","E1","E2","Objective completion","E3","E4"}
 LocNames[0]=""
@@ -73,7 +73,7 @@ for i=0, 16 do
 	KIsToLocMap[i]=-1
 end
 for i=-1, 63 do
-	BossBattles[i],LocTimes[i],LocToKisMap[i],BossParty[i],LocParty[i]=0,0,-1,"",""
+	BossBattles[i],BossTimes[i],LocTimes[i],LocToKisMap[i],BossParty[i],LocParty[i]=0,0,0,-1,"",""
 end
 
 for i=-4, 80000 do
@@ -189,12 +189,15 @@ local function myframe()
 			end
 			if not Battle then
 				Battle=true
-				if(BossFormations[formID] ~= nil) then
-					BossParty[BossFormations[formID]]=printChars()
-				elseif memory.readbyte(0x7e1628) ~= 0 then
+				if memory.readbyte(0x7e1628) ~= 0 then
 					BossParty[13]=printChars()
+					BossTime[13]=emu.framecount()-startTime
+				elseif(BossFormations[formID] ~= nil) then
+					BossParty[BossFormations[formID]]=printChars()
+					BossTime[formID]=emu.framecount()-startTime
 				else
 					BossParty[42]=printChars()
+					BossTime[42]=emu.framecount()-startTime
 				end
 				table.insert(DetailedString, string.format("B"))
 				table.insert(FramesDetailed, string.format("%d",(emu.framecount()-startTime)/60))
@@ -291,11 +294,13 @@ local function printBoss()
 	for i=1,41 do
 		io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[i]))
 		io.write(string.format("\"party\": \"%s\",\n",BossParty[i]))
+		io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossBattles[i])))
 		io.write(string.format("\"time\": {\n%s}\n},",FormatTime(BossBattles[i])))
 		
 	end
 	io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[42]))
 	io.write(string.format("\"party\": \"%s\",\n",BossParty[42]))
+	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossBattles[42])))
 	io.write(string.format("\"time\": {\n%s}\n}\n],\n",FormatTime(BossBattles[42])))
 end
 
