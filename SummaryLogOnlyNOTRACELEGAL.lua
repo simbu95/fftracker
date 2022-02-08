@@ -180,10 +180,10 @@ local function myframe()
 		if battle ~= 0x85 then
 			area_battles[mapID] = area_battles[mapID] + 1
 			local formID = memory.readword(0x7e1800)
-			if(BossFormations[formID] ~= nil) then
-				BossBattles[BossFormations[formID]]=BossBattles[BossFormations[formID]]+1
-			elseif memory.readbyte(0x7e1628) ~= 0 then
+			if memory.readbyte(0x7e1628) ~= 0 then
 				BossBattles[13]=BossBattles[13]+1
+			elseif(BossFormations[formID] ~= nil) then
+				BossBattles[BossFormations[formID]]=BossBattles[BossFormations[formID]]+1
 			else
 				BossBattles[42]=BossBattles[42]+1
 			end
@@ -227,6 +227,8 @@ local function myframe()
 				end
 			end
 		else
+			Battle=false
+			Menu=false
 			checkKIs()
 		end
 	else
