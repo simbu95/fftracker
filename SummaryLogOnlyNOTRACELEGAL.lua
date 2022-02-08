@@ -73,7 +73,7 @@ for i=0, 16 do
 	KIsToLocMap[i]=-1
 end
 for i=-1, 63 do
-	BossBattles[i],BossTimes[i],LocTimes[i],LocToKisMap[i],BossParty[i],LocParty[i]=0,0,0,-1,"",""
+	BossBattles[i],BossTime[i],LocTimes[i],LocToKisMap[i],BossParty[i],LocParty[i]=0,0,0,-1,"",""
 end
 
 for i=-4, 80000 do
