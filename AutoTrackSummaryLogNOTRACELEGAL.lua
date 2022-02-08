@@ -424,7 +424,7 @@ local function myexit()
 end
 
 emu.registerbefore(myframe)
---emu.registerexit(myexit)
+emu.registerexit(myexit)
 
 tcp:send("{" .. metaData() .. "}\n")
 
