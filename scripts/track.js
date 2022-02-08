@@ -307,6 +307,7 @@ function SetModes() {
                                             if (randomquests[l].startsWith('RANDOM')) {
                                                 for( var x in Objectives){	
                                                     objectives[objectivenames.indexOf(Objectives[x])] = 0;
+						}
                                             }
                                             break;
                                     }
