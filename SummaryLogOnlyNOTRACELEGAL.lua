@@ -294,13 +294,13 @@ local function printBoss()
 	for i=1,41 do
 		io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[i]))
 		io.write(string.format("\"party\": \"%s\",\n",BossParty[i]))
-		io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossBattles[i])))
+		io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[i])))
 		io.write(string.format("\"time\": {\n%s}\n},",FormatTime(BossBattles[i])))
 		
 	end
 	io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[42]))
 	io.write(string.format("\"party\": \"%s\",\n",BossParty[42]))
-	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossBattles[42])))
+	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[42])))
 	io.write(string.format("\"time\": {\n%s}\n}\n],\n",FormatTime(BossBattles[42])))
 end
 
