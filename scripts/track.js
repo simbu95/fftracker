@@ -230,8 +230,6 @@ function SetModes() {
         document.getElementById('objective' + i).style.display = "flex";
     }
 
-    flags = getParameterByName('f');
-
     flagsets = flags.split('|');
     excludedCharacters = '';
     includedCharacters = '';
