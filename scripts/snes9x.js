@@ -55,10 +55,9 @@ function snes9x() {
                         }	
                     }
                     for(let i = 0; i < 32; i++){
-                        out1[i] = (dat['Loc1'] >> i) & 1;
-                        out2[i] = (dat['Loc2'] >> i) & 1;
+                        out[i] = (dat['Loc1'] >> i) & 1;
+                        out[i+32] = (dat['Loc2'] >> i) & 1;
                     }
-                    out = out1.concat(out2)
                     order = [14,1,5,19,4,2,15,16,7,57,3,8,6,11,13,17,18,9,10,12,20,21,23,27,22,25,24]
                     for(x in out){	
                         if(out[x] == 1 ){	
