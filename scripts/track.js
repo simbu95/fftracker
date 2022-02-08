@@ -230,7 +230,7 @@ function SetModes() {
         document.getElementById('objective' + i).style.display = "flex";
     }
 
-    flagsets = flags.split('|');
+    flagsets = flags.split(' ');
     excludedCharacters = '';
     includedCharacters = '';
     var bAddedMiscHeader = false;
