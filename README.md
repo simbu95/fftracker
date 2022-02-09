@@ -12,5 +12,7 @@ For Bizhawk, You will probably not need socket.dll. If the lua console complains
 
 # Relevant links: 
 Website for Summary Log submission: https://chrono.abigtoe.org/
+
 Snes9x 1.6-rr repo: https://github.com/gocha/snes9x-rr/releases
+
 Website for Auto-Tracking (Launch AutoTrack.exe, and start lua script in emulator first): https://simbu95.github.io/fftracker/
