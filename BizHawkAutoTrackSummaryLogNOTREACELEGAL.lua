@@ -19,8 +19,8 @@ idToArea={3,4,5,6,7,9,7,7,7,7,1,1,1,1,3,4,4,4,5,5,22,5,5,7,7,7,33,7,7,9,9,9,13,3
 idToArea[0]=1
 iToC={"Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"}
 iToC[0]="Cecil"
-BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[429]=19,[425]=20,[232]=21,[226]=22,[227]=23,[246]=24,[225]=25,[223]=26,[428]=27,[237]=28,[506]=29,[507]=30,[510]=31,[427]=32,[234]=33,[239]=34,[508]=35,[439]=36,[479]=37,[394]=38,[200]=39,[194]=40,[348]=41,[349]=41,[350]=41,[351]=41}
-FormationIDToBoss={"ANTLION",'ASURA','BAHAMUT','BAIGAN','CALBRENA','CPU','DARKELF','DARKIMP','DLUNAR','DMIST','ELEMENTS','EVILWALL','FABULGAUNTLET','GOLBEZ','GUARD','KAINAZZO','KARATE','KINGQUEEN','LEVIATAN','LUGAE','MAGUS','MILON','MILONZ','MIRRORCECIL','MOMBOMB','OCTOMAMM','ODIN','OFFICER','OGOPOGO','PALEDIM','PLAGUE','RUBICANT','VALVALIS','WATERHAG','WYVERN','ZEROMUS','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc'}
+BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[429]=19,[425]=20,[232]=21,[226]=22,[227]=23,[246]=24,[225]=25,[223]=26,[428]=27,[237]=28,[506]=29,[507]=30,[510]=31,[427]=32,[255]=32,[234]=33,[239]=34,[508]=35,[439]=36,[479]=37,[394]=38,[200]=39,[194]=40,[348]=41,[349]=41,[350]=41,[351]=41,[236]=42,[230]=43,[252]=43}
+FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
 
 currentArea,currentID,Transitions,KIBinary,currentCoords,Steps,TilesFlown = 2,0,0,0,0,0,0
 AreaString,DetailedString,FramesString,FramesDetailed = {"2"},{"0"},{"0"},{"0"}
@@ -420,6 +420,7 @@ local function myexit()
 		FormatKI()
 		FormatKILoc()
 		printBoss()
+		io.write("\"Version\": \"22211asb,\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
