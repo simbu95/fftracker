@@ -43,7 +43,7 @@ function snes9x() {
                     SetModes();
                     ApplyChecks();
                 }
-                else if(dat['KI']){
+                else if(dat['KI']!=undefined){
                     out=[]
                     for(let i = 0; i < 17; i++){
                         out[i] = (dat['KI'] >> i) & 1;
