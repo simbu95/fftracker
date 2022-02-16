@@ -103,12 +103,12 @@ local function printChars()
 	end
 	table.sort(str,compare)
 	stri=iToC[str[1][1]] .. ":" .. str[1][2]
-	strin=str[1][1]
+	p=str[1][1]
 	for i = 2,#str do
 		stri=stri .. "," .. iToC[str[i][1]] .. ":" .. str[i][2]
-		strin=strin .. "," .. str[i][1]
+		p=p .. "," .. str[i][1]
 	end
-	tcp:send("{ \"P\": \"" .. strin .. "\"}\n")
+	tcp:send("{ \"P\": \"" .. p .. "\"}\n")
 	return stri
 end
 
