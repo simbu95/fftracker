@@ -66,6 +66,25 @@ function snes9x() {
                     }
                     ApplyChecks();
                 }
+                else if(dat['P']!=undefined){
+                    party=dat['P'];
+                    members=party.split(",");
+                    order = [0,1,2,3,4,5,6,7,8,0,9,2,10,11];
+                    partymembers= {-1, -1, -1, -1, -1};
+                    for(p in members){
+                        partymembers[p]=parseInt(order[members[p]]);
+                    }
+                    ApplyChecks();
+                }
+                else if(dat['T']!=undefined){
+                    if(dat['T'] !=0 && ! timerStarted){
+                        timerSecondsElapsed=3500;
+                        StartTimer();
+                    }
+                    else{
+                        PauseTimer();
+                    }
+                }
             });
         });
     }
