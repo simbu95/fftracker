@@ -85,6 +85,9 @@ function snes9x() {
                         PauseTimer();
                     }
                 }
+                else if(dat['O']!=undefined){
+                    checkOffObjective(objectivenames.indexOf(Objectives[dat['O']]));
+                }
             });
         });
     }
