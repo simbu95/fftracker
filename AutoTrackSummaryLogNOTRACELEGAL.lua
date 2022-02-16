@@ -85,6 +85,7 @@ end
 for i=-4, 80000 do
 	area_battles[i],area_frames[i],area_menus[i]=0,0,0
 end
+area_frames[42]=210
 
 function compare(x, y)
     return x[1] < y[1]
@@ -93,6 +94,7 @@ end
 local function printChars()
 	local str={}
 	local stri=""
+	local p=""
 	for i=0,4 do 
 		local temp=memory.readdword(0x7E1000+0x40*i)
 		if(bit.band(temp,0x1f) ~= 0) then
@@ -101,9 +103,12 @@ local function printChars()
 	end
 	table.sort(str,compare)
 	stri=iToC[str[1][1]] .. ":" .. str[1][2]
+	strin=str[1][1]
 	for i = 2,#str do
 		stri=stri .. "," .. iToC[str[i][1]] .. ":" .. str[i][2]
+		strin=strin .. "," .. str[i][1]
 	end
+	tcp:send("{ \"P\": \"" .. strin .. "\"}\n")
 	return stri
 end
 
@@ -247,7 +252,8 @@ local function myframe()
 			started=true
 			treasures=countTreasure()
 			lagcount=emu.lagcount()
-			startTime=emu.framecount()
+			startTime=emu.framecount()-210
+			tcp:send("\"T\": 1 }\n"
 		end
 	end
 end
@@ -381,6 +387,7 @@ local function myexit()
 	if(Exited) then
 		return
 	else
+		tcp:send("\"T\": 0 }\n"
 		i=0
 		repeat
 			i=i+1
@@ -419,7 +426,7 @@ local function myexit()
 		FormatKI()
 		FormatKILoc()
 		printBoss()
-		io.write("\"Version\": \"22211as\",\n")
+		io.write("\"Version\": \"162211as\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
@@ -431,9 +438,18 @@ local function myexit()
 	end
 end
 
+local function myobjective(address,size)
+	local object = memory.readbyte(address)
+	if(object ~= 0) then
+		memory.registerwrite(address,1,nil)
+		tcp:send("{\"O\":" .. object .. "}\n")
+	end
+end
+
 emu.registerbefore(myframe)
 emu.registerexit(myexit)
 
 tcp:send("{" .. metaData() .. "}\n")
 
 memory.registerexec(0x03F591,1,myexit)
+memory.registerwrite(0x7e1520,32,myobjective)
