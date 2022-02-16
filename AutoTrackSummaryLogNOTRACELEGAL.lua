@@ -253,7 +253,7 @@ local function myframe()
 			treasures=countTreasure()
 			lagcount=emu.lagcount()
 			startTime=emu.framecount()-210
-			tcp:send("\"T\": 1 }\n"
+			tcp:send("{\"T\": 1 }\n")
 		end
 	end
 end
@@ -387,7 +387,7 @@ local function myexit()
 	if(Exited) then
 		return
 	else
-		tcp:send("\"T\": 0 }\n"
+		tcp:send("{\"T\": 0 }\n")
 		i=0
 		repeat
 			i=i+1
