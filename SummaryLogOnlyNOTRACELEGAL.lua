@@ -1,7 +1,7 @@
 startTime,lagcount,treasures=0,0,0
 started,Battle,Menu=false,false,false
 
-area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty = {},{},{},{},{},{},{},{},{},{},{}
+area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty,Objectives = {},{},{},{},{},{},{},{},{},{},{},{}
 KIBinary=0
 LocNames={"Starting item","Antlion nest","Defending Fabul","Mt. Ordeals","Baron Inn","Baron Castle","Edward in Toroia","Cave Magnes","Tower of Zot","Lower Bab-il boss","Super Cannon","Dwarf Castle/Luca","Sealed Cave","Feymarch chest","Rat Tail trade","Yang's wife (for finding Yang)","Yang's wife (Pan trade)","Feymarch queen","Feymarch king","Odin throne","From the Sylphs","Cave Bahamut","Pale Dim/Murasame altar","Wyvern/Crystal Sword altar","Plague/White spear altar","D.Lunar/Ribbon chest 1","D.Lunar/Ribbon chest 2","Ogopogo/Masamune altar","Tower of Zot trapped chest","Eblan trapped chest 1","Eblan trapped chest 2","Eblan trapped chest 3","Lower Bab-il trapped chest 1","Lower Bab-il trapped chest 2","Lower Bab-il trapped chest 3","Lower Bab-il trapped chest 4","Cave Eblan trapped chest","Upper Bab-il trapped chest","Cave of Summons trapped chest","Sylph Cave trapped chest 1","Sylph Cave trapped chest 2","Sylph Cave trapped chest 3","Sylph Cave trapped chest 4","Sylph Cave trapped chest 5","Sylph Cave trapped chest 6","Sylph Cave trapped chest 7","Giant of Bab-il trapped chest","Lunar Path trapped chest","Lunar Core trapped chest ","Lunar Core trapped chest 2","Lunar Core trapped chest 3","Lunar Core trapped chest 4","Lunar Core trapped chest 5","Lunar Core trapped chest 6","Lunar Core trapped chest 7","Lunar Core trapped chest 8","Lunar Core trapped chest 9","Rydia's Mom","Fallen Golbez (vanilla Crystal location)","E1","E2","Objective completion","E3","E4"}
 LocNames[0]=""
@@ -12,7 +12,7 @@ idToArea={3,4,5,6,7,9,7,7,7,7,1,1,1,1,3,4,4,4,5,5,22,5,5,7,7,7,33,7,7,9,9,9,13,3
 idToArea[0]=1
 iToC={"Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"}
 iToC[0]="Cecil"
-BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[429]=19,[425]=20,[232]=21,[226]=22,[227]=23,[246]=24,[225]=25,[223]=26,[428]=27,[237]=28,[506]=29,[507]=30,[510]=31,[427]=32,[255]=32,[234]=33,[239]=34,[508]=35,[439]=36,[479]=37,[394]=38,[200]=39,[194]=40,[348]=41,[349]=41,[350]=41,[351]=41,[236]=43,[230]=44,[252]=44}
+BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[220]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[429]=19,[425]=20,[232]=21,[226]=22,[227]=23,[246]=24,[225]=25,[223]=26,[428]=27,[237]=28,[506]=29,[507]=30,[510]=31,[427]=32,[255]=32,[234]=33,[239]=34,[508]=35,[439]=36,[479]=37,[394]=38,[200]=39,[194]=40,[348]=41,[349]=41,[350]=41,[351]=41,[236]=43,[230]=44,[252]=44}
 FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
 
 currentArea,currentID,Transitions,KIBinary,currentCoords,Steps,TilesFlown = 2,0,0,0,0,0,0
@@ -79,6 +79,7 @@ end
 for i=-4, 80000 do
 	area_battles[i],area_frames[i],area_menus[i]=0,0,0
 end
+area_frames[42]=210
 
 function compare(x, y)
     return x[1] < y[1]
@@ -87,6 +88,7 @@ end
 local function printChars()
 	local str={}
 	local stri=""
+	local p=""
 	for i=0,4 do 
 		local temp=memory.readdword(0x7E1000+0x40*i)
 		if(bit.band(temp,0x1f) ~= 0) then
@@ -117,6 +119,7 @@ local function checkKIs()
 				LocTimes[32*i+j]=emu.framecount()-startTime
 				LocParty[32*i+j]=printChars()
 				KiB=bit.band(memory.readdword(0x7E1500),0x1FFFF)
+				tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
 				KINb=bit.bnot(KIBinary)
 				KINb=bit.band(KINb,KiB)
 				for l=0,17 do
@@ -150,7 +153,6 @@ local function countTreasure()
 	end
 	return tres
 end
-
 
 local function FormatTime(t)
 	return string.format("\"minutes\":%d,\n\"seconds\":%d\n",t/3600,(t%3600)/60)
@@ -240,7 +242,7 @@ local function myframe()
 			started=true
 			treasures=countTreasure()
 			lagcount=emu.lagcount()
-			startTime=emu.framecount()
+			startTime=emu.framecount()-210
 		end
 	end
 end
@@ -251,7 +253,7 @@ local function metaData()
 	for i=1,numBytes-2 do
 		str = str .. string.char(memory.readbyte(0x3FF004+i))
 	end
-	return string.format("\"metadata\": {\n%s}\n",str)
+	return string.format("\"metadata\": {%s}",str)
 end
 
 
@@ -369,6 +371,18 @@ local function FormatTop(mylist)
 	return timet,timeb,timem
 end
 
+local function printObjectives()
+	io.write("\"Objectives\": [\n")
+	if Objectives[0] then
+		io.write(string.format("{\"0\": {\n%s}\n}",FormatTime(Objectives[0])))
+		for i=1,32 do
+			if(Objectives[i]) then 
+				io.write(string.format(",\n{\"%d\": {\n%s}\n}",i,FormatTime(Objectives[i])))
+			end
+		end
+	end
+	io.write("],\n")
+end
 
 local function myexit()
 	if(Exited) then
@@ -412,7 +426,8 @@ local function myexit()
 		FormatKI()
 		FormatKILoc()
 		printBoss()
-		io.write("\"Version\": \"22211s\",\n")
+		printObjectives()
+		io.write("\"Version\": \"172211s\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
@@ -424,7 +439,15 @@ local function myexit()
 	end
 end
 
+local function myobjective(address,size)
+	if(memory.readbyte(address) ~= 0) then
+		memory.registerwrite(address,1,nil)
+		Objectives[address-0x7e1520]=emu.framecount()-startTime
+	end
+end
+
 emu.registerbefore(myframe)
 emu.registerexit(myexit)
 
 memory.registerexec(0x03F591,1,myexit)
+memory.registerwrite(0x7e1520,32,myobjective)
