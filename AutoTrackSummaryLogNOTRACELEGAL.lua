@@ -385,10 +385,10 @@ end
 local function printObjectives()
 	io.write("\"Objectives\": [\n")
 	if Objectives[0] then
-		io.write(string.format("\"0\": %s",FormatTime(Objectives[0])))
+		io.write(string.format("{\"0\": {\n%s}\n}",FormatTime(Objectives[0])))
 		for i=1,32 do
 			if(Objectives[i]) then 
-				io.write(string.format(",\n\"%d\": %s",i,FormatTime(Objectives[i])))
+				io.write(string.format(",\n{\"%d\": {\n%s}\n}",i,FormatTime(Objectives[i])))
 			end
 		end
 	end
@@ -439,7 +439,7 @@ local function myexit()
 		FormatKILoc()
 		printBoss()
 		printObjectives()
-		io.write("\"Version\": \"162211as\",\n")
+		io.write("\"Version\": \"172211as\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
