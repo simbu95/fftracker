@@ -26,5 +26,15 @@ local function metaData()
 	return string.format("\"metadata\": {%s}",str)
 end
 
+local function myobjective(address,size)
+	if(memory.readbyte(address) ~= 0) then
+		memory.registerwrite(address,1,nil)
+		tcp:send("{\"O\":" .. address-0x7e1520 .. "}\n")
+	end
+end
+
 emu.registerbefore(myframe)
+
 tcp:send("{" .. metaData() .. "}\n")
+
+memory.registerwrite(0x7e1520,32,myobjective)
