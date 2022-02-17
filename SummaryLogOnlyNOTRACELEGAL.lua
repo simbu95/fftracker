@@ -1,7 +1,7 @@
 startTime,lagcount,treasures=0,0,0
 started,Battle,Menu=false,false,false
 
-area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty,Objectives = {},{},{},{},{},{},{},{},{},{},{},{}
+area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty,Objectives = {},{},{},{},{},{},{},{},{},{},{},{[0]=0}
 KIBinary=0
 LocNames={"Starting item","Antlion nest","Defending Fabul","Mt. Ordeals","Baron Inn","Baron Castle","Edward in Toroia","Cave Magnes","Tower of Zot","Lower Bab-il boss","Super Cannon","Dwarf Castle/Luca","Sealed Cave","Feymarch chest","Rat Tail trade","Yang's wife (for finding Yang)","Yang's wife (Pan trade)","Feymarch queen","Feymarch king","Odin throne","From the Sylphs","Cave Bahamut","Pale Dim/Murasame altar","Wyvern/Crystal Sword altar","Plague/White spear altar","D.Lunar/Ribbon chest 1","D.Lunar/Ribbon chest 2","Ogopogo/Masamune altar","Tower of Zot trapped chest","Eblan trapped chest 1","Eblan trapped chest 2","Eblan trapped chest 3","Lower Bab-il trapped chest 1","Lower Bab-il trapped chest 2","Lower Bab-il trapped chest 3","Lower Bab-il trapped chest 4","Cave Eblan trapped chest","Upper Bab-il trapped chest","Cave of Summons trapped chest","Sylph Cave trapped chest 1","Sylph Cave trapped chest 2","Sylph Cave trapped chest 3","Sylph Cave trapped chest 4","Sylph Cave trapped chest 5","Sylph Cave trapped chest 6","Sylph Cave trapped chest 7","Giant of Bab-il trapped chest","Lunar Path trapped chest","Lunar Core trapped chest ","Lunar Core trapped chest 2","Lunar Core trapped chest 3","Lunar Core trapped chest 4","Lunar Core trapped chest 5","Lunar Core trapped chest 6","Lunar Core trapped chest 7","Lunar Core trapped chest 8","Lunar Core trapped chest 9","Rydia's Mom","Fallen Golbez (vanilla Crystal location)","E1","E2","Objective completion","E3","E4"}
 LocNames[0]=""
@@ -372,12 +372,10 @@ end
 
 local function printObjectives()
 	io.write("\"Objectives\": [\n")
-	if Objectives[0] then
-		io.write(string.format("{\"0\": {\n%s}\n}",FormatTime(Objectives[0])))
-		for i=1,32 do
-			if(Objectives[i]) then 
-				io.write(string.format(",\n{\"%d\": {\n%s}\n}",i,FormatTime(Objectives[i])))
-			end
+	io.write(string.format("{\"Obj\": 0,\n%s\n}",FormatTime(Objectives[0])))
+	for i=1,32 do
+		if(Objectives[i]) then 
+			io.write(string.format(",\n{\"Obj\": %d,\n%s\n}",i,FormatTime(Objectives[i])))
 		end
 	end
 	io.write("],\n")
