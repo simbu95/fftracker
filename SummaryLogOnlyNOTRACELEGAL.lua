@@ -435,6 +435,7 @@ local function myexit()
 		emu.registerbefore(nil)
 		emu.registerexit(nil)
 		memory.registerexec(0x03F591,1,nil)
+		memory.registerwrite(0x7e1520,32,nil)
 	end
 end
 
