@@ -210,7 +210,7 @@ local function myframe()
 					BossParty[BossFormations[formID]]=printChars()
 					BossTime[BossFormations[formID]]=emu.framecount()-startTime
 					BossAttempts[BossFormations[formID]]=BossAttempts[BossFormations[formID]]+1
-					BossLocations[i]=mapID
+					BossLocations[BossFormations[formID]]=mapID
 				else
 					BossParty[42]=printChars()
 					BossTime[42]=emu.framecount()-startTime
