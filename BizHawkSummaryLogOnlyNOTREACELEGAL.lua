@@ -2,7 +2,7 @@ memory.usememorydomain("CARTROM")
 startTime,lagcount,treasures=0,0,0
 started,Battle,Menu,Exited=false,false,false,false
 
-area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty = {},{},{},{},{},{},{},{},{},{},{}
+area_battles,area_frames,area_menus,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,BossBattles,BossTime,BossParty,BossAttempts,BossLocations,Objectives = {},{},{},{},{},{},{},{},{},{},{},{},{},{[0]=0}
 KIBinary=0
 LocNames={"Starting item","Antlion nest","Defending Fabul","Mt. Ordeals","Baron Inn","Baron Castle","Edward in Toroia","Cave Magnes","Tower of Zot","Lower Bab-il boss","Super Cannon","Dwarf Castle/Luca","Sealed Cave","Feymarch chest","Rat Tail trade","Yang's wife (for finding Yang)","Yang's wife (Pan trade)","Feymarch queen","Feymarch king","Odin throne","From the Sylphs","Cave Bahamut","Pale Dim/Murasame altar","Wyvern/Crystal Sword altar","Plague/White spear altar","D.Lunar/Ribbon chest 1","D.Lunar/Ribbon chest 2","Ogopogo/Masamune altar","Tower of Zot trapped chest","Eblan trapped chest 1","Eblan trapped chest 2","Eblan trapped chest 3","Lower Bab-il trapped chest 1","Lower Bab-il trapped chest 2","Lower Bab-il trapped chest 3","Lower Bab-il trapped chest 4","Cave Eblan trapped chest","Upper Bab-il trapped chest","Cave of Summons trapped chest","Sylph Cave trapped chest 1","Sylph Cave trapped chest 2","Sylph Cave trapped chest 3","Sylph Cave trapped chest 4","Sylph Cave trapped chest 5","Sylph Cave trapped chest 6","Sylph Cave trapped chest 7","Giant of Bab-il trapped chest","Lunar Path trapped chest","Lunar Core trapped chest ","Lunar Core trapped chest 2","Lunar Core trapped chest 3","Lunar Core trapped chest 4","Lunar Core trapped chest 5","Lunar Core trapped chest 6","Lunar Core trapped chest 7","Lunar Core trapped chest 8","Lunar Core trapped chest 9","Rydia's Mom","Fallen Golbez (vanilla Crystal location)","E1","E2","Objective completion","E3","E4"}
 LocNames[0]=""
@@ -13,8 +13,8 @@ idToArea={3,4,5,6,7,9,7,7,7,7,1,1,1,1,3,4,4,4,5,5,22,5,5,7,7,7,33,7,7,9,9,9,13,3
 idToArea[0]=1
 iToC={"Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"}
 iToC[0]="Cecil"
-BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[429]=19,[425]=20,[232]=21,[226]=22,[227]=23,[246]=24,[225]=25,[223]=26,[428]=27,[237]=28,[506]=29,[507]=30,[510]=31,[427]=32,[255]=32,[234]=33,[239]=34,[508]=35,[439]=36,[479]=37,[394]=38,[200]=39,[194]=40,[348]=41,[349]=41,[350]=41,[351]=41,[236]=43,[230]=44,[252]=44}
-FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
+BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[221]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[220]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[254]=18,[429]=19,[425]=20,[437]=21,[232]=22,[226]=23,[227]=24,[246]=25,[225]=26,[223]=27,[428]=28,[237]=29,[506]=30,[507]=31,[510]=32,[427]=33,[255]=33,[234]=34,[239]=35,[508]=36,[439]=37,[479]=38,[394]=39,[200]=40,[194]=41,[348]=42,[349]=42,[350]=42,[351]=42,[236]=44,[230]=45,[252]=45}
+FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae+Balnab','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
 
 currentArea,currentID,Transitions,KIBinary,currentCoords,Steps,TilesFlown = 2,0,0,0,0,0,0
 AreaString,DetailedString,FramesString,FramesDetailed = {"2"},{"0"},{"0"},{"0"}
@@ -74,12 +74,13 @@ for i=0, 16 do
 	KIsToLocMap[i]=-1
 end
 for i=-1, 63 do
-	BossBattles[i],BossTime[i],LocTimes[i],LocToKisMap[i],BossParty[i],LocParty[i]=0,0,0,-1,"",""
+	BossBattles[i],BossTime[i],BossAttempts[i],BossLocations[i],LocTimes[i],LocToKisMap[i],BossParty[i],LocParty[i]=0,0,0,-3,0,-1,"",""
 end
 
 for i=-4, 80000 do
 	area_battles[i],area_frames[i],area_menus[i]=0,0,0
 end
+area_frames[42]=210
 
 function compare(x, y)
     return x[1] < y[1]
@@ -88,6 +89,7 @@ end
 local function printChars()
 	local str={}
 	local stri=""
+	local p=""
 	for i=0,4 do 
 		local temp=mainmemory.read_u32_le(0x1000+0x40*i)
 		if(bit.band(temp,0x1f) ~= 0) then
@@ -96,8 +98,10 @@ local function printChars()
 	end
 	table.sort(str,compare)
 	stri=iToC[str[1][1]] .. ":" .. str[1][2]
+	p=str[1][1]
 	for i = 2,#str do
 		stri=stri .. "," .. iToC[str[i][1]] .. ":" .. str[i][2]
+		p=p .. "," .. str[i][1]
 	end
 	return stri
 end
@@ -186,19 +190,25 @@ local function myframe()
 			elseif(BossFormations[formID] ~= nil) then
 				BossBattles[BossFormations[formID]]=BossBattles[BossFormations[formID]]+1
 			else
-				BossBattles[42]=BossBattles[42]+1
+				BossBattles[43]=BossBattles[43]+1
 			end
 			if not Battle then
 				Battle=true
 				if mainmemory.read_u8(0x1628) ~= 0 then
 					BossParty[13]=printChars()
 					BossTime[13]=emu.framecount()-startTime
+					BossAttempts[13]=BossAttempts[13]+1
+					BossLocations[13]=mapID
 				elseif(BossFormations[formID] ~= nil) then
 					BossParty[BossFormations[formID]]=printChars()
 					BossTime[BossFormations[formID]]=emu.framecount()-startTime
+					BossAttempts[BossFormations[formID]]=BossAttempts[BossFormations[formID]]+1
+					BossLocations[BossFormations[formID]]=mapID
 				else
-					BossParty[42]=printChars()
-					BossTime[42]=emu.framecount()-startTime
+					BossParty[43]=printChars()
+					BossTime[43]=emu.framecount()-startTime
+					BossAttempts[43]=BossAttempts[43]+1
+					BossLocations[43]=mapID
 				end
 				table.insert(DetailedString, string.format("B"))
 				table.insert(FramesDetailed, string.format("%d",(emu.framecount()-startTime)/60))
@@ -241,7 +251,7 @@ local function myframe()
 			started=true
 			treasures=countTreasure()
 			lagcount=emu.lagcount()
-			startTime=emu.framecount()
+			startTime=emu.framecount()-210
 		end
 	end
 end
@@ -254,6 +264,7 @@ local function metaData()
 	end
 	return string.format("\"metadata\": {%s}",str)
 end
+
 
 local function FormatKILoc()
 	io.write(string.format("\"KI Locations\": [\n"))
@@ -291,17 +302,21 @@ end
 
 local function printBoss()
 	io.write(string.format("\"Fights\": [\n"))
-	for i=1,43 do
+	for i=1,44 do
 		io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[i]))
 		io.write(string.format("\"party\": \"%s\",\n",BossParty[i]))
+		io.write(string.format("\"attempts\": \"%s\",\n",BossAttempts[i]))
+		io.write(string.format("\"location\": \"%s\",\n",areas[BossLocations[i]+1]))
 		io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[i])))
 		io.write(string.format("\"time\": {\n%s}\n},",FormatTime(BossBattles[i])))
 		
 	end
-	io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[44]))
-	io.write(string.format("\"party\": \"%s\",\n",BossParty[44]))
-	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[44])))
-	io.write(string.format("\"time\": {\n%s}\n}\n],\n",FormatTime(BossBattles[44])))
+	io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[45]))
+	io.write(string.format("\"party\": \"%s\",\n",BossParty[45]))
+	io.write(string.format("\"attempts\": \"%s\",\n",BossAttempts[45]))
+	io.write(string.format("\"location\": \"%s\",\n",areas[BossLocations[45]+1]))
+	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[45])))
+	io.write(string.format("\"time\": {\n%s}\n}\n],\n",FormatTime(BossBattles[45])))
 end
 
 local function ShopTimes(mylist)
@@ -369,6 +384,16 @@ local function FormatTop(mylist)
 	return timet,timeb,timem
 end
 
+local function printObjectives()
+	io.write("\"Objectives\": [\n")
+	io.write(string.format("{\"Obj\": 0,\n%s\n}",FormatTime(Objectives[0])))
+	for i=1,32 do
+		if(Objectives[i]) then 
+			io.write(string.format(",\n{\"Obj\": %d,\n%s\n}",i,FormatTime(Objectives[i])))
+		end
+	end
+	io.write("],\n")
+end
 
 local function myexit()
 	if(Exited) then
@@ -413,7 +438,8 @@ local function myexit()
 		FormatKI()
 		FormatKILoc()
 		printBoss()
-		io.write("\"Version\": \"22211sb\",\n")
+		printObjectives()
+		io.write("\"Version\": \"182202asb\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
@@ -422,8 +448,17 @@ local function myexit()
 	end
 end
 
+local function myobjective(address,size)
+	if(mainmemory.read_u8(address) ~= 0) then
+		--event.unregisterbyname()
+		print(address)
+		Objectives[address-0x1520]=emu.framecount()-startTime
+	end
+end
+
 event.onexit(myexit)
 event.onmemoryexecute(myexit,0x03F591)
+
 while not Exited do
 	myframe()
 	emu.frameadvance()
