@@ -12,8 +12,8 @@ idToArea={3,4,5,6,7,9,7,7,7,7,1,1,1,1,3,4,4,4,5,5,22,5,5,7,7,7,33,7,7,9,9,9,13,3
 idToArea[0]=1
 iToC={"Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"}
 iToC[0]="Cecil"
-BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[221]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[220]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[429]=19,[425]=20,[232]=21,[226]=22,[227]=23,[246]=24,[225]=25,[223]=26,[428]=27,[237]=28,[506]=29,[507]=30,[510]=31,[427]=32,[255]=32,[234]=33,[239]=34,[508]=35,[439]=36,[479]=37,[394]=38,[200]=39,[194]=40,[348]=41,[349]=41,[350]=41,[351]=41,[236]=43,[230]=44,[252]=44}
-FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
+BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[221]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[220]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[254]=18,[429]=19,[425]=20,[437]=21,[232]=22,[226]=23,[227]=24,[246]=25,[225]=26,[223]=27,[428]=28,[237]=29,[506]=30,[507]=31,[510]=32,[427]=33,[255]=33,[234]=34,[239]=35,[508]=36,[439]=37,[479]=38,[394]=39,[200]=40,[194]=41,[348]=42,[349]=42,[350]=42,[351]=42,[236]=44,[230]=45,[252]=45}
+FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae+Balnab','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
 
 currentArea,currentID,Transitions,KIBinary,currentCoords,Steps,TilesFlown = 2,0,0,0,0,0,0
 AreaString,DetailedString,FramesString,FramesDetailed = {"2"},{"0"},{"0"},{"0"}
@@ -186,7 +186,7 @@ local function myframe()
 			elseif(BossFormations[formID] ~= nil) then
 				BossBattles[BossFormations[formID]]=BossBattles[BossFormations[formID]]+1
 			else
-				BossBattles[42]=BossBattles[42]+1
+				BossBattles[43]=BossBattles[43]+1
 			end
 			if not Battle then
 				Battle=true
@@ -201,10 +201,10 @@ local function myframe()
 					BossAttempts[BossFormations[formID]]=BossAttempts[BossFormations[formID]]+1
 					BossLocations[BossFormations[formID]]=mapID
 				else
-					BossParty[42]=printChars()
-					BossTime[42]=emu.framecount()-startTime
-					BossAttempts[42]=BossAttempts[42]+1
-					BossLocations[42]=mapID
+					BossParty[43]=printChars()
+					BossTime[43]=emu.framecount()-startTime
+					BossAttempts[43]=BossAttempts[43]+1
+					BossLocations[43]=mapID
 				end
 				table.insert(DetailedString, string.format("B"))
 				table.insert(FramesDetailed, string.format("%d",(emu.framecount()-startTime)/60))
@@ -298,7 +298,7 @@ end
 
 local function printBoss()
 	io.write(string.format("\"Fights\": [\n"))
-	for i=1,43 do
+	for i=1,44 do
 		io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[i]))
 		io.write(string.format("\"party\": \"%s\",\n",BossParty[i]))
 		io.write(string.format("\"attempts\": \"%s\",\n",BossAttempts[i]))
@@ -307,12 +307,12 @@ local function printBoss()
 		io.write(string.format("\"time\": {\n%s}\n},",FormatTime(BossBattles[i])))
 		
 	end
-	io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[44]))
-	io.write(string.format("\"party\": \"%s\",\n",BossParty[44]))
-	io.write(string.format("\"attempts\": \"%s\",\n",BossAttempts[44]))
-	io.write(string.format("\"location\": \"%s\",\n",areas[BossLocations[44]+1]))
-	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[44])))
-	io.write(string.format("\"time\": {\n%s}\n}\n],\n",FormatTime(BossBattles[44])))
+	io.write(string.format("{\n\"name\": \"%s\",\n",FormationIDToBoss[45]))
+	io.write(string.format("\"party\": \"%s\",\n",BossParty[45]))
+	io.write(string.format("\"attempts\": \"%s\",\n",BossAttempts[45]))
+	io.write(string.format("\"location\": \"%s\",\n",areas[BossLocations[45]+1]))
+	io.write(string.format("\"FightStart\": {\n%s},",FormatTime(BossTime[45])))
+	io.write(string.format("\"time\": {\n%s}\n}\n],\n",FormatTime(BossBattles[45])))
 end
 
 local function ShopTimes(mylist)
