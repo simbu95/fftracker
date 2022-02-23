@@ -3,8 +3,13 @@ started=false
 
 local socket = require("socket.core")
 
+print("Attempting to connect to the AutoTracking Service")
 tcp=socket.tcp()
-tcp:connect('127.0.0.1',54321)
+if(tcp:connect('127.0.0.1',54321)) then
+	print("Succesfully connected")
+else
+	print("Connection failed. A summary log will still be generated, but if you want autotracking, please start the AutoTracking Service and try again")
+end
 tcp:setoption('keepalive',true)
 
 area_frames,LocTimes,LocParty,LocationBinary,KIsToLocMap,LocToKisMap,Objectives = {},{},{},{},{},{},{[0]=0}
@@ -358,3 +363,5 @@ tcp:send("{" .. metaData() .. "}\n")
 
 memory.registerexec(0x03F591,1,myexit)
 memory.registerwrite(0x7e1520,32,myobjective)
+
+print("Summary Log prep done, will begin recording data when run begins, This version is legal for races.")
