@@ -1,7 +1,12 @@
 local socket = require("socket.core")
 
+print("Attempting to connect to the AutoTracking Service")
 tcp=socket.tcp()
-tcp:connect('127.0.0.1',54321)
+if(tcp:connect('127.0.0.1',54321)) then
+	print("Succesfully connected")
+else
+	print("Connection failed, please start the AutoTracking Service and try again")
+end
 tcp:setoption('keepalive',true)
 
 local function checkKIs()
