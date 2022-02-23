@@ -9,6 +9,27 @@ else
 end
 tcp:setoption('keepalive',true)
 
+function compare(x, y)
+    return x[1] < y[1]
+end
+
+local function printChars()
+	local str={}
+	local p=""
+	for i=0,4 do 
+		local temp=memory.readdword(0x7E1000+0x40*i)
+		if(bit.band(temp,0x1f) ~= 0) then
+			table.insert(str,{bit.band(bit.rshift(temp,8),0x0f), bit.band(bit.rshift(temp,16),0xff)})
+		end
+	end
+	table.sort(str,compare)
+	p=str[1][1]
+	for i = 2,#str do
+		p=p .. "," .. str[i][1]
+	end
+	tcp:send("{ \"P\": \"" .. p .. "\"}\n")
+end
+
 local function checkKIs()
 	local lowLOC = memory.readdword(0x7E1514)
 	local highLOC = memory.readdword(0x7E1518)
@@ -17,8 +38,10 @@ local function checkKIs()
 end
 
 local function myframe()
-	if(emu.framecount() % 300 == 0) then
+	if emu.framecount()%300==0 then
 		checkKIs()
+	elseif (emu.framecount()+150)%300 == 0 then
+		printChars()
 	end
 end
 
