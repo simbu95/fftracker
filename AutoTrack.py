@@ -8,14 +8,19 @@ connected = set()
 globe = {}
 
 async def handle_client(reader, writer):
+    print("AutoTracking Lua Connected")
     request = None
     global globe
     global connected
     while request != 'quit':
-        request = (await reader.readline()).decode('utf8')
-        print(request)
-        x=json.loads(request)
-        print(json.dumps(x, sort_keys=True, indent=4))
+        try:
+            request = (await reader.readline()).decode('utf8')
+            print(request)
+            x=json.loads(request)
+            print(json.dumps(x, sort_keys=True, indent=4))
+        except:
+            print("AutoTracking Lua Disconnected")
+            break
         if 'metadata' in x:
             globe=x
         for ws in connected:
@@ -31,6 +36,7 @@ async def run_server():
         await server.serve_forever()
 
 async def handler(websocket, path):
+    print("A Tracking WebServer Connected")
     global connected
     global globe
     connected.add(websocket)
@@ -41,6 +47,7 @@ async def handler(websocket, path):
             print("< {}".format(name))
             
     except:
+        print("A Tracking WebServer Disconnected")
         connected.remove(websocket)
         
 def Thread1():
