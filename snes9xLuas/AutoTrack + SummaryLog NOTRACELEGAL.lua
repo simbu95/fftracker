@@ -123,6 +123,8 @@ local function checkKIs()
 	for i=0, 1 do
 		words[i]=memory.readdword(0x7E1514 + 4*i)
 	end
+	KiB=bit.band(memory.readdword(0x7E1500),0x1FFFF)
+	tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
 	for i=0, 1 do
 		LocB=words[i]
 		LocNb=bit.bnot(LocationBinary[i])
@@ -132,8 +134,6 @@ local function checkKIs()
 				LocationBinary[i]=bit.bor(LocationBinary[i],bit.lshift(1,j))
 				LocTimes[32*i+j]=emu.framecount()-startTime
 				LocParty[32*i+j]=printChars()
-				KiB=bit.band(memory.readdword(0x7E1500),0x1FFFF)
-				tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
 				KINb=bit.bnot(KIBinary)
 				KINb=bit.band(KINb,KiB)
 				for l=0,17 do
@@ -256,6 +256,11 @@ local function myframe()
 			Battle=false
 			Menu=false
 			checkKIs()
+		end
+		if emu.framecount()%300==0 then
+			-- checkKIs() This shouldn't be needed for this version of the script... maybe...
+		elseif (emu.framecount()+150)%300 == 0 then
+			printChars()
 		end
 	else
 		gui.text(70,6, "paused")
@@ -452,7 +457,7 @@ local function myexit()
 		FormatKILoc()
 		printBoss()
 		printObjectives()
-		io.write("\"Version\": \"182202as\",\n")
+		io.write("\"Version\": \"222202as\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
