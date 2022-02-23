@@ -459,3 +459,5 @@ emu.registerexit(myexit)
 
 memory.registerexec(0x03F591,1,myexit)
 memory.registerwrite(0x7e1520,32,myobjective)
+
+print("Summary Log prep done, will begin recording data when run begins, Reminder that this version is not allowed for Official races")
