@@ -77,9 +77,11 @@ function snes9x() {
                     ApplyChecks();
                 }
                 else if(dat['T']!=undefined){
-                    if(dat['T'] !=0 && ! timerStarted){
-                        timerSecondsElapsed=3500;
-                        StartTimer();
+                    if(dat['T'] !=0){
+                        if( ! timerStarted){
+                            timerSecondsElapsed=3500;
+                            StartTimer();
+                        }
                     }
                     else{
                         PauseTimer();
