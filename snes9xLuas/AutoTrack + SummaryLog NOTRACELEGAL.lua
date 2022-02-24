@@ -107,9 +107,15 @@ local function printChars()
 		end
 	end
 	table.sort(str,compare)
+	if iToC[str[1][1]] == nil then
+		return ""
+	end
 	stri=iToC[str[1][1]] .. ":" .. str[1][2]
 	p=str[1][1]
 	for i = 2,#str do
+		if iToC[str[i][1]] == nil then
+			return ""
+		end
 		stri=stri .. "," .. iToC[str[i][1]] .. ":" .. str[i][2]
 		p=p .. "," .. str[i][1]
 	end
