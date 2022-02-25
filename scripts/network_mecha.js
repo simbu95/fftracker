@@ -87,14 +87,9 @@ function create_network_mecha(parent, x, isReact = true) {
                       device.attached = i;
                     }
                     updateState();
-					autotrackingerror = false;
-					flagautotrackingerror(autotrackingerror);
                 }
             } catch (error) {
                 parent.log(`Could not attach to device: ${error}`);
-				autotrackingmessage = `Could not attach to device: ${error}`
-				autotrackingerror = true;
-				flagautotrackingerror(autotrackingerror);
                 /* Set to 1 to signal a reconnect to socket_onclose */
                 device.state = 1;
                 device.attached = -1;
@@ -103,9 +98,6 @@ function create_network_mecha(parent, x, isReact = true) {
             }
         }
         catch (error) {
-			autotrackingmessage = `Could not attach to device: ${error}`
-			autotrackingerror = true;
-			flagautotrackingerror(autotrackingerror);
             parent.log(`Could not connect to the websocket, retrying: ${error}`);
             device.state = 0;
             device.attached = -1;
