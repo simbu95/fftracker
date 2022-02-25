@@ -1,4 +1,4 @@
-function create_network(parent, isReact = true) {
+function create_network_mecha(parent, x, isReact = true) {
     const snes = new usb2snes();
 
     let socket = null;
