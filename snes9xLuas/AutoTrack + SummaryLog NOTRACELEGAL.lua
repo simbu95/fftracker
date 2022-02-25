@@ -133,7 +133,9 @@ local function checkKIs()
 		words[i]=memory.readdword(0x7E1514 + 4*i)
 	end
 	KiB=bit.band(memory.readdword(0x7E1500),0x1FFFF)
-	tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
+	if emu.framecount()%300==0 then
+		tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
+	end
 	for i=0, 1 do
 		LocB=words[i]
 		LocNb=bit.bnot(LocationBinary[i])
@@ -266,9 +268,7 @@ local function myframe()
 			Menu=false
 			checkKIs()
 		end
-		if emu.framecount()%300==0 then
-			-- checkKIs() This shouldn't be needed for this version of the script... maybe...
-		elseif (emu.framecount()+150)%300 == 0 then
+		if (emu.framecount()+150)%600 == 0 then
 			printChars()
 		end
 	else
