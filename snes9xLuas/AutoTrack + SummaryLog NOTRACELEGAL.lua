@@ -107,6 +107,9 @@ local function printChars()
 		end
 	end
 	table.sort(str,compare)
+	if str[1] == nil then
+		return ""
+	end
 	if iToC[str[1][1]] == nil then
 		return ""
 	end
