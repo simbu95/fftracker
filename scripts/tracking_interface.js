@@ -136,12 +136,12 @@ function auto_set_loc_ki(slot, value){
           else
             keyitemlocations[ki_location_map[slot]] = 1;
         }
-      }
-      else {
+    }
+    else {
 
-      }
     }
 }
+
 
 function set_loc_ki(index, truth=True) {
   auto_set_loc_ki(index, truth);
