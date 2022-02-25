@@ -128,7 +128,7 @@ local function checkKIs()
 		words[i]=memory.readdword(0x7E1514 + 4*i)
 	end
 	KiB=bit.band(memory.readdword(0x7E1500),0x1FFFF)
-	if emu.framecount()%300==0 then
+	if emu.framecount()%600==0 then
 		tcp:send(string.format("{\"KI\": %d,\"Loc1\": %d,\"Loc2\": %d}\n",KiB,words[0],words[1]))
 	end
 	for i=0, 1 do
