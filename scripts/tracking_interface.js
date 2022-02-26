@@ -101,13 +101,13 @@ function get_objectives_from_metadata() {
        return event.data.arrayBuffer()
      }).then(
      (metadata) => {
-       let x = Uint8Array(metadata);
-     let objectiveFlags = new Uint8Array(ab);
-     //Objectives = JSON.parse(metadata).objectives;
-     //flags = JSON.parse(metadata).flags.toUpperCase();
-     //SetModes();
-     //ApplyChecks();
-     return;
+       let x = new Uint8Array(metadata);
+       let meta= new TextDecoder("utf-8").decode(x)
+       Objectives = JSON.parse(meta).objectives;
+       flags = JSON.parse(meta).flags.toUpperCase();
+       SetModes();
+       ApplyChecks();
+       return;
    });
 }
 
