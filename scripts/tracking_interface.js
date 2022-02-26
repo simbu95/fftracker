@@ -1,5 +1,5 @@
 let network_kis = null;
-let network_kis = null;
+let network_objectives = null;
 let timerID = null;
 let objectivesTimerID = null;
 let network_kis = null;
