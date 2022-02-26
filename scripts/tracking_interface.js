@@ -98,13 +98,18 @@ function get_objectives_from_metadata() {
      let filename = infoArray[2];
      return filename;
    }).then((filename) => {
-     return network_objectives.snes.getFile(
-       network_objectives.snes.create_message("GetFile",[filename]))
-   }).then((metadata) => {
-     Objectives = JSON.parse(metadata).objectives;
-     flags = JSON.parse(metadata).flags.toUpperCase();
-     SetModes();
-     ApplyChecks();
+     return network_objectives.snes.send(JSON.stringify({
+       "Opcode" : "GetAddress",
+       "Space" : "SNES",
+       "Operands": ["0x1FF000", '400']
+    })).then(
+     (metadata) => {
+       let x = Uint8Array(metadata);
+     let objectiveFlags = new Uint8Array(ab);
+     //Objectives = JSON.parse(metadata).objectives;
+     //flags = JSON.parse(metadata).flags.toUpperCase();
+     //SetModes();
+     //ApplyChecks();
      return;
    });
   }
