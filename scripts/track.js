@@ -2,6 +2,7 @@ var characters = [false, false, false, false, false, false, false, false, false,
 var keyitems = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var bosses = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
+var Objectives = null;
 var keyitemlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var characterlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var townlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
