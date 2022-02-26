@@ -23,6 +23,9 @@ local function printChars()
 		end
 	end
 	table.sort(str,compare)
+	if(str[1] == nil ) then
+		return
+	end
 	p=str[1][1]
 	for i = 2,#str do
 		p=p .. "," .. str[i][1]
