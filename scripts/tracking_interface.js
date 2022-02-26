@@ -1,4 +1,9 @@
-let network_kis;
+let network_kis = null;
+let network_kis = null;
+let timerID = null;
+let objectivesTimerID = null;
+let network_kis = null;
+
 let ki_map = {
   0x00: KeyItem.PACKAGE,
   0x01: KeyItem.SANDRUBY,
@@ -63,15 +68,79 @@ function getConnected() {
     autotrackingport=x;
     network_kis = create_network_mecha(console, x, isReact=false);
     network_kis.onConnect().then(
-      () => { this.timerID = setInterval( keep_updating_kis, 100) },
+      () => { timerID = setInterval( keep_updating_kis, 5000) },
       () => {console.log("Failure") }
+    );
+    network_objectives = create_network_mecha(console, x, isReact=false);
+    network_objectives.onConnect().then(
+      () => { setTimeout(get_objectives_from_metadata, 1000);
+              objectiveTimerID = setInterval( keep_updating_objectives, 5000) },
+      () => {console.log("Failure on objectives connection") }
     );
   }
   
 }
 
 function disconnect() {
-  network_kis.disconnect();
+    if (timerID) {
+      clearInterval(timerID);
+    }
+    if (objectiveTimerID) {
+      clearInterval(objectiveTimerID);
+    }
+    network_kis.disconnect();
+    network_objective.disconnect();
+  }
+
+function get_objectives_from_metadata() {
+    network_objectives.snes.send(network_objectives.snes.create_message("Info")
+  ).then((out) => {
+     let infoArray = JSON.parse(out.data).Results;
+     let filename = infoArray[2];
+     return filename;
+   }).then((filename) => {
+     return network_objectives.snes.getFile(
+       network_objectives.snes.create_message("GetFile",[filename]))
+   }).then((metadata) => {
+     Objectives = JSON.parse(metadata).objectives;
+     flags = JSON.parse(metadata).flags.toUpperCase();
+     SetModes();
+     ApplyChecks();
+     return;
+   });
+  }
+
+function keep_updating_objectives() {
+    if (!objectives) {
+      return;
+    }
+    let count = objectives.length.toString(16);
+    network_objectives.snes.send(JSON.stringify({
+       "Opcode" : "GetAddress",
+       "Space" : "SNES",
+       "Operands": ["0xF51520", count]
+    })).then(
+      (event) => {
+       return event.data.arrayBuffer()
+     }).then(
+       (ab) => {
+         let objectiveFlags = new Uint8Array(ab);
+         for (let i=0; i < objectives.length; i++) {
+            set_objective(objectives[i], !!objectiveFlags[i]);
+         }
+         ApplyChecks();
+       },
+       (err) => { /* console.log("bleh" + err) */ });
+  }
+
+function set_objective(index, truth=True) {
+  let x = objectivenames.indexOf(Objectives[index])
+  if (objectives[x] === 0 && truth){
+    checkOffObjective(x);
+  }
+  else if (objectives[x] === 1 && !truth){
+    checkOffObjective(x);
+  }
 }
 
 function keep_updating_kis() {
@@ -93,14 +162,14 @@ function keep_updating_kis() {
             set_ki(index, truth);
           }
         }
-        /*for (let i = 3; i <= 5; i++) {
+        /* for (let i = 3; i <= 5; i++) {
            for (let b = 0; b < 8; b++) {
              let index = (i * 8 + b) - 24;
              if (index > (0x10)) continue;
              let truth = !!(memory_ki[i] & (1 << b));
              set_used_ki(index, truth);
            }
-         }*/
+         } */
          for (let i = 0x14; i <= 0x1B; i++) {
            for (let b = 0; b < 8; b++) {
              let index = (i * 8 + b) - 0x14*8;
@@ -109,42 +178,20 @@ function keep_updating_kis() {
              set_loc_ki(index + 0x20, truth);
            }
          }
-         auto_update_func()
+         ApplyChecks();
    },
    (err) => { /* console.log("bleh" + err) */ })
   }
 
-function auto_set_ki(slot, value){
-    keyitems[ki_map[slot]] = value;
-}
-
 function set_ki(index, truth=True) {
-  auto_set_ki(index, truth);
-  //console.log("ki:" + index + ":" + truth);
+  keyitems[ki_map[index]] = truth;
 }
-
-function set_used_ki(index, truth=True) {
-  auto_set_used_ki(index, truth);
-  //console.log("uki:" + index + ":" + truth);
-}
-function auto_set_loc_ki(slot, value){
-    if (ki_location_map[slot] !== undefined) {
-      if (keyitemlocations[ki_location_map[slot]] !== 0 &&
-        keyitemlocations[ki_location_map[slot]] !== 3) {
-          if (value)
-            keyitemlocations[ki_location_map[slot]] = 2;
-          else
-            keyitemlocations[ki_location_map[slot]] = 1;
-        }
-    }
-    else {
-
-    }
-}
-
 
 function set_loc_ki(index, truth=True) {
-  auto_set_loc_ki(index, truth);
-  //console.log("lki:" + index + ":" + truth);
+  if (ki_location_map[index] !== undefined) {
+      if (keyitemlocations[ki_location_map[index]] == 1 && truth {
+          SwapKeyItemLocation(ki_location_map[index])
+      }
+  }
 }
 
