@@ -92,17 +92,14 @@ function disconnect() {
   }
 
 function get_objectives_from_metadata() {
-    network_objectives.snes.send(network_objectives.snes.create_message("Info")
-  ).then((out) => {
-     let infoArray = JSON.parse(out.data).Results;
-     let filename = infoArray[2];
-     return filename;
-   }).then((filename) => {
-     return network_objectives.snes.send(JSON.stringify({
+    network_objectives.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
        "Operands": ["0x1FF000", '400']
     })).then(
+      (event) => {
+       return event.data.arrayBuffer()
+     }).then(
      (metadata) => {
        let x = Uint8Array(metadata);
      let objectiveFlags = new Uint8Array(ab);
@@ -112,7 +109,7 @@ function get_objectives_from_metadata() {
      //ApplyChecks();
      return;
    });
-  }
+}
 
 function keep_updating_objectives() {
     if (!objectives) {
