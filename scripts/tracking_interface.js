@@ -188,7 +188,7 @@ function set_ki(index, truth=True) {
 
 function set_loc_ki(index, truth=True) {
   if (ki_location_map[index] !== undefined) {
-      if (keyitemlocations[ki_location_map[index]] == 1 && truth {
+      if (keyitemlocations[ki_location_map[index]] == 1 && truth) {
           SwapKeyItemLocation(ki_location_map[index])
       }
   }
