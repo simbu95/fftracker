@@ -151,7 +151,7 @@ var overridestarting = '';
 var disableitemtracker = '0';
 disableloctracker = '0';
 var disablelocationtracker = '0';
-var disablebosstracker = '0';
+var disablebosstracker = '1';
 var disablecharactertracker = '0';
 var disableobjectivetracker = '0';
 
