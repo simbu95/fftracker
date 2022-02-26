@@ -127,8 +127,8 @@ function keep_updating_objectives() {
      }).then(
        (ab) => {
          let objectiveFlags = new Uint8Array(ab);
-         for (let i=0; i < objectives.length; i++) {
-            set_objective(objectives[i], !!objectiveFlags[i]);
+         for (let i=0; i < Objectives.length; i++) {
+            set_objective(i, !!objectiveFlags[i]);
          }
          ApplyChecks();
        },
