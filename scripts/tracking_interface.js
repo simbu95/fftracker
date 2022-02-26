@@ -133,6 +133,8 @@ function keep_updating_objectives() {
   }
 
 function set_objective(index, truth=True) {
+  if(!Objectives)
+    return;
   let x = objectivenames.indexOf(Objectives[index])
   if (objectives[x] === 0 && truth){
     checkOffObjective(x);
