@@ -199,6 +199,7 @@ local function myframe()
 				end
 			end
 		end
+		checkKIs()
 		if (emu.framecount()+150)%600 == 0 then
 			printChars()
 		end
