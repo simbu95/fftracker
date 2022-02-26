@@ -102,7 +102,8 @@ function get_objectives_from_metadata() {
      }).then(
      (metadata) => {
        let x = new Uint8Array(metadata);
-       let meta= new TextDecoder("utf-8").decode(x)
+       let bytes = x[0] + 256 * x[1];
+       let meta = new TextDecoder("utf-8").decode(x.slice(4,bytes+4));
        Objectives = JSON.parse(meta).objectives;
        flags = JSON.parse(meta).flags.toUpperCase();
        SetModes();
