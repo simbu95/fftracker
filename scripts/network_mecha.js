@@ -1,4 +1,4 @@
-function create_network_mecha(parent, x, isReact = true) {
+function create_network_mecha(parent, port, isReact = true) {
     const snes = new usb2snes();
 
     let socket = null;
@@ -29,7 +29,7 @@ function create_network_mecha(parent, x, isReact = true) {
         snes.clearBusy();
 
         if (device.state !== 0) {
-            setTimeout(onConnect, 1000);
+            setTimeout(onConnect, 2000);
             parent.log('Trying to reconnect');
         }
 
@@ -48,7 +48,7 @@ function create_network_mecha(parent, x, isReact = true) {
                 return;
             }
 
-            socket = await snes.connect('ws://localhost:' + autotrackingport);
+            socket = await snes.connect('ws://localhost:' + port);
             socket.onclose = socket_onclose;
 
             parent.log('Connected to websocket');
@@ -89,20 +89,23 @@ function create_network_mecha(parent, x, isReact = true) {
                     updateState();
                 }
             } catch (error) {
-                parent.log(`Could not attach to device: ${error}`);
+                const message = `Could not attach to device: ${error}`;
+                parent.log(message);
                 /* Set to 1 to signal a reconnect to socket_onclose */
-                device.state = 1;
+        				device.state = 1;
                 device.attached = -1;
                 updateState();
                 socket.close();
             }
         }
         catch (error) {
-            parent.log(`Could not connect to the websocket, retrying: ${error}`);
+            const message = `Could not attach to device: ${error}`;
+            parent.log(message);
+            /* Set to 1 to signal a reconnect to socket_onclose */
             device.state = 0;
             device.attached = -1;
             updateState();
-            setTimeout(onConnect, 2000);
+            setTimeout(onConnect, 4000);
         }
     }
 
