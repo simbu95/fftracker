@@ -117,6 +117,8 @@ function keep_updating_characters(){
           partymembers[i]=order[x[0x40*i+1]&0x0f]
         }
       }
+      partymembers.sort()
+      partymembers.reverse()
       ApplyChecks();
        return;
    });
