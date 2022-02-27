@@ -38,7 +38,7 @@ These logs only monitor memory locations that have been approved by the ff4fe ad
 1. Time spent in each area.
 2. Time, party, and KI recieved for every KI location clear
 3. Time for every Objective cleared
-4. Time and KI recieved for every KI obtained
+4. Time and KI location for every KI obtained
 5. The general route taken thru the run, along with times for entering each area
 6. Small extra details such as number of steps taken, tiles flow, screen transitions, etc. 
 
