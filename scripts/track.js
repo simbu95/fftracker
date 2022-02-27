@@ -2253,10 +2253,11 @@ function CopyTimerToClipboard() {
 function SwapKeyItemLocation(locationId,manual=true) {
     var locationElementID = 'keyitemlocation' + locationId.toString();
     if(manual)
-		manualKeyItemLocations[locationID] = true
+	manualKeyItemLocations[locationID] = true
     else{
         if(manualKeyItemLocations[locationID])
             return;
+    }
     if (keyitemlocations[locationId] != 2) {
         keyitemlocations[locationId] = 2;
 
