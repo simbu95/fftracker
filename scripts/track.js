@@ -4,6 +4,7 @@ var bosses = [false, false, false, false, false, false, false, false, false, fal
 
 var Objectives = null;
 var keyitemlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var manualKeyItemLocations = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
 var characterlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var townlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var trappedchestlocations = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -2249,8 +2250,13 @@ function CopyTimerToClipboard() {
     }
 }
 
-function SwapKeyItemLocation(locationId) {
+function SwapKeyItemLocation(locationId,manual=true) {
     var locationElementID = 'keyitemlocation' + locationId.toString();
+    if(manual)
+		manualKeyItemLocations[locationID] = true
+    else{
+        if(manualKeyItemLocations[locationID])
+            return;
     if (keyitemlocations[locationId] === 1) {
         keyitemlocations[locationId] = 2;
 
@@ -2263,6 +2269,9 @@ function SwapKeyItemLocation(locationId) {
         }
 
         if (locationId === KeyItemCheck.HOOK_ROUTE) {
+            hookclear = true;
+        }
+        if (locationID >= KeyItemCheck.DWARF && locationID <= KeyItemCheck.SYLPH_CAVE) {
             hookclear = true;
         }
         if (locationId === KeyItemCheck.DWARF && modeflags.gwarp) {
