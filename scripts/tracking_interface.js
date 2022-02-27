@@ -109,8 +109,6 @@ function keep_updating_characters(){
       let x = new Uint8Array(partydata);
       let order = [0,1,2,3,4,5,6,7,8,0,9,2,10,11];
       partymembers = [-1, -1, -1, -1, -1];
-      
-      ApplyChecks();
       for( let i = 0; i<5;i++){
         if(x[0x40*i]!=0){
           partymembers[i]=order[x[0x40*i+1]&0x0f]
