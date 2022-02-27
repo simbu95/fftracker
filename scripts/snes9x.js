@@ -60,9 +60,12 @@ function snes9x() {
                     }
                     order = [14,1,5,19,4,2,15,16,7,57,3,8,6,11,13,17,18,9,10,12,20,21,23,27,22,25,24]
                     for(x in out){	
-                        if(out[order[x]] == 1 && keyitemlocations[x] == 1){	
-                          SwapKeyItemLocation(x);	
-                        }	
+                        if (keyitemlocations[x] != 2 && out[order[x]] == 1) {
+                          SwapKeyItemLocation(x,false)
+                        }
+                        else if (keyitemlocations[x] == 2 && out[order[x]] == 0){
+                            SwapKeyItemLocation(x,false)
+                        }
                     }
                     ApplyChecks();
                 }
