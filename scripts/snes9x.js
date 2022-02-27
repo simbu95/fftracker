@@ -51,8 +51,11 @@ function snes9x() {
                     order = [3,9,6,7,10,5,8,4,0,13,1,11,12,2,14,15,16]
                     for(x in out){
                         if(out[order[x]] == 1 && keyitems[x]==0){	
-                            keyitems[x] = out[order[x]];	
-                        }	
+                            keyitems[x] = 1;	
+                        }
+                        else if ( out[order[x]] == 0 && keyitems[x] != 0){
+                            keyitems[x] = 0;
+                        }
                     }
                     for(let i = 0; i < 32; i++){
                         out[i] = (dat['Loc1'] >> i) & 1;
