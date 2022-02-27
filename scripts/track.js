@@ -2253,9 +2253,9 @@ function CopyTimerToClipboard() {
 function SwapKeyItemLocation(locationId,manual=true) {
     var locationElementID = 'keyitemlocation' + locationId.toString();
     if(manual)
-	manualKeyItemLocations[locationID] = true
+	manualKeyItemLocations[locationId] = true
     else{
-        if(manualKeyItemLocations[locationID])
+        if(manualKeyItemLocations[locationId])
             return;
     }
     if (keyitemlocations[locationId] != 2) {
@@ -2272,7 +2272,7 @@ function SwapKeyItemLocation(locationId,manual=true) {
         if (locationId === KeyItemCheck.HOOK_ROUTE) {
             hookclear = true;
         }
-        if (locationID >= KeyItemCheck.DWARF && locationID <= KeyItemCheck.SYLPH_CAVE) {
+        if (locationId >= KeyItemCheck.DWARF && locationId <= KeyItemCheck.SYLPH_CAVE) {
             hookclear = true;
         }
         if (locationId === KeyItemCheck.DWARF && modeflags.gwarp) {
