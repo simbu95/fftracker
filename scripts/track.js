@@ -2257,7 +2257,7 @@ function SwapKeyItemLocation(locationId,manual=true) {
     else{
         if(manualKeyItemLocations[locationID])
             return;
-    if (keyitemlocations[locationId] === 1) {
+    if (keyitemlocations[locationId] != 2) {
         keyitemlocations[locationId] = 2;
 
         if (timerStarted) {
