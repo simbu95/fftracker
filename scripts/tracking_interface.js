@@ -114,7 +114,7 @@ function keep_updating_characters(){
       ApplyChecks();
       for( let i = 0; i<5;i++){
         if(x[0x40*i]!=0){
-          partymembers[i]=order[x[0x40*i+1]]
+          partymembers[i]=order[x[0x40*i+1]&0x0f]
         }
       }
       ApplyChecks();
