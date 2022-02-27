@@ -188,14 +188,6 @@ function keep_updating_kis() {
             set_ki(index, truth);
           }
         }
-        /* for (let i = 3; i <= 5; i++) {
-           for (let b = 0; b < 8; b++) {
-             let index = (i * 8 + b) - 24;
-             if (index > (0x10)) continue;
-             let truth = !!(memory_ki[i] & (1 << b));
-             set_used_ki(index, truth);
-           }
-         } */
          for (let i = 0x14; i <= 0x1B; i++) {
            for (let b = 0; b < 8; b++) {
              let index = (i * 8 + b) - 0x14*8;
@@ -215,9 +207,12 @@ function set_ki(index, truth=True) {
 
 function set_loc_ki(index, truth=True) {
   if (ki_location_map[index] !== undefined) {
-      if (keyitemlocations[ki_location_map[index]] == 1 && truth) {
-          SwapKeyItemLocation(ki_location_map[index])
-      }
+    if (keyitemlocations[ki_location_map[index]] != 2 && truth) {
+        SwapKeyItemLocation(ki_location_map[index],false)
+    }
+    else if (keyitemlocations[ki_location_map[index]] == 2 && !truth){
+        SwapKeyItemLocation(ki_location_map[index],false)
+    }
   }
 }
 
