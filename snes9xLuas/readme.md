@@ -19,8 +19,8 @@ This file contains the most basic AutoTracking functionality, namely
 These 2 files have all of the features of AutoTrackOnly.lua, but 1 extra feature as well.
 
 1. Auto Start/Stop Timer 
-  1. Will start the timer when you enter baron castle, and set the time to 3.5 seconds (about how long it takes from starting the seed)
-  2. Will stop the timer on the flash from zeromus. 
+  a. Will start the timer when you enter baron castle, and set the time to 3.5 seconds (about how long it takes from starting the seed)
+  b. Will stop the timer on the flash from zeromus. 
 
 
 # Summary Log
