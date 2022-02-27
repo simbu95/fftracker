@@ -72,7 +72,7 @@ function getConnected() {
     );
     network_characters = create_network_mecha(console, x, isReact=false);
     network_kis.onConnect().then(
-      () => { timerID = setInterval( keep_updating_characters, 30000) },
+      () => { timerID = setInterval( keep_updating_characters, 7000) },
       () => {console.log("Failure") }
     );
     network_objectives = create_network_mecha(console, x, isReact=false);
