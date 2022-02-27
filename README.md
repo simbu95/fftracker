@@ -1,5 +1,5 @@
 # Repo for AutoTracking and/or Summary log features from Simbu
-A collection of files I have created, or found useful for autotracking, or creating summary logs from 
+A collection of files I have created, or found useful for autotracking, or creating summary logs for FF4FE
 
 ## Relevant links: 
 Website for Summary Log submission: https://chrono.abigtoe.org/
