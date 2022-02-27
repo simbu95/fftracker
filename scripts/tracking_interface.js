@@ -1,5 +1,4 @@
 let network_kis = null;
-let network_objectives = null;
 let timerID = null;
 let objectivesTimerID = null;
 
@@ -67,19 +66,12 @@ function getConnected() {
     autotrackingport=x;
     network_kis = create_network_mecha(console, x, isReact=false);
     network_kis.onConnect().then(
-      () => { timerID = setInterval( keep_updating_kis, 5000) },
+      () => { charactersTimerID = setInterval( keep_updating_characters, 7000);
+              timerID = setInterval( keep_updating_kis, 5000);
+              setTimeout(get_objectives_from_metadata, 1000);
+              objectiveTimerID = setInterval( keep_updating_objectives, 5000);
+            },
       () => {console.log("Failure") }
-    );
-    network_characters = create_network_mecha(console, x, isReact=false);
-    network_kis.onConnect().then(
-      () => { timerID = setInterval( keep_updating_characters, 7000) },
-      () => {console.log("Failure") }
-    );
-    network_objectives = create_network_mecha(console, x, isReact=false);
-    network_objectives.onConnect().then(
-      () => { setTimeout(get_objectives_from_metadata, 1000);
-              objectiveTimerID = setInterval( keep_updating_objectives, 5000) },
-      () => {console.log("Failure on objectives connection") }
     );
   }
   
@@ -89,15 +81,15 @@ function disconnect() {
     if (timerID) {
       clearInterval(timerID);
     }
-    if (objectiveTimerID) {
+    if (objectiveTimerID){
       clearInterval(objectiveTimerID);
+      clearInterval(characterTimerID);
     }
     network_kis.disconnect();
-    network_objective.disconnect();
   }
 
 function keep_updating_characters(){
-  network_objectives.snes.send(JSON.stringify({
+  network_kis.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
        "Operands": ["0xF51000", '140']
@@ -122,7 +114,7 @@ function keep_updating_characters(){
 }
       
 function get_objectives_from_metadata() {
-    network_objectives.snes.send(JSON.stringify({
+    network_kis.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
        "Operands": ["0x1FF000", '400']
@@ -147,7 +139,7 @@ function keep_updating_objectives() {
       return;
     }
     let count = objectives.length.toString(16);
-    network_objectives.snes.send(JSON.stringify({
+    network_kis.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
        "Operands": ["0xF51520", count]
