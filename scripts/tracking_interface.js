@@ -218,7 +218,12 @@ function keep_updating_kis() {
   }
 
 function set_ki(index, truth=True) {
-  keyitems[ki_map[index]] = truth;
+  if( keyitems[ki_map[index]] == 0 && truth){
+    keyitems[ki_map[index]] = 1;
+  }
+  else if ( keyitems[ki_map[index]] != 0 && !truth){
+    keyitems[ki_map[index]] = 0;
+  }
 }
 
 function set_loc_ki(index, truth=True) {
