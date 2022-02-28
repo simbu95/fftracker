@@ -183,6 +183,9 @@ function getParameterByName(name, url) {
 function SetModes() {
     $('#itemModal').hide();
     $('#flagsModal').hide();
+    $('#bossInfoModal').hide();
+    $('#chartModal').hide();
+    $('#valModal').hide();
     $('#bossModal').hide();
     $('#townModal').hide();
     $('#objectiveModal').hide();
@@ -1531,6 +1534,9 @@ function SetFlagOptions() {
         document.getElementById('bossModalInner').style.left = "34px";
         document.getElementById('mysteryModalInner').style.left = "34px";
         document.getElementById('flagsModalInner').style.left = "34px";
+        document.getElementById('chartModalInner').style.left = "34px";
+        document.getElementById('bossInfoModalInner').style.left = "34px";
+        document.getElementById('valModalInner').style.left = "34px";
 
     }
 
@@ -2800,6 +2806,40 @@ function OpenFlags() {
 function CloseFlags() {
     if (menutoggle === false) {
         $('#flagsModal').hide();
+    } else {
+        menutoggle = false;
+    }
+}
+
+function OpenBossInfo() {
+    $('#bossInfoModal').show();
+}
+
+function CloseBossInfo() {
+    if (menutoggle === false) {
+        $('#bossInfoModal').hide();
+    } else {
+        menutoggle = false;
+    }
+}
+function OpenVal() {
+    $('#valModal').show();
+}
+
+function CloseVal() {
+    if (menutoggle === false) {
+        $('#valModal').hide();
+    } else {
+        menutoggle = false;
+    }
+}
+function OpenChart() {
+    $('#chartModal').show();
+}
+
+function CloseChart() {
+    if (menutoggle === false) {
+        $('#chartModal').hide();
     } else {
         menutoggle = false;
     }
