@@ -4,6 +4,8 @@ let network_characters = null;
 let timerID = null;
 let objectivesTimerID = null;
 let charactersTimerID = null;
+let force = false;
+let forceObj = false;
 
 let ki_map = {
   0x00: KeyItem.PACKAGE,
@@ -165,9 +167,14 @@ function keep_updating_objectives() {
      }).then(
        (ab) => {
          let objectiveFlags = new Uint8Array(ab);
+         if( !objectiveFlags.some( n => n!=0 ) && !forceObj){
+           forceObj=true;
+           return;
+         }
          for (let i=0; i < Objectives.length; i++) {
             set_objective(i, !!objectiveFlags[i]);
          }
+         forceObj=false;
          ApplyChecks();
        },
        (err) => { /* console.log("bleh" + err) */ });
@@ -196,6 +203,10 @@ function keep_updating_kis() {
    }).then(
      (ab_ki) => {
        let memory_ki = new Uint8Array(ab_ki);
+       if( !memory_ki.some( n => n!=0 ) && !force){
+         force=true;
+         return;
+       }
        for (let i = 0; i <= 2; i++) {
           for (let b = 0; b < 8; b++) {
             let index = (i * 8 + b);
@@ -212,7 +223,8 @@ function keep_updating_kis() {
              set_loc_ki(index + 0x20, truth);
            }
          }
-         ApplyChecks();
+       force=false;
+       ApplyChecks();
    },
    (err) => { /* console.log("bleh" + err) */ })
   }
