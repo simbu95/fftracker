@@ -72,7 +72,7 @@ function getConnected() {
     network_kis = create_network_mecha(console, x, isReact=false);
     network_kis.onConnect().then(
       () => { 
-              timerID = setInterval( keep_updating_kis, 5000);
+              timerID = setInterval( check_for_start, 100);
             },
       () => {console.log("Failure") }
     );
@@ -105,6 +105,28 @@ function disconnect() {
     }
     network_kis.disconnect();
   }
+
+function checkforstart() {
+  network_kis.snes.send(JSON.stringify({
+       "Opcode" : "GetAddress",
+       "Space" : "SNES",
+       "Operands": ["0xF51702", '1']
+    })).then(
+      (event) => {
+       return event.data.arrayBuffer()
+     }).then(
+    (locdata) => {
+      let x = new Uint8Array(locdata);
+      if(x[0] != 0){
+        clearInterval(timerID);
+        timerID = setInterval( keep_updating_kis, 5000);
+        if( ! timerStarted){
+          timerSecondsElapsed=3500;
+          StartTimer();
+        }
+      }
+  });
+}
 
 function keep_updating_characters(){
   network_characters.snes.send(JSON.stringify({
