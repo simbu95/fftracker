@@ -3,6 +3,7 @@ function snes9x() {
 
     let ws = null;
     let busy = false;
+    let force = false;
 
     methods.get_ws = get_ws;
     function get_ws() {
@@ -67,9 +68,15 @@ function snes9x() {
                           SwapKeyItemLocation(x,false)
                         }
                         else if (keyitemlocations[x] == 2 && out[order[x]] == 0){
-                            SwapKeyItemLocation(x,false)
+                            if(force)
+                                SwapKeyItemLocation(x,false)
+                            else{
+                                force=false;
+                                return;
+                            }
                         }
                     }
+                    force=false;
                     ApplyChecks();
                 }
                 else if(dat['P']!=undefined){
