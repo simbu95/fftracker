@@ -356,6 +356,9 @@
                     <div id="townlocationviewunchecked" onclick="ViewUncheckedTowns();" class="clickablediv" style="height: 32px;"><br>= View Unchecked =<br></div>
                     <div id="trappedlocationviewtown" onclick="ViewTown();" class="clickablediv" style="height: 32px;"><br>= Item Summary =<br></div>
                     <div id="showFlagsButton" onclick="OpenFlags();" class="clickablediv" style="height: 32px;"><br>= Show Flags =<br></div>
+		            <div id="showDMachineButton" onclick="OpenChart();" class="clickablediv" style="height: 32px;"><br>= Show D Machine Chart =<br></div>
+                    <div id="showBossInfoButton" onclick="OpenBossInfo();" class="clickablediv" style="height: 32px;"><br>= Show Boss Info =<br></div>
+                    <div id="showValvalisInfo" onclick="OpenVal();" class="clickablediv" style="height: 32px;"><br>= Show Valvalis Info =<br></div>
                 </div>
                 <div id="trappedchestsdiv" style="float: left; height: 400px; width: 120px;">
                     <div style="margin-bottom: 10px;"><u class="trackingTableHeader">Trapped Chests</u><br></div>
@@ -665,6 +668,24 @@
     <div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
         <div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px;  width: 404px; border-radius: 5px; border:1px white solid; background-color: #333333d3; font-size: 18px; padding: 10px;">
             <div id="keyString"></div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="chartModal" aria-hidden="true" onclick="CloseChart();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
+        <div id="chartModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px;  width: 404px; border-radius: 5px; border:1px white solid; background-color: #333333d3; font-size: 18px; padding: 10px;">
+            <img class="chartImage" src="images/DMachine.png" alt=""></img>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="bossInfoModal" aria-hidden="true" onclick="CloseBossInfo();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
+        <div id="bossInfoModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px;  width: 404px; border-radius: 5px; border:1px white solid; background-color: #333333d3; font-size: 18px; padding: 10px;">
+            <img class="bossInfoImage" src="images/bossInfo.png" alt=""></img>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="valModal" aria-hidden="true" onclick="CloseVal();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
+        <div id="valModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px;  width: 404px; border-radius: 5px; border:1px white solid; background-color: #333333d3; font-size: 18px; padding: 10px;">
+            <img class="valImage" src="images/valInfo.png" alt=""></img>
         </div>
     </div>
 
