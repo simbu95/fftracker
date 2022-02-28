@@ -106,7 +106,7 @@ function disconnect() {
     network_kis.disconnect();
   }
 
-function checkforstart() {
+function check_for_start() {
   network_kis.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
