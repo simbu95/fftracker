@@ -121,7 +121,7 @@ function check_for_start() {
         clearInterval(timerID);
         timerID = setInterval( keep_updating_kis, 5000);
         if( ! timerStarted){
-          timerSecondsElapsed=3500;
+          timerSecondsElapsed=3000;
           StartTimer();
         }
       }
