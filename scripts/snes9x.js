@@ -55,7 +55,12 @@ function snes9x() {
                             keyitems[x] = 1;	
                         }
                         else if ( out[order[x]] == 0 && keyitems[x] != 0){
-                            keyitems[x] = 0;
+                            if(force)
+                                keyitems[x] = 0;
+                            else{
+                                force=true;
+                                return;
+                            }
                         }
                     }
                     for(let i = 0; i < 32; i++){
@@ -71,7 +76,7 @@ function snes9x() {
                             if(force)
                                 SwapKeyItemLocation(x,false)
                             else{
-                                force=false;
+                                force=true;
                                 return;
                             }
                         }
