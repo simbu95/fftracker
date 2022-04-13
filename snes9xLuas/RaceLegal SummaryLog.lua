@@ -68,7 +68,7 @@ for i=0, 16 do
 	KIsToLocMap[i]=-1
 end
 for i=-1, 63 do
-	LocTimes[i],LocToKisMap[i],LocParty[i]=0,0,""
+	LocTimes[i],LocToKisMap[i],LocParty[i]=0,-1,""
 end
 
 for i=-4, 80000 do
@@ -320,7 +320,7 @@ local function myexit()
 		FormatKI()
 		FormatKILoc()
 		printObjectives()
-		io.write("\"Version\": \"182202asl\",\n")
+		io.write("\"Version\": \"132204asl\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
