@@ -26,7 +26,7 @@ iToC[0]="Cecil"
 BossFormations={[224]=1,[432]=2,[430]=3,[228]=4,[423]=5,[434]=6,[221]=6,[231]=7,[256]=8,[509]=9,[222]=10,[433]=11,[220]=11,[431]=12,[438]=14,[250]=15,[229]=16,[242]=17,[426]=18,[254]=18,[429]=19,[425]=20,[437]=21,[232]=22,[226]=23,[227]=24,[246]=25,[225]=26,[223]=27,[428]=28,[237]=29,[506]=30,[507]=31,[510]=32,[427]=33,[255]=33,[234]=34,[239]=35,[508]=36,[439]=37,[479]=38,[394]=39,[200]=40,[194]=41,[348]=42,[349]=42,[350]=42,[351]=42,[236]=44,[230]=45,[252]=45}
 FormationIDToBoss={"Antlion",'Asura','Bahamut','Baigan','Calbrena','CPU','DarkElf','DarkImps','DLunars','DMist','Elements','EvilWall','FabulGauntlet','Golbez','Guard','Kainazzo','Karate','KingQueen','Leviatan','Lugae+Balnab','Lugae','Magus','Milon','MilonZ','MirrorCecil','MomBomb','OctoMann','Odin','Officer','Ogopogo','PaleDim','Plague','Rubicant','Valvalis','WaterHag','Wyvern','Zeromus','Egg','Ryus','Dmachine','MacGiant','TrapDoors','Misc','Package','Dark Elf(Cutscene)'}
 
-currentArea,currentID,Transitions,KIBinary,currentCoords,Steps,TilesFlown = 2,0,0,0,0,0,0
+currentArea,currentID,Transitions,KIBinary,currentCoords,Steps,TilesFlown,Saves,Loads,Menus = 2,0,0,0,0,0,0,0,0,0
 AreaString,DetailedString,FramesString,FramesDetailed = {"2"},{"0"},{"0"},{"0"}
 
 areas[-3],areas[-2],areas[-1],areas[-0]="DummyValue","OverworldMap","UndergroundMap","MoonSurface"
@@ -241,6 +241,7 @@ local function myframe()
 			area_menus[mapID] = area_menus[mapID] + 1
 			if not Menu then
 				Menu=true
+				Menus=Menus+1
 				table.insert(DetailedString, string.format("M"))
 				table.insert(FramesDetailed, string.format("%d",(emu.framecount()-startTime)/60))
 			end
@@ -455,6 +456,9 @@ local function myexit()
 		io.write(string.format("\"menu\": {\n%s},\n",FormatTime(timem)))
 		io.write(string.format("\"battle\": {\n%s},\n",FormatTime(timeb)))
 		io.write(string.format("\"Steps\": %d,\n",Steps))
+		io.write(string.format("\"Saves\": %d,\n",Saves))
+		io.write(string.format("\"Resets\": %d,\n",Loads))
+		io.write(string.format("\"MenusEntered\": %d,\n",Menus))
 		io.write(string.format("\"Fly\": %d,\n",TilesFlown))
 		io.write(string.format("\"Transitions\": %d,\n",Transitions))
 		io.write(string.format("\"Route\": \"%s\",\n", table.concat(AreaString, ",")))
@@ -467,7 +471,7 @@ local function myexit()
 		FormatKILoc()
 		printBoss()
 		printObjectives()
-		io.write("\"Version\": \"222202as\",\n")
+		io.write("\"Version\": \"222905as\",\n")
 		io.write(string.format("\"lag frames\": {\n%s},\n",FormatTime(lagcount)))
 		io.write(metaData().. "}")
 		io.close(file)
@@ -488,12 +492,22 @@ local function myobjective(address,size)
 	end
 end
 
+local function mysaves()
+	Saves=Saves+1
+end
+
+local function myloads()
+	Loads=Loads+1
+end
+
 emu.registerbefore(myframe)
 emu.registerexit(myexit)
 
 tcp:send("{" .. metaData() .. "}\n")
 
 memory.registerexec(0x03F591,1,myexit)
+memory.registerexec(0x01CBD6,1,mysaves)
+memory.registerexec(0x019650,1,myloads)
 memory.registerwrite(0x7e1520,32,myobjective)
 
 print("Summary Log prep done, will begin recording data when run begins, Reminder that this version is not allowed for Official races")
