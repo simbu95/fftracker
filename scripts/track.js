@@ -240,11 +240,14 @@ function SetModes() {
     excludedCharacters = '';
     includedCharacters = '';
     var bAddedMiscHeader = false;
-    if (flags === 'MYSTERY') {
+    if (flags === '(hidden)') {
         isMystery = true;
         modeflags.orandomcount = 1;
         document.getElementById('changemysteryflagsdiv').style.display = "";
         modeflags.oreq = "?";
+	for( var x in Objectives){	
+	    objectives[objectivenames.indexOf(Objectives[x])] = 0;
+	}
     } else {
         document.getElementById('changemysteryflagsdiv').style.display = "none";
 
