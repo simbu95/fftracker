@@ -240,7 +240,7 @@ function SetModes() {
     excludedCharacters = '';
     includedCharacters = '';
     var bAddedMiscHeader = false;
-    if (flags === '(hidden)') {
+    if (flags === '(HIDDEN)') {
         isMystery = true;
         modeflags.orandomcount = 1;
         document.getElementById('changemysteryflagsdiv').style.display = "";
