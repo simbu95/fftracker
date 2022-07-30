@@ -245,7 +245,7 @@ function check_for_start() {
 					  child=MYOutput[Location]['child-areas'][myIndex]['child-areas'].findIndex((element) => (element['name']==areas[currentarea]));
 				  }
 				  MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['milli']+=myTime;
-				  MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['seconds']=MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['milli']/1000);
+				  MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['seconds']=Math.floor(MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['milli']/1000);
 				  break;
 				  
 		  }
