@@ -225,7 +225,7 @@ function check_for_start() {
 				  break;
 			  case 2:
 				  currentarea=-1;
-				  Location="MoonArea";
+				  Location="Moon";
 				  myIndex=0;
 				  break;
 			  default:
