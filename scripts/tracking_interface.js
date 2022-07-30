@@ -271,7 +271,7 @@ function keep_updating_objectives() {
      }).then(
        (ab) => {
 			let ram = new Uint8Array(ab);
-			let memory_ki = ram[0:19]
+			let memory_ki = ram.slice(0:20);
 			if( !memory_ki.some( n => n!=0 ) && !force){
 				force=true;
 				return;
@@ -294,7 +294,7 @@ function keep_updating_objectives() {
 			}
 			force=false;
 			ApplyChecks();
-			let objectiveFlags=ram[20:20+count]
+			let objectiveFlags=ramram.slice(20:20+count);
 			if( !objectiveFlags.some( n => n!=0 ) && !forceObj){
 			  forceObj=true;
 			  return;
