@@ -241,7 +241,7 @@ function check_for_start() {
 					  MYOutput[Location]['child-areas'][myIndex]['child-areas'].append({
 						  'name': areas[currentarea],
 						  'time': {'seconds':0, 'milli':0}
-					  }
+					  });
 					  child=MYOutput[Location]['child-areas'][myIndex]['child-areas'].findIndex((element) => (element['name']==areas[currentarea]));
 				  }
 				  MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['milli']+=myTime;
