@@ -268,14 +268,14 @@ function keep_updating_objectives() {
     network_objectives.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
-       "Operands": ["0xF51500", (20+count).toString(16)]
+       "Operands": ["0xF51500", (0x20+count).toString(16)]
     })).then(
       (event) => {
        return event.data.arrayBuffer()
      }).then(
        (ab) => {
 			let ram = new Uint8Array(ab);
-			let memory_ki = ram.slice(0,20);
+			let memory_ki = ram.slice(0,0x20);
 			if( !memory_ki.some( n => n!=0 ) && !force){
 				force=true;
 				return;
@@ -298,7 +298,7 @@ function keep_updating_objectives() {
 			}
 			force=false;
 			ApplyChecks();
-			let objectiveFlags=ram.slice(20,20+count);
+			let objectiveFlags=ram.slice(0x20,0x20+count);
 			if( !objectiveFlags.some( n => n!=0 ) && !forceObj){
 			  forceObj=true;
 			  return;
