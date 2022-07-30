@@ -193,7 +193,7 @@ function check_for_start() {
 		}
 	  }
 	  else{
-		  let currentarea=x[1]<<8+x[2]
+		  let currentarea=(x[1]<<8)+x[2]
 		  switch(x[0]){
 			  case 0:
 				  currentarea=-3;
