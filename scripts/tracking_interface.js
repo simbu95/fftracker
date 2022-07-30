@@ -228,7 +228,7 @@ function check_for_start() {
 				  Location="MoonArea";
 				  myIndex=0;
 				  break;
-			  case default:
+			  default:
 				  if(MYOutput[Location]['child-areas'][myIndex] == undefined){
 					  MYOutput[Location]['child-areas'][myIndex] = {
 						  'name': Group,
