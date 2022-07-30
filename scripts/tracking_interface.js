@@ -186,11 +186,12 @@ function check_for_start() {
      }).then(
     (locdata) => {
       let x = new Uint8Array(locdata);
-	  if(! timerStarted)
+	  if(! timerStarted){
 		if(x[1] != 0){
 			timerSecondsElapsed=3000;
 			StartTimer();
 		}
+	  }
 	  else{
 		  let currentarea=x[1]
 		  switch(x[0]){
