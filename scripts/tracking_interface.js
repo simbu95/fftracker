@@ -7,12 +7,12 @@ let charactersTimerID = null;
 let force = false;
 let forceObj = false;
 
-MYOutput={"Overworld": {child-areas:[{'name': 'OverworldMap','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
-"Underworld":{child-areas:[{'name': 'UndergroundMap','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
-"Dungeons":{child-areas:[],'time':{'seconds':0,'milli':0}},
-"Moon":{child-areas:[{'name': 'MoonSurface','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
-"Zeromus":{child-areas:[],'time':{'seconds':0,'milli':0}},
-"Misc":{child-areas:[],'time':{'seconds':0,'milli':0}},"time":{},
+MYOutput={"Overworld": {'child-areas':[{'name': 'OverworldMap','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
+"Underworld":{'child-areas':[{'name': 'UndergroundMap','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
+"Dungeons":{'child-areas':[],'time':{'seconds':0,'milli':0}},
+"Moon":{'child-areas':[{'name': 'MoonSurface','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
+"Zeromus":{'child-areas':[],'time':{'seconds':0,'milli':0}},
+"Misc":{'child-areas':[],'time':{'seconds':0,'milli':0}},"time":{},
 "Version": "221607WEB","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"","RouteTime":"","KIs":[],
 "KI Locations":[],"Objectives":[],"metadata":{},"lag frames": {"minutes":0,"seconds":0}
 }
