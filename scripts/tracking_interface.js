@@ -33,7 +33,7 @@ let GroupAreas=["","Baron Town Areas","Baron Castle Areas","Mist Areas","Kaipo A
 let GroupIndex=[-1,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,0] //)th index for some are the overworld map type areas. 
 let areaToLocation=[-1,"Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld",
 "Underground","Underground","Underground","Underground",
-"Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons"
+"Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons",
 "Moon","Moon",
 "Zeromus"];
 areas[-4]="DummyValue",areas[-3]="OverworldMap",areas[-2]="UndergroundMap",areas[-1]="MoonSurface"
