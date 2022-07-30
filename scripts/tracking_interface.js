@@ -205,7 +205,7 @@ function check_for_start() {
 				  break;
 		  }
 		  if(MYOutput["Overworld"][(x[1])] == undefined){
-			  MYOutput["Overworld"][(x[1])] = { 'name': areas[(x[1]), 'time':0};
+			  MYOutput["Overworld"][(x[1])] = { 'name': areas[(x[1])], 'time':0};
 		  }
 		  MYOutput["Overworld"][x[1]]['time']+=timerSecondsElapsed-lastTime;
 		  lastTime=timerSecondsElapsed;
