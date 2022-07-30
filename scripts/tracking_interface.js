@@ -7,7 +7,7 @@ let charactersTimerID = null;
 let force = false;
 let forceObj = false;
 
-MYOutput={"Overworld":{},"Underworld":{},"Dungeons":{},"Moon":{},"Zeromus":{},"Misc":{},"time":{},
+MYOutput={"Overworld":[],"Underworld":{},"Dungeons":{},"Moon":{},"Zeromus":{},"Misc":{},"time":{},
 "Version": "221607WEB","Steps":-1,"Fly":-1,"Transitions": -1,"Route":"","RouteTime":"","KIs":[],
 "KI Locations":[],"Objectives":[],"metadata":{},"lag frames": {"minutes":0,"seconds":0}
 }
@@ -204,8 +204,11 @@ function check_for_start() {
 				  currentarea=-1;
 				  break;
 		  }
-		  area_milli(x[1])+=timerSecondsElapsed-lastTime;
-		  lasttime=timerSecondsElapsed;
+		  if(MYOutput["Overworld"][(x[1])] == undefined){
+			  MYOutput["Overworld"][(x[1])] = { 'name': areas[(x[1]), 'time':0};
+		  }
+		  MYOutput["Overworld"][x[1]]['time']+=timerSecondsElapsed-lastTime;
+		  lastTime=timerSecondsElapsed;
 	  }
   });
 }
