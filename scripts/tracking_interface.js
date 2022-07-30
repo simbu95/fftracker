@@ -12,7 +12,7 @@ MYOutput={"Overworld": {'child-areas':[{'name': 'OverworldMap','time': {'seconds
 "Dungeons":{'child-areas':[],'time':{'seconds':0,'milli':0}},
 "Moon":{'child-areas':[{'name': 'MoonSurface','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
 "Zeromus":{'child-areas':[],'time':{'seconds':0,'milli':0}},
-"Misc":{'child-areas':[],'time':{'seconds':0,'milli':0}},"time":{},
+"Misc":{'child-areas':[],'time':{'seconds':0,'milli':0}},"time":{'seconds':0,'milli':0},
 "Version": "221607WEB","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"","RouteTime":"","KIs":[],
 "KI Locations":[],"Objectives":[],"metadata":{},"lag frames": {"minutes":0,"seconds":0}
 }
@@ -253,6 +253,8 @@ function check_for_start() {
 		  MYOutput[Location]['child-areas'][myIndex]['time']['seconds']=Math.floor(MYOutput[Location]['child-areas'][myIndex]['time']['milli']/1000);
 		  MYOutput[Location]['time']['milli']+=myTime;
 		  MYOutput[Location]['time']['seconds']=Math.floor(MYOutput[Location]['time']['milli']/1000);
+		  MYOutput['time']['milli']+=myTime;
+		  MYOutput['time']['seconds']=Math.floor(MYOutput['time']['milli']/1000);
 		  if(currentarea != currentArea){
 			  currentArea=currentarea;
 			  MYOutput['Transitions']+=1;
