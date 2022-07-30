@@ -297,7 +297,7 @@ function keep_updating_objectives() {
 			}
 			force=false;
 			ApplyChecks();
-			let objectiveFlags=ramram.slice(20,20+count);
+			let objectiveFlags=ram.slice(20,20+count);
 			if( !objectiveFlags.some( n => n!=0 ) && !forceObj){
 			  forceObj=true;
 			  return;
