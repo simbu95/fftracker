@@ -179,7 +179,7 @@ function check_for_start() {
   network_kis.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
-       "Operands": ["0xF51700", '2']
+       "Operands": ["0xF51700", '3']
     })).then(
       (event) => {
        return event.data.arrayBuffer()
@@ -187,13 +187,13 @@ function check_for_start() {
     (locdata) => {
       let x = new Uint8Array(locdata);
 	  if(! timerStarted){
-		if(x[1] != 0){
+		if(x[2] != 0){
 			timerSecondsElapsed=3000;
 			StartTimer();
 		}
 	  }
 	  else{
-		  let currentarea=x[1]
+		  let currentarea=x[1]>>8+x[2]
 		  switch(x[0]){
 			  case 0:
 				  currentarea=-3;
@@ -205,8 +205,8 @@ function check_for_start() {
 				  currentarea=-1;
 				  break;
 		  }
-		  if(MYOutput["Overworld"][(x[1])] == undefined){
-			  MYOutput["Overworld"][(x[1])] = { 'name': areas[(x[1])], 'time':0};
+		  if(MYOutput["Overworld"][currentarea] == undefined){
+			  MYOutput["Overworld"][currentarea] = { 'name': areas[currentarea], 'time':0};
 		  }
 		  MYOutput["Overworld"][x[1]]['time']+=timerSecondsElapsed-lastTime;
 		  lastTime=timerSecondsElapsed;
