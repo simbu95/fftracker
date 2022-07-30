@@ -208,7 +208,7 @@ function check_for_start() {
 		  if(MYOutput["Overworld"][currentarea] == undefined){
 			  MYOutput["Overworld"][currentarea] = { 'name': areas[currentarea], 'time':0};
 		  }
-		  MYOutput["Overworld"][x[1]]['time']+=timerSecondsElapsed-lastTime;
+		  MYOutput["Overworld"][currentarea]['time']+=timerSecondsElapsed-lastTime;
 		  lastTime=timerSecondsElapsed;
 	  }
   });
