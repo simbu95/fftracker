@@ -264,11 +264,11 @@ function keep_updating_objectives() {
     if (!Objectives) {
       return;
     }
-    let count = Objectives.length.toString(16);
+    let count = Objectives.length;
     network_objectives.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
-       "Operands": ["0xF51500", 20+count]
+       "Operands": ["0xF51500", (20+count).toString(16)]
     })).then(
       (event) => {
        return event.data.arrayBuffer()
