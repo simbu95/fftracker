@@ -44,6 +44,24 @@ let currentArea=2,currentID=0,Transitions=0,KIBinary=0
 let AreaString= ["2"], DetailedString= ["0"], FramesString= ["0"], FramesDetailed = ["0"]
 let lastTime=0;
 
+for(let i=0; i < idToArea.length; i++){
+	let Location = areaToLocation[idToArea[i]];
+	let Group = GroupAreas[idToArea[i]];
+	let myIndex = GroupIndex[idToArea[i]];
+	if(MYOutput[Location]['child-areas'][myIndex] == undefined){
+		MYOutput[Location]['child-areas'][myIndex] = {
+			'name': Group,
+			'time': {'seconds':0, 'milli':0},
+			'child-areas': []
+		};
+		
+	}
+	MYOutput[Location]['child-areas'][myIndex]['child-areas'].push({
+	  'name': areas[i],
+	  'time': {'seconds':0, 'milli':0}
+	});
+}
+
 
 let ki_map = {
   0x00: KeyItem.PACKAGE,
