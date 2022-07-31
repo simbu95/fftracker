@@ -2218,7 +2218,7 @@ function PauseTimer() {
     document.getElementById('startButton').style.display = "block";
     document.getElementById('pauseButton').style.display = "none";
     document.getElementById('resetButton').style.display = "block";
-	console.log(JSON.stringify(MYOutput));
+	console.log(JSON.stringify(MYOutput,null,2));
 }
 
 function ResetTimer() {
