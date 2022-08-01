@@ -13,7 +13,7 @@ MYOutput={"Overworld": {'child-areas':[{'name': 'OverworldMap','time': {'seconds
 "Moon":{'child-areas':[{'name': 'MoonSurface','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
 "Zeromus":{'child-areas':[],'time':{'seconds':0,'milli':0}},
 "Misc":{'child-areas':[],'time':{'seconds':0,'milli':0}},"time":{'seconds':0,'milli':0},
-"Version": "221607WEB","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"","RouteTime":"","KIs":[],
+"Version": "220108WEBL","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"","RouteTime":"","KIs":[],
 "KI Locations":[],"Objectives":[],"metadata":{},"lag frames": {"minutes":0,"seconds":0}
 }
 
