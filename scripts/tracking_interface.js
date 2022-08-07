@@ -366,7 +366,7 @@ function keep_updating_objectives() {
 			
 			forceObj=false;
 			ApplyChecks();
-        }
+        },
         (err) => { console.log("bleh" + err) });
   }
 
