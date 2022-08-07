@@ -361,11 +361,12 @@ function keep_updating_objectives() {
 						  "Obj": i,
 						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
 					  });
+			  }
 			}
 			
 			forceObj=false;
 			ApplyChecks();
-        },
+        }
         (err) => { console.log("bleh" + err) });
   }
 
