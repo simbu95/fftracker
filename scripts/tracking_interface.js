@@ -232,8 +232,8 @@ function check_for_start() {
 			  MYOutput['Transitions'] += 1;
 			  if ( currentarea >= 0 && idToArea[currentarea] != lastAreaGroup){
 				lastAreaGroup = idToArea[currentarea]
-				MyOutput['Route'] += ',' + lastAreaGroup
-				MyOutput['RouteTime'] += ',' + Math.floor(timerSecondsElapsed/1000)
+				MYOutput['Route'] += ',' + lastAreaGroup
+				MYOutput['RouteTime'] += ',' + Math.floor(timerSecondsElapsed/1000)
 			  }
 		  }
 		  
@@ -317,7 +317,7 @@ function keep_updating_objectives() {
 				if(truth && !KIBinary[index]){
 					KIBinary[index]=true;
 					KiFound=index
-					MyOutput['KIs'].push({
+					MYOutput['KIs'].push({
 						  "name": KIsNames[index],
 						  "Location Found": "",
 						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
@@ -333,14 +333,14 @@ function keep_updating_objectives() {
 				let truth = !!(memory_ki[i] & (1 << b));
 				if(truth && !KIBinary[index]){
 					LocationBinary[index]=true;
-					MyOutput['Locations'].push({
+					MYOutput['Locations'].push({
 						  "name": LocNames[index],
 						  "KI Obtained": "",
 						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
 					  });
 					if(KiFound!=-1){
-						MyOutput['Locations'][MyOutput['Locations'].length - 1]["KI Obtained"]=KIsNames[KiFound];
-						MyOutput['KIs'][MyOutput['KIs'].length - 1]["Location Found"]=LocNames[index];
+						MYOutput['Locations'][MYOutput['Locations'].length - 1]["KI Obtained"]=KIsNames[KiFound];
+						MYOutput['KIs'][MYOutput['KIs'].length - 1]["Location Found"]=LocNames[index];
 					}
 				}
 				set_loc_ki(index + 0x20, truth);
@@ -357,7 +357,7 @@ function keep_updating_objectives() {
 			  set_objective(i, !!objectiveFlags[i]);
 			  if(!!objectiveFlags[i] && !ObjectivesBinary[i]){
 					ObjectivesBinary[i]=true;
-					MyOutput['Objectives'].push({
+					MYOutput['Objectives'].push({
 						  "Obj": i,
 						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
 					  });
