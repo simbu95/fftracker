@@ -46,18 +46,26 @@ for(let i=0; i < idToArea.length; i++){
 	let Location = areaToLocation[idToArea[i]];
 	let Group = GroupAreas[idToArea[i]];
 	let myIndex = GroupIndex[idToArea[i]];
-	if(MYOutput[Location]['child-areas'][myIndex] == undefined){
-		MYOutput[Location]['child-areas'][myIndex] = {
-			'name': Group,
-			'time': {'seconds':0, 'milli':0},
-			'child-areas': []
-		};
-		
+	if(idToArea[i]>=32){
+		MYOutput[Location]['child-areas'].push({
+		  'name': areas[i],
+		  'time': {'seconds':0, 'milli':0}
+		});
 	}
-	MYOutput[Location]['child-areas'][myIndex]['child-areas'].push({
-	  'name': areas[i],
-	  'time': {'seconds':0, 'milli':0}
-	});
+	else{
+		if(MYOutput[Location]['child-areas'][myIndex] == undefined){
+			MYOutput[Location]['child-areas'][myIndex] = {
+				'name': Group,
+				'time': {'seconds':0, 'milli':0},
+				'child-areas': []
+			};
+			
+		}
+		MYOutput[Location]['child-areas'][myIndex]['child-areas'].push({
+		  'name': areas[i],
+		  'time': {'seconds':0, 'milli':0}
+		});
+	}
 }
 
 
@@ -201,6 +209,18 @@ function check_for_start() {
 				  myIndex=0;
 				  break;
 			  default:
+				if(idToArea[i]>=32){
+					let child=MYOutput[Location]['child-areas'].findIndex((element) => (element['name']==areas[currentarea]));
+					  if(child== -1){
+						  MYOutput[Location]['child-areas'].push({
+							  'name': areas[currentarea],
+							  'time': {'seconds':0, 'milli':0}
+						  });
+						  child=MYOutput[Location]['child-areas'].findIndex((element) => (element['name']==areas[currentarea]));
+					  }
+					  myIndex=child;
+				}
+				else{
 				  if(MYOutput[Location]['child-areas'][myIndex] == undefined){
 					  MYOutput[Location]['child-areas'][myIndex] = {
 						  'name': Group,
@@ -218,8 +238,9 @@ function check_for_start() {
 				  }
 				  MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['milli']+=myTime;
 				  MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['seconds']=Math.floor(MYOutput[Location]['child-areas'][myIndex]['child-areas'][child]['time']['milli']/1000);
-				  break;
-				  
+				}
+				break;
+				
 		  }
 		  MYOutput[Location]['child-areas'][myIndex]['time']['milli'] += myTime;
 		  MYOutput[Location]['child-areas'][myIndex]['time']['seconds'] = Math.floor(MYOutput[Location]['child-areas'][myIndex]['time']['milli']/1000);
