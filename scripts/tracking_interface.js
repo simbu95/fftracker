@@ -230,7 +230,7 @@ function check_for_start() {
 		  if(currentarea != currentArea){
 			  currentArea = currentarea;
 			  MYOutput['Transitions'] += 1;
-			  if ( currentarea >= 0 && idToArea[currentarea] ~= lastAreaGroup){
+			  if ( currentarea >= 0 && idToArea[currentarea] != lastAreaGroup){
 				lastAreaGroup = idToArea[currentarea]
 				MyOutput['Route'] += ',' + lastAreaGroup
 				MyOutput['RouteTime'] += ',' + Math.floor(timerSecondsElapsed/1000)
