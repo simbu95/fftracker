@@ -331,7 +331,7 @@ function keep_updating_objectives() {
 				let index = (i * 8 + b) - 0x14*8;
 				if (index > (0x5D)) continue;
 				let truth = !!(memory_ki[i] & (1 << b));
-				if(truth && !KIBinary[index]){
+				if(truth && !LocationBinary[index]){
 					LocationBinary[index]=true;
 					MYOutput['KI Locations'].push({
 						  "name": LocNames[index],
@@ -359,7 +359,7 @@ function keep_updating_objectives() {
 					ObjectivesBinary[i]=true;
 					MYOutput['Objectives'].push({
 						  "Obj": i,
-						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
+						  'seconds': Math.floor(timerSecondsElapsed/1000)
 					  });
 			  }
 			}
