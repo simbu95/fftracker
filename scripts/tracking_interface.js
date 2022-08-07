@@ -11,8 +11,8 @@ MYOutput={"Overworld": {'child-areas':[{'name': 'OverworldMap','time': {'seconds
 "Underground":{'child-areas':[{'name': 'UndergroundMap','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
 "Dungeons":{'child-areas':[],'time':{'seconds':0,'milli':0}},
 "Moon":{'child-areas':[{'name': 'MoonSurface','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
-"Zeromus":{'child-areas':[],'time':{'seconds':0,'milli':0}},
-"Misc":{'child-areas':[],'time':{'seconds':0,'milli':0}},"time":{'seconds':0,'milli':0},
+"Zeromus":{'name': 'Zeromus','child-areas':[],'time':{'seconds':0,'milli':0}},
+"Misc":{'name': 'Misc','child-areas':[],'time':{'seconds':0,'milli':0}},"time":{'seconds':0,'milli':0},
 "Version": "220108WEBL","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"","RouteTime":"","KIs":[],
 "KI Locations":[],"Objectives":[],"metadata":{},"lag frames": {"minutes":0,"seconds":0}
 }
@@ -30,7 +30,7 @@ let idToArea=[1,3,4,5,6,7,9,7,7,7,7,1,1,1,1,3,4,4,4,5,5,22,5,5,7,7,7,33,7,7,9,9,
 let GroupAreas=["","Baron Town Areas","Baron Castle Areas","Mist Areas","Kaipo Areas","Mysidia Areas","Mythril Areas","Troia Areas","Troia Castle Areas","Agart Areas","Damcyan Areas","Fabul Areas","Eblan Areas","Chocobo Forests",
 "Smithy Areas","Tomra Areas","Dwarf Castle Areas","Feymarch Areas","Mist Cave","Watery Pass Areas","Antlion Areas","Hobbs Areas","Ordeals Areas","Cave Magnes Areas","Zot Areas","Hook Stuff","Babil Areas","Sylph Areas",
 "Sealed Cave Areas","Giant Areas","Moon Areas","Moon Areas","Zeromus","Misc",];
-let GroupIndex=[-1,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,0,1,2,3,4,5,6,7,8,9,10,11,12,1,2,0] //)th index for some are the overworld map type areas. 
+let GroupIndex=[-1,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,0,1,2,3,4,5,6,7,8,9,10,11,1,2,0,0] //0th index for some are the overworld map type areas. 
 let areaToLocation=[-1,"Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld","Overworld",
 "Underground","Underground","Underground","Underground",
 "Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons","Dungeons",
