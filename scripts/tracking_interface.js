@@ -13,7 +13,7 @@ MYOutput={"Overworld": {'child-areas':[{'name': 'OverworldMap','time': {'seconds
 "Moon":{'child-areas':[{'name': 'MoonSurface','time': {'seconds':0, 'milli':0}}],'time':{'seconds':0,'milli':0}},
 "Zeromus":{'name': 'Zeromus','child-areas':[],'time':{'seconds':0,'milli':0}},
 "Misc":{'name': 'Misc','child-areas':[],'time':{'seconds':0,'milli':0}},"time":{'seconds':0,'milli':0},
-"Version": "220108WEBL","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"","RouteTime":"","KIs":[],
+"Version": "220108WEBL","Steps":-1,"Fly":-1,"Transitions": 0,"Route":"2","RouteTime":"0","KIs":[],
 "KI Locations":[],"Objectives":[],"metadata":{},"lag frames": {"minutes":0,"seconds":0}
 }
 
@@ -39,9 +39,8 @@ let areaToLocation=[-1,"Overworld","Overworld","Overworld","Overworld","Overworl
 areas[-4]="DummyValue",areas[-3]="OverworldMap",areas[-2]="UndergroundMap",areas[-1]="MoonSurface"
 
 //let iToC=["Cecil","Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"]
-let currentArea=2,currentID=0,Transitions=0,KIBinary=0
+let currentArea=2, lastAreaGroup=2, currentID=0,Transitions=0,KIBinary=0
 
-let AreaString= ["2"], DetailedString= ["0"], FramesString= ["0"], FramesDetailed = ["0"]
 let lastTime=0;
 
 for(let i=0; i < idToArea.length; i++){
@@ -223,15 +222,20 @@ function check_for_start() {
 				  break;
 				  
 		  }
-		  MYOutput[Location]['child-areas'][myIndex]['time']['milli']+=myTime;
-		  MYOutput[Location]['child-areas'][myIndex]['time']['seconds']=Math.floor(MYOutput[Location]['child-areas'][myIndex]['time']['milli']/1000);
-		  MYOutput[Location]['time']['milli']+=myTime;
-		  MYOutput[Location]['time']['seconds']=Math.floor(MYOutput[Location]['time']['milli']/1000);
-		  MYOutput['time']['milli']+=myTime;
-		  MYOutput['time']['seconds']=Math.floor(MYOutput['time']['milli']/1000);
+		  MYOutput[Location]['child-areas'][myIndex]['time']['milli'] += myTime;
+		  MYOutput[Location]['child-areas'][myIndex]['time']['seconds'] = Math.floor(MYOutput[Location]['child-areas'][myIndex]['time']['milli']/1000);
+		  MYOutput[Location]['time']['milli'] += myTime;
+		  MYOutput[Location]['time']['seconds'] = Math.floor(MYOutput[Location]['time']['milli']/1000);
+		  MYOutput['time']['milli'] += myTime;
+		  MYOutput['time']['seconds'] = Math.floor(MYOutput['time']['milli']/1000);
 		  if(currentarea != currentArea){
-			  currentArea=currentarea;
-			  MYOutput['Transitions']+=1;
+			  currentArea = currentarea;
+			  MYOutput['Transitions'] += 1;
+			  if (currentarea>=0 and idToArea[currentarea] ~= lastAreaGroup){
+				lastAreaGroup = idToArea[currentarea]
+				MyOutput['Route'] += ',' + lastAreaGroup
+				MyOutput['RouteTime'] += ',' + Math.floor(timerSecondsElapsed/1000)
+			  }
 		  }
 		  
 	  }
