@@ -18,7 +18,7 @@ MYOutput={"Overworld": {'child-areas':[{'name': 'OverworldMap','time': {'seconds
 }
 
 let area_frames = Array(512).fill(0);
-//let LocParty=Array(64).fill("");
+let currentPartyString="";
 let LocationBinary = Array(64).fill(false);
 let ObjectivesBinary = Array(64).fill(false);
 let KIBinary = Array(17).fill(false); 
@@ -37,7 +37,7 @@ let areaToLocation=[-1,"Overworld","Overworld","Overworld","Overworld","Overworl
 "Zeromus", "Misc"];
 areas[-4]="DummyValue",areas[-3]="OverworldMap",areas[-2]="UndergroundMap",areas[-1]="MoonSurface"
 
-//let iToC=["Cecil","Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"]
+let iToC=["Cecil","Kain","Rydia","Tellah","Edward","Rosa","Yang","Palom","Porom","Cecil","Cid","Rydia","Edge","FuSoYa","Various","Golbez"]
 let currentArea=2, lastAreaGroup=2, currentID=0
 
 let lastTime=0;
@@ -275,15 +275,20 @@ function keep_updating_characters(){
       let x = new Uint8Array(partydata);
       let order = [0,1,2,3,4,5,6,7,8,0,9,2,10,11];
       partymembers = [-1, -1, -1, -1, -1];
+      let myCurrentParty=[];
       for( let i = 0; i<5;i++){
         if(x[0x40*i]!=0){
-          partymembers[i]=order[x[0x40*i+1]&0x0f]
+          partymembers[i]=order[x[0x40*i+1]&0x0f];
+          myCurrentParty.push({'id':order[x[0x40*i+1]&0x0f],'name':iToC[x[0x40*i+1]&0x0f],'level':x[0x40*i+2]&0xff});
         }
       }
-      partymembers.sort()
-      partymembers.reverse()
+      partymembers.sort();
+      partymembers.reverse();
+      myCurrentParty.sort((a, b) => (a.id-b.id));
+      let partymap = myCurrentParty.map(x => x.name + ':' + x.level);
+      currentPartyString=partymap.join(',');
       ApplyChecks();
-       return;
+      return;
    });
 }
       
@@ -357,6 +362,7 @@ function keep_updating_objectives() {
 					MYOutput['KI Locations'].push({
 						  "name": LocNames[index],
 						  "KI Obtained": "",
+						  "party": currentPartyString,
 						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
 					  });
 					if(KiFound!=-1){
