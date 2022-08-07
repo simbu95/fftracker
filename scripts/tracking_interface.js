@@ -230,7 +230,7 @@ function check_for_start() {
 		  if(currentarea != currentArea){
 			  currentArea = currentarea;
 			  MYOutput['Transitions'] += 1;
-			  if (currentarea>=0 and idToArea[currentarea] ~= lastAreaGroup){
+			  if ( currentarea >= 0 && idToArea[currentarea] ~= lastAreaGroup){
 				lastAreaGroup = idToArea[currentarea]
 				MyOutput['Route'] += ',' + lastAreaGroup
 				MyOutput['RouteTime'] += ',' + Math.floor(timerSecondsElapsed/1000)
@@ -314,7 +314,7 @@ function keep_updating_objectives() {
 				let index = (i * 8 + b);
 				if (index > 0x10) continue;
 				let truth = !!(memory_ki[i] & (1 << b));
-				if(truth and !KIBinary[index]){
+				if(truth && !KIBinary[index]){
 					KIBinary[index]=true;
 					KiFound=index
 					MyOutput['KIs'].push({
@@ -331,7 +331,7 @@ function keep_updating_objectives() {
 				let index = (i * 8 + b) - 0x14*8;
 				if (index > (0x5D)) continue;
 				let truth = !!(memory_ki[i] & (1 << b));
-				if(truth and !KIBinary[index]){
+				if(truth && !KIBinary[index]){
 					LocationBinary[index]=true;
 					MyOutput['Locations'].push({
 						  "name": LocNames[index],
@@ -355,7 +355,7 @@ function keep_updating_objectives() {
 			}
 			for (let i=0; i < Objectives.length; i++) {
 			  set_objective(i, !!objectiveFlags[i]);
-			  if(!!objectiveFlags[i] and !ObjectivesBinary[i]){
+			  if(!!objectiveFlags[i] && !ObjectivesBinary[i]){
 					ObjectivesBinary[i]=true;
 					MyOutput['Objectives'].push({
 						  "Obj": i,
