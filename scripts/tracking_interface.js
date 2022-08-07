@@ -209,7 +209,7 @@ function check_for_start() {
 				  myIndex=0;
 				  break;
 			  default:
-				if(idToArea[i]>=32){
+				if(idToArea[currentarea]>=32){
 					let child=MYOutput[Location]['child-areas'].findIndex((element) => (element['name']==areas[currentarea]));
 					  if(child== -1){
 						  MYOutput[Location]['child-areas'].push({
