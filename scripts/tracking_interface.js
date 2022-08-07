@@ -333,13 +333,13 @@ function keep_updating_objectives() {
 				let truth = !!(memory_ki[i] & (1 << b));
 				if(truth && !KIBinary[index]){
 					LocationBinary[index]=true;
-					MYOutput['Locations'].push({
+					MYOutput['KI Locations'].push({
 						  "name": LocNames[index],
 						  "KI Obtained": "",
 						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
 					  });
 					if(KiFound!=-1){
-						MYOutput['Locations'][MYOutput['Locations'].length - 1]["KI Obtained"]=KIsNames[KiFound];
+						MYOutput['KI Locations'][MYOutput['KI Locations'].length - 1]["KI Obtained"]=KIsNames[KiFound];
 						MYOutput['KIs'][MYOutput['KIs'].length - 1]["Location Found"]=LocNames[index];
 					}
 				}
