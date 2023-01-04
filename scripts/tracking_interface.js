@@ -190,8 +190,8 @@ function check_for_start() {
 		  let Location = areaToLocation[idToArea[currentarea]];
 		  let Group = GroupAreas[idToArea[currentarea]];
 		  let myIndex = GroupIndex[idToArea[currentarea]];
-		  let myTime=timerSecondsElapsed-lastTime;
-		  lastTime=timerSecondsElapsed;
+		  let myTime=(timerSecondsElapsed + (Date.now()- timerStartTime))-lastTime;
+		  lastTime=(timerSecondsElapsed + (Date.now()- timerStartTime));
 		  switch(x[0]){
 			  case 0:
 				  currentarea=-3;
@@ -254,7 +254,7 @@ function check_for_start() {
 			  if ( currentarea >= 0 && idToArea[currentarea] != lastAreaGroup){
 				lastAreaGroup = idToArea[currentarea]
 				MYOutput['Route'] += ',' + lastAreaGroup
-				MYOutput['RouteTime'] += ',' + Math.floor(timerSecondsElapsed/1000)
+				MYOutput['RouteTime'] += ',' + Math.floor((timerSecondsElapsed + (Date.now()- timerStartTime))/1000)
 			  }
 		  }
 		  
@@ -346,7 +346,7 @@ function keep_updating_objectives() {
 					MYOutput['KIs'].push({
 						  "name": KIsNames[index],
 						  "Location Found": "",
-						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
+						  'time': {'seconds': Math.floor((timerSecondsElapsed + (Date.now()- timerStartTime))/1000)}
 					  });
 				}
 				set_ki(index, truth);
@@ -363,7 +363,7 @@ function keep_updating_objectives() {
 						  "name": LocNames[index],
 						  "KI Obtained": "",
 						  "party": currentPartyString,
-						  'time': {'seconds': Math.floor(timerSecondsElapsed/1000)}
+						  'time': {'seconds': Math.floor((timerSecondsElapsed + (Date.now()- timerStartTime))/1000)}
 					  });
 					if(KiFound!=-1){
 						MYOutput['KI Locations'][MYOutput['KI Locations'].length - 1]["KI Obtained"]=KIsNames[KiFound];
@@ -386,7 +386,7 @@ function keep_updating_objectives() {
 					ObjectivesBinary[i]=true;
 					MYOutput['Objectives'].push({
 						  "Obj": i,
-						  'seconds': Math.floor(timerSecondsElapsed/1000)
+						  'seconds': Math.floor((timerSecondsElapsed + (Date.now()- timerStartTime))/1000)
 					  });
 			  }
 			}
